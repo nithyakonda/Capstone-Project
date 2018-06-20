@@ -42,13 +42,9 @@ import com.udacity.nkonda.shopin.R;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
-
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-
-
+public class LoginActivity extends AppCompatActivity implements
+        LoginFragment.OnFragmentInteractionListener,
+        RegisterFragment.OnFragmentInteractionListener, ForgotPasswordFragment.OnFragmentInteractionListener {
 
     // UI references.
     private View mProgressView;
@@ -62,12 +58,22 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         mFormContainerView = findViewById(R.id.form_container);
         mProgressView = findViewById(R.id.login_progress);
 
-        replaceFormContainerWith(new LoginFragment());
+        replaceFormContainerWith(new RegisterFragment());
     }
 
 
     @Override
-    public void onLoginFinished() {
+    public void onLoginDone() {
+
+    }
+
+    @Override
+    public void onRegistrationDone(Uri uri) {
+
+    }
+
+    @Override
+    public void onPasswordSent(Uri uri) {
 
     }
 

@@ -13,10 +13,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <AutoCompleteTextView
-            android:id="@+id/email"
+            android:id="@+id/et_email"
+            android:contentDescription="@string/et_email_content_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/prompt_email"
+            android:hint="@string/et_email_hint"
             android:inputType="textEmailAddress"
             style="@style/AppTheme.EditText"
         />
@@ -32,12 +33,11 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/prompt_password"
+            android:id="@+id/et_password"
+            android:contentDescription="@string/et_password_content_desc"
+            android:hint="@string/et_password_hint"
             android:imeActionId="6"
-            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeActionLabel="@string/ime_action_label_login"
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             style="@style/AppTheme.EditText"
@@ -47,34 +47,31 @@
 
     <Button
         android:id="@+id/btn_login"
+        android:contentDescription="@string/btn_login_content_desc"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
         android:layout_marginTop="@dimen/inter_section_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/action_sign_in"
+        android:text="@string/btn_login_text"
         style="@style/AppTheme.Button.Primary" />
 
     <Button
         android:id="@+id/btn_register"
+        android:contentDescription="@string/btn_register_content_description"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
         android:layout_marginTop="@dimen/inter_view_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/action_register"
+        android:text="@string/btn_register_text"
         style="@style/AppTheme.Button.Secondary"/>
 
     <Button
         android:id="@+id/btn_forgot_password"
+        android:contentDescription="@string/btn_forgot_password_content_desc"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/btn_register"
         android:layout_marginTop="@dimen/inter_view_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/action_forgot_password"
+        android:text="@string/btn_forgot_password_text"
         style="@style/AppTheme.Button.Transparent"/>
 </android.support.constraint.ConstraintLayout>
