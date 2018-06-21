@@ -5,68 +5,52 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
+import com.udacity.nkonda.shopin.data.User;
+import com.udacity.nkonda.shopin.util.Utils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends BaseActivity implements
+        LoginContract.View,
         LoginFragment.OnFragmentInteractionListener,
-        RegisterFragment.OnFragmentInteractionListener, ForgotPasswordFragment.OnFragmentInteractionListener {
+        RegisterFragment.OnFragmentInteractionListener,
+        ForgotPasswordFragment.OnFragmentInteractionListener {
 
     // UI references.
     @BindView(R.id.login_progress)
     @Nullable
-    private View mProgressView;
+    View mProgressView;
 
     @BindView(R.id.form_container)
-    private View mFormContainerView;
+    View mFormContainerView;
 
     @BindView(R.id.btn_cancel)
     @Nullable
-    private ImageButton mCancelBtn;
+    ImageButton mCancelBtn;
+
+    private LoginContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+        mPresenter = new LoginPresenter(this);
 
         if (savedInstanceState == null) {
             replaceFormContainerWith(new LoginFragment());
@@ -76,15 +60,9 @@ public class LoginActivity extends BaseActivity implements
             @Override
             public void onClick(View v) {
                 replaceFormContainerWith(new LoginFragment());
-                mCancelBtn.setVisibility(View.GONE);
+                mCancelBtn.setVisibility(View.INVISIBLE);
             }
         });
-    }
-
-
-    @Override
-    public void onLoginDone() {
-
     }
 
     @Override
@@ -100,13 +78,39 @@ public class LoginActivity extends BaseActivity implements
     }
 
     @Override
-    public void onRegistrationDone(Uri uri) {
-
+    public void onUserCredentialsCaptured(String email, String password) {
+        showProgress(true);
+        mPresenter.login(this, email, password);
     }
 
     @Override
-    public void onPasswordSent(Uri uri) {
+    public void onNewUserInfoCaptured(User user, String password) {
+        showProgress(true);
+        mPresenter.register(this, user, password);
+    }
 
+    @Override
+    public void onPasswordResetEmailCaptured(String email) {
+        showProgress(true);
+        mPresenter.forgotPassword(this, email);
+    }
+
+    @Override
+    public void onLoginDone(boolean isSuccess) {
+        showProgress(false);
+        Utils.showToast(this, "Login Done");
+    }
+
+    @Override
+    public void onRegistrationDone(boolean isSuccess) {
+        showProgress(false);
+        Utils.showToast(this, "Registration Done");
+    }
+
+    @Override
+    public void onSendPasswordResetEmailDone(boolean isSuccess) {
+        showProgress(false);
+        Utils.showToast(this, "Password Reset Done");
     }
 
     /**
@@ -145,8 +149,6 @@ public class LoginActivity extends BaseActivity implements
         }
     }
 
-
-
     private void replaceFormContainerWith(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -156,7 +158,5 @@ public class LoginActivity extends BaseActivity implements
         );
         fragmentTransaction.commit();
     }
-
-
 }
 

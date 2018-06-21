@@ -8,28 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LoginFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @BindView(R.id.et_email)
-    private EditText mEmailView;
+    EditText mEmailView;
 
     @BindView(R.id.et_password)
-    private EditText mPasswordView;
+    EditText mPasswordView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,11 +31,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        ButterKnife.bind(this, view);
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -65,7 +58,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                mListener.onLoginDone();
+                mListener.onUserCredentialsCaptured(
+                        mEmailView.getText().toString(),
+                        mPasswordView.getText().toString()
+                );
                 break;
             case R.id.btn_register:
                 mListener.onNewRegistration();
@@ -94,7 +90,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
     public interface OnFragmentInteractionListener {
-        void onLoginDone();
+        void onUserCredentialsCaptured(String email, String password);
         void onNewRegistration();
         void onForgotPasssword();
     }

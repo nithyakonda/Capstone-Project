@@ -1,43 +1,67 @@
 package com.udacity.nkonda.shopin.login;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
+import com.udacity.nkonda.shopin.data.User;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RegisterFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RegisterFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    @BindView(R.id.et_firstname)
+    EditText mFirstNameView;
+
+    @BindView(R.id.et_lastname)
+    EditText mLastNameView;
+
+    @BindView(R.id.et_email)
+    EditText mEmailView;
+
+    @BindView(R.id.et_password)
+    EditText mPasswordView;
+
+    @BindView(R.id.et_confirm_password)
+    EditText mConfirmPasswordView;
+
+    @BindView(R.id.btn_create)
+    Button mCreateBtn;
 
     public RegisterFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+        ButterKnife.bind(this, view);
+
+        mCreateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User.Builder builder = new User.Builder(
+                        mFirstNameView.getText().toString(),
+                        mLastNameView.getText().toString(),
+                        mEmailView.getText().toString()
+                );
+                // TODO: 6/20/18 enable button only if passwords match
+                mListener.onNewUserInfoCaptured(builder.createUser(), mPasswordView.getText().toString());
+            }
+        });
 
         return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onRegistrationDone(uri);
-        }
     }
 
     @Override
@@ -57,18 +81,7 @@ public class RegisterFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onRegistrationDone(Uri uri);
+        void onNewUserInfoCaptured(User user, String password);
     }
 }

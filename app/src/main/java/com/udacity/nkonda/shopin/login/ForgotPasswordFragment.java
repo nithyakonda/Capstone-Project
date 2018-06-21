@@ -1,42 +1,46 @@
 package com.udacity.nkonda.shopin.login;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.udacity.nkonda.shopin.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ForgotPasswordFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ForgotPasswordFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    @BindView(R.id.et_email)
+    EditText mEmailView;
+
+    @BindView(R.id.btn_send_pwd)
+    Button mSendPasswordBtn;
 
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onPasswordSent(uri);
-        }
+        View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        ButterKnife.bind(this, view);
+        mSendPasswordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 6/20/18 enable button only if text entered is a valid email
+                mListener.onPasswordResetEmailCaptured(mEmailView.getText().toString());
+            }
+        });
+        return view;
     }
 
     @Override
@@ -56,18 +60,7 @@ public class ForgotPasswordFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onPasswordSent(Uri uri);
+        void onPasswordResetEmailCaptured(String email);
     }
 }
