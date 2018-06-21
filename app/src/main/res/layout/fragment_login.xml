@@ -12,12 +12,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <AutoCompleteTextView
+        <EditText
             android:id="@+id/et_email"
             android:contentDescription="@string/et_email_content_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/et_email_hint"
+            android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             style="@style/AppTheme.EditText"
         />
@@ -36,9 +35,7 @@
             android:id="@+id/et_password"
             android:contentDescription="@string/et_password_content_desc"
             android:hint="@string/et_password_hint"
-            android:imeActionId="6"
             android:imeActionLabel="@string/ime_action_label_login"
-            android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             style="@style/AppTheme.EditText"
         />

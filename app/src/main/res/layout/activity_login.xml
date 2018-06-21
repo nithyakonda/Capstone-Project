@@ -39,4 +39,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <ImageButton
+        android:id="@+id/btn_cancel"
+        android:contentDescription="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@android:color/transparent"
+        android:tint="@color/colorAccent"
+        android:visibility="gone"/>
+
 </android.support.constraint.ConstraintLayout>

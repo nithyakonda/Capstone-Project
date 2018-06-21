@@ -15,16 +15,20 @@ import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
 
+import butterknife.BindView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link LoginFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class LoginFragment extends Fragment {
-    private static final int REQUEST_READ_CONTACTS = 0;
+public class LoginFragment extends Fragment implements View.OnClickListener{
 
-    private AutoCompleteTextView mEmailView;
+    @BindView(R.id.et_email)
+    private EditText mEmailView;
+
+    @BindView(R.id.et_password)
     private EditText mPasswordView;
 
     private OnFragmentInteractionListener mListener;
@@ -40,11 +44,6 @@ public class LoginFragment extends Fragment {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) view.findViewById(R.id.et_email);
-
-
-        mPasswordView = (EditText) view.findViewById(R.id.et_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -56,13 +55,25 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        Button mEmailSignInButton = (Button) view.findViewById(R.id.btn_login);
-        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+        view.findViewById(R.id.btn_login).setOnClickListener(this);
+        view.findViewById(R.id.btn_register).setOnClickListener(this);
+        view.findViewById(R.id.btn_forgot_password).setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login:
+                mListener.onLoginDone();
+                break;
+            case R.id.btn_register:
+                mListener.onNewRegistration();
+                break;
+            case R.id.btn_forgot_password:
+                mListener.onForgotPasssword();
+                break;
+        }
     }
 
     @Override
@@ -82,19 +93,9 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onLoginDone();
+        void onNewRegistration();
+        void onForgotPasssword();
     }
 }

@@ -37,7 +37,7 @@
 
     <string name="btn_send_pwd_content_desc">Send Password</string>
     <string name="btn_send_pwd_text">Send Password</string>
-    
+
     <string name="ime_action_label_login">Login</string>
     <string name="ime_action_label_next">Next</string>
     <string name="ime_action_label_create">Create</string>
