@@ -2,6 +2,7 @@ package com.udacity.nkonda.shopin.login;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,20 @@ public class RegisterFragment extends Fragment {
     @BindView(R.id.et_lastname)
     EditText mLastNameView;
 
+    @BindView(R.id.container_email)
+    TextInputLayout mEmailContainer;
+
     @BindView(R.id.et_email)
     EditText mEmailView;
 
+    @BindView(R.id.container_password)
+    TextInputLayout mPwdContainer;
+
     @BindView(R.id.et_password)
     EditText mPasswordView;
+
+    @BindView(R.id.container_confirm_password)
+    TextInputLayout mConfirmPwdContainer;
 
     @BindView(R.id.et_confirm_password)
     EditText mConfirmPasswordView;
@@ -73,6 +83,14 @@ public class RegisterFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    public void showPasswordError(String msg) {
+        mPwdContainer.setError(msg);
+    }
+
+    public void showEmailError(String msg) {
+        mEmailContainer.setError(msg);
     }
 
     @Override

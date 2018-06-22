@@ -42,4 +42,7 @@
     <string name="ime_action_label_next">Next</string>
     <string name="ime_action_label_create">Create</string>
     <string name="ime_action_label_send">Send</string>
+    <string name="title_activity_store_list">StoreListActivity</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
 </resources>

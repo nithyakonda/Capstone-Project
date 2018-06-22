@@ -5,7 +5,7 @@
                                              android:padding="@dimen/activity_horizontal_margin"
                                              android:gravity="center_horizontal">
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/email_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,12 +24,13 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        android:id="@+id/password_container"
+        app:layout_constraintEnd_toEndOf="@+id/email_container"
+        app:layout_constraintStart_toStartOf="@+id/email_container"
+        app:layout_constraintTop_toBottomOf="@+id/email_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
 
         <EditText
             android:id="@+id/et_password"
@@ -45,9 +46,9 @@
     <Button
         android:id="@+id/btn_login"
         android:contentDescription="@string/btn_login_content_desc"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/email_container"
+        app:layout_constraintStart_toStartOf="@+id/email_container"
+        app:layout_constraintTop_toBottomOf="@+id/password_container"
         android:layout_marginTop="@dimen/inter_section_vertical_margin"
         android:text="@string/btn_login_text"
         style="@style/AppTheme.Button.Primary" />
@@ -55,8 +56,8 @@
     <Button
         android:id="@+id/btn_register"
         android:contentDescription="@string/btn_register_content_description"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/email_container"
+        app:layout_constraintStart_toStartOf="@+id/email_container"
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
         android:layout_marginTop="@dimen/inter_view_vertical_margin"
         android:text="@string/btn_register_text"
@@ -65,8 +66,8 @@
     <Button
         android:id="@+id/btn_forgot_password"
         android:contentDescription="@string/btn_forgot_password_content_desc"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/email_container"
+        app:layout_constraintStart_toStartOf="@+id/email_container"
         app:layout_constraintTop_toBottomOf="@+id/btn_register"
         android:layout_marginTop="@dimen/inter_view_vertical_margin"
         android:text="@string/btn_forgot_password_text"

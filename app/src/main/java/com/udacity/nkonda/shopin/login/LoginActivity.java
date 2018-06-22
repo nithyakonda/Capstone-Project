@@ -3,6 +3,7 @@ package com.udacity.nkonda.shopin.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,13 +11,18 @@ import android.support.v4.app.FragmentTransaction;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.data.User;
+import com.udacity.nkonda.shopin.storelist.StoreListActivity;
 import com.udacity.nkonda.shopin.util.Utils;
 
 import butterknife.BindView;
@@ -30,6 +36,10 @@ public class LoginActivity extends BaseActivity implements
         LoginFragment.OnFragmentInteractionListener,
         RegisterFragment.OnFragmentInteractionListener,
         ForgotPasswordFragment.OnFragmentInteractionListener {
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String LOGIN_FRAGMENT_TAG = LoginFragment.class.getSimpleName();
+    private static final String REGISTER_FRAGMENT_TAG = RegisterFragment.class.getSimpleName();
+    private static final String FORGOT_PASSWORD_FRAGMENT_TAG = ForgotPasswordFragment.class.getSimpleName();
 
     // UI references.
     @BindView(R.id.login_progress)
@@ -53,13 +63,13 @@ public class LoginActivity extends BaseActivity implements
         mPresenter = new LoginPresenter(this);
 
         if (savedInstanceState == null) {
-            replaceFormContainerWith(new LoginFragment());
+            replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
         }
 
         mCancelBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFormContainerWith(new LoginFragment());
+                replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
                 mCancelBtn.setVisibility(View.INVISIBLE);
             }
         });
@@ -68,13 +78,13 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onNewRegistration() {
         mCancelBtn.setVisibility(View.VISIBLE);
-        replaceFormContainerWith(new RegisterFragment());
+        replaceFormContainerWith(new RegisterFragment(), REGISTER_FRAGMENT_TAG);
     }
 
     @Override
     public void onForgotPasssword() {
         mCancelBtn.setVisibility(View.VISIBLE);
-        replaceFormContainerWith(new ForgotPasswordFragment());
+        replaceFormContainerWith(new ForgotPasswordFragment(), FORGOT_PASSWORD_FRAGMENT_TAG);
     }
 
     @Override
@@ -86,7 +96,7 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onNewUserInfoCaptured(User user, String password) {
         showProgress(true);
-        mPresenter.register(this, user, password);
+        mPresenter.register(mAuth, user, password);
     }
 
     @Override
@@ -99,12 +109,36 @@ public class LoginActivity extends BaseActivity implements
     public void onLoginDone(boolean isSuccess) {
         showProgress(false);
         Utils.showToast(this, "Login Done");
+        if (isSuccess) {
+            Intent intent = new Intent(this, StoreListActivity.class);
+            startActivity(intent);
+        } else {
+            LoginFragment fragment = (LoginFragment) getSupportFragmentManager().findFragmentByTag(LOGIN_FRAGMENT_TAG);
+            fragment.showLoginError();
+        }
     }
 
     @Override
-    public void onRegistrationDone(boolean isSuccess) {
+    public void onRegistrationSuccess() {
         showProgress(false);
-        Utils.showToast(this, "Registration Done");
+        Intent intent = new Intent(this, StoreListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRegistrationFailed(Exception exception) {
+        showProgress(false);
+        RegisterFragment fragment = (RegisterFragment) getSupportFragmentManager().findFragmentByTag(REGISTER_FRAGMENT_TAG);
+        try {
+            throw exception;
+        } catch (FirebaseAuthWeakPasswordException e) {
+            fragment.showPasswordError(e.getMessage());
+        } catch(FirebaseAuthUserCollisionException e) {
+            fragment.showEmailError(e.getMessage());
+        } catch(Exception e) {
+            Log.e(TAG, e.getMessage());
+            Utils.showToast(this, e.getMessage());
+        }
     }
 
     @Override
@@ -149,12 +183,13 @@ public class LoginActivity extends BaseActivity implements
         }
     }
 
-    private void replaceFormContainerWith(Fragment fragment) {
+    private void replaceFormContainerWith(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(
                 R.id.form_container,
-                fragment
+                fragment,
+                tag
         );
         fragmentTransaction.commit();
     }

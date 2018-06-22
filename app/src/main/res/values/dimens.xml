@@ -10,5 +10,6 @@
 
     <dimen name="logo_width">150dp</dimen>
     <dimen name="logo_height">150dp</dimen>
-    <dimen name="activity_login_logo_margin_top">50dp</dimen>
+    <dimen name="activity_login_logo_margin_top">32dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

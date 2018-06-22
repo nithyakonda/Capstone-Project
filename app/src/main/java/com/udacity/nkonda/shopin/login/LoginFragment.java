@@ -2,6 +2,7 @@ package com.udacity.nkonda.shopin.login;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +24,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @BindView(R.id.et_password)
     EditText mPasswordView;
+
+    @BindView(R.id.password_container)
+    TextInputLayout mPasswordContainer;
 
     private OnFragmentInteractionListener mListener;
 
@@ -87,6 +91,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void showLoginError() {
+        mPasswordContainer.setError("Email or Password is incorrect.");
     }
 
     public interface OnFragmentInteractionListener {

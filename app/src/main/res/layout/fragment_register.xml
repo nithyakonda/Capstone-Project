@@ -24,84 +24,108 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_register_title"
         style="@style/AppTheme.TextView.Secondary"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/container_fname"
-        android:layout_width="0dp"
+    <ScrollView
+        android:id="@+id/container_form"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/inter_view_vertical_margin"
         android:layout_marginTop="@dimen/inter_section_vertical_margin"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_register_msg">
-        <EditText
-            android:id="@+id/et_firstname"
-            android:contentDescription="@string/et_first_name_content_desc"
-            android:hint="@string/et_firstname_hint"
-            android:imeActionLabel="@string/ime_action_label_next"
-            style="@style/AppTheme.EditText"/>
-    </android.support.design.widget.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@id/tv_register_msg"
+        app:layout_constraintBottom_toTopOf="@+id/btn_create">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/container_lname"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/inter_view_vertical_margin"
-        android:layout_marginTop="@dimen/inter_section_vertical_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv_register_msg">
-        <EditText
-            android:id="@+id/et_lastname"
-            android:contentDescription="@string/et_lastname_content_desc"
-            android:hint="@string/et_lastname_hint"
-            android:imeActionLabel="@string/ime_action_label_next"
-            style="@style/AppTheme.EditText"/>
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/container_fname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/inter_view_vertical_margin"
+                app:layout_constraintEnd_toStartOf="@id/guideline"
+                app:layout_constraintStart_toStartOf="parent">
+                <EditText
+                    android:id="@+id/et_firstname"
+                    android:contentDescription="@string/et_first_name_content_desc"
+                    android:hint="@string/et_firstname_hint"
+                    android:imeActionLabel="@string/ime_action_label_next"
+                    style="@style/AppTheme.EditText"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/container_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_fname">
-        <EditText
-            android:id="@+id/et_email"
-            android:contentDescription="@string/et_email_content_desc"
-            android:hint="@string/et_email_hint"
-            android:imeActionLabel="@string/ime_action_label_next"
-            style="@style/AppTheme.EditText"/>
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/container_lname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/inter_view_vertical_margin"
+                android:layout_marginTop="@dimen/inter_section_vertical_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintTop_toBottomOf="@id/tv_register_msg">
+                <EditText
+                    android:id="@+id/et_lastname"
+                    android:contentDescription="@string/et_lastname_content_desc"
+                    android:hint="@string/et_lastname_hint"
+                    android:imeActionLabel="@string/ime_action_label_next"
+                    style="@style/AppTheme.EditText"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/container_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_email">
-        <EditText
-            android:id="@+id/et_password"
-            android:contentDescription="@string/et_password_content_desc"
-            android:hint="@string/et_password_hint"
-            android:imeActionLabel="@string/ime_action_label_next"
-            style="@style/AppTheme.EditText"/>
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/container_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_fname"
+                app:errorEnabled="true">
+                <EditText
+                    android:id="@+id/et_email"
+                    android:contentDescription="@string/et_email_content_desc"
+                    android:hint="@string/et_email_hint"
+                    android:imeActionLabel="@string/ime_action_label_next"
+                    style="@style/AppTheme.EditText"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/container_confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_password">
-        <EditText
-            android:id="@+id/et_confirm_password"
-            android:contentDescription="@string/et_confirm_password_content_desc"
-            android:hint="@string/et_confirm_password_hint"
-            android:imeActionLabel="@string/ime_action_label_create"
-            style="@style/AppTheme.EditText"/>
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/container_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_email"
+                app:errorEnabled="true">
+                <EditText
+                    android:id="@+id/et_password"
+                    android:contentDescription="@string/et_password_content_desc"
+                    android:hint="@string/et_password_hint"
+                    android:imeActionLabel="@string/ime_action_label_next"
+                    android:inputType="textPassword"
+                    style="@style/AppTheme.EditText"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/container_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_password"
+                app:errorEnabled="true">
+                <EditText
+                    android:id="@+id/et_confirm_password"
+                    android:contentDescription="@string/et_confirm_password_content_desc"
+                    android:hint="@string/et_confirm_password_hint"
+                    android:imeActionLabel="@string/ime_action_label_create"
+                    android:inputType="textPassword"
+                    style="@style/AppTheme.EditText"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5"/>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_create"
@@ -115,10 +139,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/container_confirm_password"/>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
 </android.support.constraint.ConstraintLayout>
