@@ -5,9 +5,13 @@
     <color name="colorPrimaryLights">#fec7cf</color>
     <color name="colorAccent">#4D343E</color>
     <color name="colorPrimaryText">#212121</color>
-    <color name="colorPrimaryTextInverse">@android:color/white</color>
     <color name="colorSecondaryText">#757575</color>
+    <color name="colorPrimaryTextInverse">@android:color/white</color>
+    <color name="colorSecondaryTextInverse">#E6E6E6</color>
+
     <color name="background">@android:color/white</color>
+    <color name="scrimStart">#CC4D343E</color>
+    <color name="scrimEnd">#F24D343E</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.udacity.nkonda.shopin.R;
@@ -41,10 +40,15 @@ public class LoginActivity extends BaseActivity implements
     private static final String REGISTER_FRAGMENT_TAG = RegisterFragment.class.getSimpleName();
     private static final String FORGOT_PASSWORD_FRAGMENT_TAG = ForgotPasswordFragment.class.getSimpleName();
 
+    private static final String SAVEKEY_CANCEL_BUTTON_VISIBLE = "SAVEKEY_CANCEL_BUTTON_VISIBLE";
+
     // UI references.
     @BindView(R.id.login_progress)
     @Nullable
     View mProgressView;
+
+    @BindView(R.id.intro_container)
+    View mIntroContainer;
 
     @BindView(R.id.form_container)
     View mFormContainerView;
@@ -58,7 +62,7 @@ public class LoginActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login1);
         ButterKnife.bind(this);
         mPresenter = new LoginPresenter(this);
 
@@ -73,6 +77,16 @@ public class LoginActivity extends BaseActivity implements
                 mCancelBtn.setVisibility(View.INVISIBLE);
             }
         });
+
+        if (savedInstanceState != null) {
+            mCancelBtn.setVisibility(savedInstanceState.getInt(SAVEKEY_CANCEL_BUTTON_VISIBLE));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVEKEY_CANCEL_BUTTON_VISIBLE, mCancelBtn.getVisibility());
     }
 
     @Override

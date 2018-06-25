@@ -4,40 +4,28 @@
     <!-- Strings related to login -->
     <string name="et_email_hint">Email</string>
     <string name="et_email_content_desc">Enter email</string>
-
     <string name="et_password_hint">Password</string>
     <string name="et_password_content_desc">Enter password</string>
-
     <string name="btn_login_text">Login</string>
     <string name="btn_login_content_desc">Login</string>
-
     <string name="btn_register_text">Register</string>
     <string name="btn_register_content_description">Register</string>
-
     <string name="btn_forgot_password_text">Forgot Password?</string>
     <string name="btn_forgot_password_content_desc">Forgot Password</string>
 
-    <string name="tv_register_title_text">Hello</string>
     <string name="tv_register_msg_text">Create an account for the household</string>
-
     <string name="et_first_name_content_desc">Enter First Name</string>
     <string name="et_firstname_hint">First Name</string>
-
     <string name="et_lastname_content_desc">Enter Last Name</string>
     <string name="et_lastname_hint">Last Name</string>
-
     <string name="et_confirm_password_content_desc">Confirm Password</string>
     <string name="et_confirm_password_hint">Confirm Password</string>
-
     <string name="btn_create_content_desc">Create new account</string>
     <string name="btn_create_text">Create</string>
 
-    <string name="tv_forgot_pwd_title_text">Forgot your password?</string>
     <string name="tv_forgot_pwd_msg_text">Enter your email below to receive your password reset instructions</string>
-
     <string name="btn_send_pwd_content_desc">Send Password</string>
     <string name="btn_send_pwd_text">Send Password</string>
-
     <string name="ime_action_label_login">Login</string>
     <string name="ime_action_label_next">Next</string>
     <string name="ime_action_label_create">Create</string>
@@ -45,4 +33,7 @@
     <string name="title_activity_store_list">StoreListActivity</string>
 
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- TextView Styles -->
+    <style name="AppTheme.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.TextView.Primary">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">@color/colorPrimaryTextInverse</item>
+    </style>
+
+    <style name="AppTheme.TextView.Secondary">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+    </style>
+
+</resources>

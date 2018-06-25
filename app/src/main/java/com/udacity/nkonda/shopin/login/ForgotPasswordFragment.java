@@ -33,6 +33,8 @@ public class ForgotPasswordFragment extends Fragment {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
         ButterKnife.bind(this, view);
+
+        mEmailView.requestFocus();
         mSendPasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

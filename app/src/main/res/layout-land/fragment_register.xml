@@ -4,21 +4,24 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             android:padding="@dimen/activity_horizontal_margin">
+                                             android:paddingStart="@dimen/login_fragment_horizontal_padding"
+                                             android:paddingEnd="@dimen/login_fragment_horizontal_padding"
+                                             android:paddingBottom="@dimen/login_fragment_vertical_padding"
+>
 
     <TextView
         android:id="@+id/tv_msg"
         style="@style/AppTheme.TextView.Secondary"
+        app:layout_constraintTop_toBottomOf="@id/guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/inter_section_vertical_margin"
         android:text="@string/tv_register_msg_text"/>
 
     <ScrollView
         android:id="@+id/container_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/inter_section_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_vertical_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_msg">
         <android.support.constraint.ConstraintLayout
@@ -63,7 +66,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_fname"
-                android:layout_marginTop="@dimen/inter_view_vertical_margin"
+                android:layout_marginTop="8dp"
                 app:errorEnabled="true">
                 <EditText
                     android:id="@+id/et_email"
@@ -75,11 +78,12 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/container_password"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline_vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_email"
+                android:layout_marginEnd="8dp"
                 app:errorEnabled="true">
                 <EditText
                     android:id="@+id/et_password"
@@ -92,11 +96,12 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/container_confirm_password"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_password"
+                app:layout_constraintStart_toStartOf="@id/guideline_vertical"
+                app:layout_constraintTop_toBottomOf="@id/container_email"
+                android:layout_marginStart="8dp"
                 app:errorEnabled="true">
                 <EditText
                     android:id="@+id/et_confirm_password"
@@ -122,8 +127,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/container_form"
-        android:layout_marginTop="@dimen/inter_section_vertical_margin"
         android:contentDescription="@string/btn_create_content_desc"
         android:text="@string/btn_create_text"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15"/>
 
 </android.support.constraint.ConstraintLayout>

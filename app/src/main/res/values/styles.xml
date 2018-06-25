@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowSoftInputMode">stateHidden</item>
     </style>
 
     <!-- Button Styles -->
@@ -47,13 +48,13 @@
     </style>
 
     <style name="AppTheme.TextView.Primary">
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Headline</item>
-        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Display1</item>
+        <item name="android:textColor">@color/colorPrimaryTextInverse</item>
     </style>
 
     <style name="AppTheme.TextView.Secondary">
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
-        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>

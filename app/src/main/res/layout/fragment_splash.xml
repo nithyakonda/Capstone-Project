@@ -3,13 +3,12 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="@android:color/white"
 >
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/logo_width"
-        android:layout_height="@dimen/logo_height"
-        app:srcCompat="@drawable/logo"
+        android:layout_width="@dimen/logo_width_large"
+        android:layout_height="@dimen/logo_height_large"
+        app:srcCompat="@drawable/logo_round"
         android:layout_gravity="center"/>
 </FrameLayout>

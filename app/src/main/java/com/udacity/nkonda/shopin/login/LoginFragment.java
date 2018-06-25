@@ -41,6 +41,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
 
+        mEmailView.requestFocus();
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
