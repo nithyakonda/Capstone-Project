@@ -94,8 +94,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-    public void showLoginError() {
-        mPasswordContainer.setError("Email or Password is incorrect.");
+    public void showLoginError(String msg) {
+        mPasswordContainer.setError(msg);
     }
 
     public interface OnFragmentInteractionListener {

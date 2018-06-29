@@ -12,6 +12,5 @@
     <color name="background">@android:color/white</color>
     <color name="scrimStart">#CC4D343E</color>
     <color name="scrimEnd">#F24D343E</color>
-
-    <color name="black_overlay">#66000000</color>
+    <color name="blackOverlay">#66000000</color>
 </resources>

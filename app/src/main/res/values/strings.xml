@@ -34,6 +34,15 @@
 
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Error messages -->
+    <string name="error_invalid_login_credentials_exception" translatable="true">Email or password is invalid.</string>
+    <string name="error_weak_password_exception" translatable="true">Password should be atleast 6 characters.</string>
+    <string name="error_user_collision_exception" translatable="true">This email is already in use.</string>
+    <string name="error_invalid_email_exception" translatable="true">Email is invalid.</string>
+
+    <!-- Dialog messages -->
+    <string name="dialog_msg_reset_email_sent" translatable="true">We sent you an email with instructions on how to reset your password.</string>
+
+    <!-- Dialog titles -->
+    <string name="dialog_title_done">Done</string>
 </resources>

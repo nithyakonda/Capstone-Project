@@ -62,6 +62,10 @@ public class ForgotPasswordFragment extends Fragment {
         mListener = null;
     }
 
+    public void showError(String msg) {
+        mEmailView.setError(msg);
+    }
+
     public interface OnFragmentInteractionListener {
         void onPasswordResetEmailCaptured(String email);
     }

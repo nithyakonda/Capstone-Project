@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.udacity.nkonda.shopin.R;
@@ -62,7 +63,7 @@ public class LoginActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login1);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         mPresenter = new LoginPresenter(this);
 
@@ -104,7 +105,7 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onUserCredentialsCaptured(String email, String password) {
         showProgress(true);
-        mPresenter.login(this, email, password);
+        mPresenter.login(mAuth, email, password);
     }
 
     @Override
@@ -116,19 +117,27 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onPasswordResetEmailCaptured(String email) {
         showProgress(true);
-        mPresenter.forgotPassword(this, email);
+        mPresenter.forgotPassword(mAuth, email);
     }
 
     @Override
-    public void onLoginDone(boolean isSuccess) {
+    public void onLoginSuccess() {
         showProgress(false);
-        Utils.showToast(this, "Login Done");
-        if (isSuccess) {
-            Intent intent = new Intent(this, StoreListActivity.class);
-            startActivity(intent);
-        } else {
-            LoginFragment fragment = (LoginFragment) getSupportFragmentManager().findFragmentByTag(LOGIN_FRAGMENT_TAG);
-            fragment.showLoginError();
+        Intent intent = new Intent(this, StoreListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLoginFailed(Exception exception) {
+        showProgress(false);
+        LoginFragment fragment = (LoginFragment) getSupportFragmentManager().findFragmentByTag(LOGIN_FRAGMENT_TAG);
+        try {
+            throw exception;
+        } catch (FirebaseAuthInvalidCredentialsException e) {
+            fragment.showLoginError(getString(R.string.error_invalid_login_credentials_exception));
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            fragment.showLoginError(e.getMessage());
         }
     }
 
@@ -146,9 +155,9 @@ public class LoginActivity extends BaseActivity implements
         try {
             throw exception;
         } catch (FirebaseAuthWeakPasswordException e) {
-            fragment.showPasswordError(e.getMessage());
+            fragment.showPasswordError(getString(R.string.error_weak_password_exception));
         } catch(FirebaseAuthUserCollisionException e) {
-            fragment.showEmailError(e.getMessage());
+            fragment.showEmailError(getString(R.string.error_user_collision_exception));
         } catch(Exception e) {
             Log.e(TAG, e.getMessage());
             Utils.showToast(this, e.getMessage());
@@ -156,9 +165,25 @@ public class LoginActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSendPasswordResetEmailDone(boolean isSuccess) {
+    public void onSendPasswordResetEmailSuccess() {
         showProgress(false);
-        Utils.showToast(this, "Password Reset Done");
+        Utils.showAlert(this,
+                getString(R.string.dialog_title_done),
+                getString(R.string.dialog_msg_reset_email_sent));
+    }
+
+    @Override
+    public void onSendPasswordResetEmailFailed(Exception exception) {
+        showProgress(false);
+        RegisterFragment fragment = (RegisterFragment) getSupportFragmentManager().findFragmentByTag(FORGOT_PASSWORD_FRAGMENT_TAG);
+        try {
+            throw exception;
+        } catch (FirebaseAuthInvalidCredentialsException e) {
+            fragment.showEmailError(getString(R.string.error_invalid_email_exception));
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            Utils.showToast(this, e.getMessage());
+        }
     }
 
     /**
