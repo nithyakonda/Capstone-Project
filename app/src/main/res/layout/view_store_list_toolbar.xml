@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        layout="@layout/view_faded_background"/>
+        layout="@layout/view_toolbar_background"/>
 
     <com.github.abdularis.civ.AvatarImageView
         android:id="@+id/iv_avatar"
@@ -21,6 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.3"
         app:state="INITIAL"
+        app:text="N"
         app:strokeColor="@color/colorPrimaryTextInverse"
         app:strokeWidth="2dp"/>
 </android.support.constraint.ConstraintLayout>

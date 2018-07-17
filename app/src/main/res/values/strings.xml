@@ -2,34 +2,34 @@
     <string name="app_name">Shopin</string>
 
     <!-- Strings related to login -->
-    <string name="et_email_hint">Email</string>
-    <string name="et_email_content_desc">Enter email</string>
-    <string name="et_password_hint">Password</string>
-    <string name="et_password_content_desc">Enter password</string>
-    <string name="btn_login_text">Login</string>
-    <string name="btn_login_content_desc">Login</string>
-    <string name="btn_register_text">Register</string>
-    <string name="btn_register_content_description">Register</string>
-    <string name="btn_forgot_password_text">Forgot Password?</string>
-    <string name="btn_forgot_password_content_desc">Forgot Password</string>
+    <string name="et_email_hint" translatable="true">Email</string>
+    <string name="et_email_content_desc" translatable="true">Enter email</string>
+    <string name="et_password_hint" translatable="true">Password</string>
+    <string name="et_password_content_desc" translatable="true">Enter password</string>
+    <string name="btn_login_text" translatable="true">Login</string>
+    <string name="btn_login_content_desc" translatable="true">Login</string>
+    <string name="btn_register_text" translatable="true">Register</string>
+    <string name="btn_register_content_description" translatable="true">Register</string>
+    <string name="btn_forgot_password_text" translatable="true">Forgot Password?</string>
+    <string name="btn_forgot_password_content_desc" translatable="true">Forgot Password</string>
 
-    <string name="tv_register_msg_text">Create an account for the household</string>
-    <string name="et_first_name_content_desc">Enter First Name</string>
-    <string name="et_firstname_hint">First Name</string>
-    <string name="et_lastname_content_desc">Enter Last Name</string>
-    <string name="et_lastname_hint">Last Name</string>
-    <string name="et_confirm_password_content_desc">Confirm Password</string>
-    <string name="et_confirm_password_hint">Confirm Password</string>
-    <string name="btn_create_content_desc">Create new account</string>
-    <string name="btn_create_text">Create</string>
+    <string name="tv_register_msg_text" translatable="true">Create an account for the household</string>
+    <string name="et_first_name_content_desc" translatable="true">Enter First Name</string>
+    <string name="et_firstname_hint" translatable="true">First Name</string>
+    <string name="et_lastname_content_desc" translatable="true">Enter Last Name</string>
+    <string name="et_lastname_hint" translatable="true">Last Name</string>
+    <string name="et_confirm_password_content_desc" translatable="true">Confirm Password</string>
+    <string name="et_confirm_password_hint" translatable="true">Confirm Password</string>
+    <string name="btn_create_content_desc" translatable="true">Create new account</string>
+    <string name="btn_create_text" translatable="true">Create</string>
 
-    <string name="tv_forgot_pwd_msg_text">Enter your email below to receive your password reset instructions</string>
-    <string name="btn_send_pwd_content_desc">Send Password</string>
-    <string name="btn_send_pwd_text">Send Password</string>
-    <string name="ime_action_label_login">Login</string>
-    <string name="ime_action_label_next">Next</string>
-    <string name="ime_action_label_create">Create</string>
-    <string name="ime_action_label_send">Send</string>
+    <string name="tv_forgot_pwd_msg_text" translatable="true">Enter your email below to receive your password reset instructions</string>
+    <string name="btn_send_pwd_content_desc" translatable="true">Send Password</string>
+    <string name="btn_send_pwd_text" translatable="true">Send Password</string>
+    <string name="ime_action_label_login" translatable="true">Login</string>
+    <string name="ime_action_label_next" translatable="true">Next</string>
+    <string name="ime_action_label_create" translatable="true">Create</string>
+    <string name="ime_action_label_send" translatable="true">Send</string>
     <string name="title_activity_store_list">StoreListActivity</string>
 
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
@@ -40,9 +40,13 @@
     <string name="error_user_collision_exception" translatable="true">This email is already in use.</string>
     <string name="error_invalid_email_exception" translatable="true">Email is invalid.</string>
 
-    <!-- Dialog messages -->
-    <string name="dialog_msg_reset_email_sent" translatable="true">We sent you an email with instructions on how to reset your password.</string>
-
     <!-- Dialog titles -->
-    <string name="dialog_title_done">Done</string>
+    <string name="dialog_title_done" translatable="true">Done</string>
+    <string name="dialog_msg_reset_email_sent" translatable="true">We sent you an email with instructions on how to reset your password.</string>
+    <string name="dialog_title_default_error" translatable="true">Oops</string>
+    <string name="dialog_msg_default_error" translatable="true">Something went wrong. Please try again later!</string>
+
+    <!-- Common Actions -->
+    <string name="action_ok" translatable="true">OK</string>
+    <string name="str_title_store_list_activity">Your Stores</string>
 </resources>

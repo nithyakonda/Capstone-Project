@@ -30,17 +30,17 @@ public class SplashScreenActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         Intent intent = new Intent();
-//        if (isOnline()) {
-//            FirebaseUser currentUser = mAuth.getCurrentUser();
-//            if (currentUser == null) {
-//                intent.setClass(this, LoginActivity.class);
-//            } else {
-//                intent.setClass(this, StoreListActivity.class);
-//            }
-//        } else {
-//            intent.setClass(this, LoginActivity.class);
-//        }
-        intent.setClass(this, LoginActivity.class);
+        if (isOnline()) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser == null) {
+                intent.setClass(this, LoginActivity.class);
+            } else {
+                intent.setClass(this, StoreListActivity.class);
+            }
+        } else {
+            intent.setClass(this, LoginActivity.class);
+        }
+//        intent.setClass(this, LoginActivity.class);
         startActivity(intent);
     }
 }

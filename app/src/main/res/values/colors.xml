@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FC415D</color>
     <color name="colorPrimaryDark">#f50428</color>
-    <color name="colorPrimaryLights">#fec7cf</color>
+    <color name="colorPrimaryLight">#fec7cf</color>
     <color name="colorAccent">#4D343E</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
@@ -12,5 +12,7 @@
     <color name="background">@android:color/white</color>
     <color name="scrimStart">#CC4D343E</color>
     <color name="scrimEnd">#F24D343E</color>
+    <color name="scrimPrimaryStart">#CCFC415D</color>
+    <color name="scrimPrimaryEnd">#F2f50428</color>
     <color name="blackOverlay">#66000000</color>
 </resources>
