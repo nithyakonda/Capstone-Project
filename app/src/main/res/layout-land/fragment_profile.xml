@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:paddingStart="@dimen/login_fragment_horizontal_padding"
+                                             android:paddingEnd="@dimen/login_fragment_horizontal_padding"
+                                             android:paddingBottom="@dimen/login_fragment_vertical_padding">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/guideline_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/AppTheme.TextView.Secondary"
+        android:text="@string/tv_profile_welcome_msg_text"/>
+
+    <com.github.abdularis.civ.AvatarImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/logo_width_large"
+        android:layout_height="@dimen/logo_height_large"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:state="INITIAL"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="2dp"
+        app:textColor="@color/colorPrimary"/>
+
+    <android.support.design.widget.FloatingActionButton 
+        android:id="@+id/fab_add_photo"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+        android:src="@drawable/ic_add_a_photo"
+        app:layout_constraintEnd_toEndOf="@id/iv_avatar"
+        app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/container_display_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/container_email"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="@dimen/inter_section_vertical_margin">
+        <EditText
+            android:id="@+id/et_display_name"
+            android:contentDescription="@string/et_display_name_content_desc"
+            android:hint="@string/et_display_name_hint"
+            android:imeActionLabel="@string/ime_action_label_next"
+            style="@style/AppTheme.EditText"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/container_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        app:layout_constraintStart_toStartOf="@id/container_display_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/iv_avatar">
+        <EditText
+            android:id="@+id/et_email"
+            android:contentDescription="@string/et_display_name_content_desc"
+            android:hint="@string/et_email_hint"
+            android:imeActionLabel="@string/ime_action_label_next"
+            style="@style/AppTheme.EditText"
+            tools:text="test@email.com"
+            android:enabled="false"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_update_profile"
+        android:layout_width="0dp"
+        style="@style/AppTheme.Button.Primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/inter_view_vertical_margin"
+        android:layout_marginEnd="@dimen/inter_view_vertical_margin"
+        android:contentDescription="@string/btn_update_profile_content_desc"
+        android:text="@string/btn_update_profile_text"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        style="@style/AppTheme.Button.Secondary"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/btn_logout_content_desc"
+        android:text="@string/btn_logout_text"
+        app:layout_constraintEnd_toEndOf="@id/container_email"
+        app:layout_constraintStart_toStartOf="@+id/guideline_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_update_profile"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+</android.support.constraint.ConstraintLayout>

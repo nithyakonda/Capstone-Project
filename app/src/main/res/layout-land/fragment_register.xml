@@ -29,7 +29,7 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/container_fname"
+                android:id="@+id/container_dname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/inter_view_vertical_margin"
@@ -37,8 +37,8 @@
                 app:layout_constraintStart_toStartOf="parent">
                 <EditText
                     android:id="@+id/et_firstname"
-                    android:contentDescription="@string/et_first_name_content_desc"
-                    android:hint="@string/et_firstname_hint"
+                    android:contentDescription="@string/et_display_name_content_desc"
+                    android:hint="@string/et_display_name_hint"
                     android:imeActionLabel="@string/ime_action_label_next"
                     style="@style/AppTheme.EditText"/>
             </android.support.design.widget.TextInputLayout>
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_fname"
+                app:layout_constraintTop_toBottomOf="@id/container_dname"
                 android:layout_marginTop="8dp"
                 app:errorEnabled="true">
                 <EditText

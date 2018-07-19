@@ -1,28 +1,20 @@
 package com.udacity.nkonda.shopin.data;
 
-public class User {
-    private String mFirstname;
-    private String mLastName;
+import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable {
     private String mDisplayName;
     private String mEmail;
-    private String mDisplayPicture;
+    private Uri mDisplayPicture;
 
     private User(){}
 
-    public User(String firstname, String lastName, String displayName, String email, String displayPicture) {
-        this.mFirstname = firstname;
-        this.mLastName = lastName;
+    public User(String displayName, String email, Uri displayPicture) {
         this.mDisplayName = displayName;
         this.mEmail = email;
         this.mDisplayPicture = displayPicture;
-    }
-
-    public String getFirstname() {
-        return mFirstname;
-    }
-
-    public String getLastName() {
-        return mLastName;
     }
 
     public String getDisplayName() {
@@ -33,35 +25,60 @@ public class User {
         return mEmail;
     }
 
-    public String getDisplayPicture() {
+    public Uri getDisplayPicture() {
         return mDisplayPicture;
     }
 
     public static class Builder {
-        private String mFirstname;
-        private String mLastName;
         private String mDisplayName;
         private String mEmail;
-        private String mDisplayPicture;
+        private Uri mDisplayPicture;
 
-        public Builder(String firstname, String lastName, String email) {
-            mFirstname = firstname;
-            mLastName = lastName;
+        public Builder(String email) {
             mEmail = email;
         }
 
-        public Builder setDisplayName(String displayName) {
+        public void setDisplayName(String displayName) {
             mDisplayName = displayName;
-            return this;
         }
 
-        public Builder setDisplayPicture(String displayPicture) {
+        public Builder setDisplayPicture(Uri displayPicture) {
             mDisplayPicture = displayPicture;
             return this;
         }
 
         public User createUser() {
-            return new User(mFirstname, mLastName, mDisplayName, mEmail, mDisplayPicture);
+            return new User(mDisplayName, mEmail, mDisplayPicture);
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mDisplayName);
+        dest.writeString(this.mEmail);
+        dest.writeParcelable(this.mDisplayPicture, flags);
+    }
+
+    protected User(Parcel in) {
+        this.mDisplayName = in.readString();
+        this.mEmail = in.readString();
+        this.mDisplayPicture = in.readParcelable(Uri.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

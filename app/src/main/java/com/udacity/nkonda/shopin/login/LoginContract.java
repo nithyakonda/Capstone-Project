@@ -1,6 +1,9 @@
 package com.udacity.nkonda.shopin.login;
 
+import android.net.Uri;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.udacity.nkonda.shopin.base.BasePresenter;
 import com.udacity.nkonda.shopin.base.BaseView;
 import com.udacity.nkonda.shopin.data.User;
@@ -13,11 +16,17 @@ public interface LoginContract {
         void onRegistrationFailed(Exception exception);
         void onSendPasswordResetEmailSuccess();
         void onSendPasswordResetEmailFailed(Exception exception);
+        void onUpdateProfileSuccess();
+        void onUpdateProfileFailed(Exception exception);
+        void onLogoutComplete();
     }
 
     interface Presenter extends BasePresenter {
-        void login(FirebaseAuth auth, String email, String password);
-        void register(FirebaseAuth auth, User user, String password);
-        void forgotPassword(FirebaseAuth auth, String email);
+        void login(String email, String password);
+        void register(User user, String password);
+        void forgotPassword(String email);
+        void updateProfile(String displayName, Uri photoUrl);
+        void logout();
+        User getCurrentUser();
     }
 }

@@ -14,8 +14,8 @@
     <string name="btn_forgot_password_content_desc" translatable="true">Forgot Password</string>
 
     <string name="tv_register_msg_text" translatable="true">Create an account for the household</string>
-    <string name="et_first_name_content_desc" translatable="true">Enter First Name</string>
-    <string name="et_firstname_hint" translatable="true">First Name</string>
+    <string name="et_display_name_content_desc" translatable="true">Enter Display Name</string>
+    <string name="et_display_name_hint" translatable="true">Display Name</string>
     <string name="et_lastname_content_desc" translatable="true">Enter Last Name</string>
     <string name="et_lastname_hint" translatable="true">Last Name</string>
     <string name="et_confirm_password_content_desc" translatable="true">Confirm Password</string>
@@ -31,6 +31,12 @@
     <string name="ime_action_label_create" translatable="true">Create</string>
     <string name="ime_action_label_send" translatable="true">Send</string>
     <string name="title_activity_store_list">StoreListActivity</string>
+
+    <string name="tv_profile_welcome_msg_text">Please update your profile.</string>
+    <string name="btn_update_profile_content_desc">Finished updating profile</string>
+    <string name="btn_update_profile_text">Update</string>
+    <string name="btn_logout_content_desc">Logout</string>
+    <string name="btn_logout_text">Logout</string>
 
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
 
@@ -49,4 +55,5 @@
     <!-- Common Actions -->
     <string name="action_ok" translatable="true">OK</string>
     <string name="str_title_store_list_activity">Your Stores</string>
+
 </resources>

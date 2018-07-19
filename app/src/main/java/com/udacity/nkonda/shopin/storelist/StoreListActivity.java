@@ -1,6 +1,7 @@
 package com.udacity.nkonda.shopin.storelist;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -18,6 +19,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
+import com.udacity.nkonda.shopin.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,6 +102,20 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_profile) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra(LoginActivity.SHOW_USER_PROFILE, true);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == R.id.action_add_store) {
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -111,7 +127,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     }
 
     @Override
-    public void setupToolbar(String initials, String displayName) {
+    public void setupToolbar(String initials, Uri photoUrl) {
         mAvatarView.setText(initials);
     }
 

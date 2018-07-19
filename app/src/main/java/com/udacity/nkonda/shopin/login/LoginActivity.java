@@ -3,7 +3,9 @@ package com.udacity.nkonda.shopin.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -35,13 +38,17 @@ public class LoginActivity extends BaseActivity implements
         LoginContract.View,
         LoginFragment.OnFragmentInteractionListener,
         RegisterFragment.OnFragmentInteractionListener,
-        ForgotPasswordFragment.OnFragmentInteractionListener {
+        ForgotPasswordFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final String LOGIN_FRAGMENT_TAG = LoginFragment.class.getSimpleName();
     private static final String REGISTER_FRAGMENT_TAG = RegisterFragment.class.getSimpleName();
     private static final String FORGOT_PASSWORD_FRAGMENT_TAG = ForgotPasswordFragment.class.getSimpleName();
+    private static final String UPDATE_PROFILE_FRAGMENT_TAG = ProfileFragment.class.getSimpleName();
 
     private static final String SAVEKEY_CANCEL_BUTTON_VISIBLE = "SAVEKEY_CANCEL_BUTTON_VISIBLE";
+
+    public static final String SHOW_USER_PROFILE = "SHOW_USER_PROFILE";
 
     // UI references.
     @BindView(R.id.login_progress)
@@ -59,29 +66,43 @@ public class LoginActivity extends BaseActivity implements
     ImageButton mCancelBtn;
 
     private LoginContract.Presenter mPresenter;
+    private boolean isLoggedIn; // TODO: 7/17/18 add to state
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        mPresenter = new LoginPresenter(this);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        mPresenter = new LoginPresenter(this, mAuth);
 
         if (savedInstanceState == null) {
-            replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
+            if (getIntent().hasExtra(SHOW_USER_PROFILE) && getIntent().getBooleanExtra(SHOW_USER_PROFILE, false)) {
+                replaceFormContainerWith(ProfileFragment.newInstance(false,
+                        mPresenter.getCurrentUser()),
+                        UPDATE_PROFILE_FRAGMENT_TAG);
+            } else {
+                replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
+            }
+        } else {
+            mCancelBtn.setVisibility(savedInstanceState.getInt(SAVEKEY_CANCEL_BUTTON_VISIBLE));
         }
 
         mCancelBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
+                // TODO: 7/17/18 consider popping from backstack instead of remembering the login state
+                if (!isLoggedIn) {
+                    replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
+                } else {
+                    Intent intent = new Intent(LoginActivity.this, StoreListActivity.class);
+                    startActivity(intent);
+                }
                 mCancelBtn.setVisibility(View.INVISIBLE);
             }
         });
 
-        if (savedInstanceState != null) {
-            mCancelBtn.setVisibility(savedInstanceState.getInt(SAVEKEY_CANCEL_BUTTON_VISIBLE));
-        }
+
     }
 
     @Override
@@ -90,39 +111,18 @@ public class LoginActivity extends BaseActivity implements
         outState.putInt(SAVEKEY_CANCEL_BUTTON_VISIBLE, mCancelBtn.getVisibility());
     }
 
-    @Override
-    public void onNewRegistration() {
-        mCancelBtn.setVisibility(View.VISIBLE);
-        replaceFormContainerWith(new RegisterFragment(), REGISTER_FRAGMENT_TAG);
-    }
 
-    @Override
-    public void onForgotPasssword() {
-        mCancelBtn.setVisibility(View.VISIBLE);
-        replaceFormContainerWith(new ForgotPasswordFragment(), FORGOT_PASSWORD_FRAGMENT_TAG);
-    }
-
+    // Login
     @Override
     public void onUserCredentialsCaptured(String email, String password) {
         showProgress(true);
-        mPresenter.login(mAuth, email, password);
-    }
-
-    @Override
-    public void onNewUserInfoCaptured(User user, String password) {
-        showProgress(true);
-        mPresenter.register(mAuth, user, password);
-    }
-
-    @Override
-    public void onPasswordResetEmailCaptured(String email) {
-        showProgress(true);
-        mPresenter.forgotPassword(mAuth, email);
+        mPresenter.login(email, password);
     }
 
     @Override
     public void onLoginSuccess() {
         showProgress(false);
+        isLoggedIn = true;
         Intent intent = new Intent(this, StoreListActivity.class);
         startActivity(intent);
     }
@@ -141,11 +141,25 @@ public class LoginActivity extends BaseActivity implements
         }
     }
 
+    // Register
+    @Override
+    public void onNewRegistration() {
+        mCancelBtn.setVisibility(View.VISIBLE);
+        replaceFormContainerWith(new RegisterFragment(), REGISTER_FRAGMENT_TAG);
+    }
+
+    @Override
+    public void onNewUserInfoCaptured(User user, String password) {
+        showProgress(true);
+        mPresenter.register(user, password);
+    }
+
     @Override
     public void onRegistrationSuccess() {
+        mCancelBtn.setVisibility(View.VISIBLE);
         showProgress(false);
-        Intent intent = new Intent(this, StoreListActivity.class);
-        startActivity(intent);
+        replaceFormContainerWith(ProfileFragment.newInstance(true,
+                mPresenter.getCurrentUser()), UPDATE_PROFILE_FRAGMENT_TAG);
     }
 
     @Override
@@ -164,6 +178,19 @@ public class LoginActivity extends BaseActivity implements
         }
     }
 
+    // Forgot Password
+    @Override
+    public void onForgotPasssword() {
+        mCancelBtn.setVisibility(View.VISIBLE);
+        replaceFormContainerWith(new ForgotPasswordFragment(), FORGOT_PASSWORD_FRAGMENT_TAG);
+    }
+
+    @Override
+    public void onPasswordResetEmailCaptured(String email) {
+        showProgress(true);
+        mPresenter.forgotPassword(email);
+    }
+
     @Override
     public void onSendPasswordResetEmailSuccess() {
         showProgress(false);
@@ -175,15 +202,55 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onSendPasswordResetEmailFailed(Exception exception) {
         showProgress(false);
-        RegisterFragment fragment = (RegisterFragment) getSupportFragmentManager().findFragmentByTag(FORGOT_PASSWORD_FRAGMENT_TAG);
+        ForgotPasswordFragment fragment = (ForgotPasswordFragment) getSupportFragmentManager().findFragmentByTag(FORGOT_PASSWORD_FRAGMENT_TAG);
         try {
             throw exception;
         } catch (FirebaseAuthInvalidCredentialsException e) {
-            fragment.showEmailError(getString(R.string.error_invalid_email_exception));
+            fragment.showError(getString(R.string.error_invalid_email_exception));
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
             Utils.showToast(this, e.getMessage());
         }
+    }
+
+    // Update Profile
+    @Override
+    public void onProfileInfoCaptured(String displayName, Uri photoUrl) {
+        showProgress(true);
+        mPresenter.updateProfile(displayName, photoUrl);
+    }
+
+    @Override
+    public void onUpdateProfileSuccess() {
+        showProgress(false);
+        Intent intent = new Intent(this, StoreListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUpdateProfileFailed(Exception exception) {
+        showProgress(false);
+        Utils.showDefaultError(this, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(LoginActivity.this, StoreListActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    // Logout
+    @Override
+    public void onLogout() {
+        showProgress(true);
+        mPresenter.logout();
+    }
+
+    @Override
+    public void onLogoutComplete() {
+        showProgress(false);
+        isLoggedIn = false;
+        replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
     }
 
     /**

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.User;
@@ -20,12 +19,6 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
-    @BindView(R.id.et_firstname)
-    EditText mFirstNameView;
-
-    @BindView(R.id.et_lastname)
-    EditText mLastNameView;
 
     @BindView(R.id.container_email)
     TextInputLayout mEmailContainer;
@@ -58,13 +51,11 @@ public class RegisterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
 
-        mFirstNameView.requestFocus();
+        mEmailView.requestFocus();
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 User.Builder builder = new User.Builder(
-                        mFirstNameView.getText().toString(),
-                        mLastNameView.getText().toString(),
                         mEmailView.getText().toString()
                 );
                 // TODO: 6/20/18 enable button only if passwords match
