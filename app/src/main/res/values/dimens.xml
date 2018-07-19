@@ -16,4 +16,5 @@
     <dimen name="avatar_height">100dp</dimen>
     <dimen name="activity_login_logo_margin_top">32dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_expanded_height">200dp</dimen>
 </resources>

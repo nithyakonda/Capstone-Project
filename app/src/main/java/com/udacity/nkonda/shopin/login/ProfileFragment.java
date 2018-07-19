@@ -1,10 +1,15 @@
 package com.udacity.nkonda.shopin.login;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,9 @@ import com.github.abdularis.civ.AvatarImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.User;
+import com.udacity.nkonda.shopin.util.Utils;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,9 +31,11 @@ import butterknife.ButterKnife;
 public class ProfileFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_IS_FIRST_TIME_LOGIN = "ARG_IS_FIRST_TIME_LOGIN";
     private static final String ARG_USER = "ARG_USER";
+    private static final int PICK_AVATAR = 100;
 
     private boolean mFirstTimeLogin;
     private User mUser;
+    private Uri mPhotoUri;
 
     private OnFragmentInteractionListener mListener;
 
@@ -78,6 +88,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
+        mAddPhotoBtn.setOnClickListener(this);
         mUpdateBtn.setOnClickListener(this);
         mLogoutBtn.setOnClickListener(this);
         mDisplayNameView.setOnClickListener(this);
@@ -96,19 +107,30 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mDisplayNameView.setCursorVisible(false);
 
         mEmailView.setText(mUser.getEmail());
-        mAvatarImageView.setText(mDisplayNameView.getText().toString().toUpperCase());
+        showAvatarInitial(mDisplayNameView.getText().toString().toUpperCase());
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_update_profile) {
-            // TODO: 7/17/18 capture photourl
-            mListener.onProfileInfoCaptured(mDisplayNameView.getText().toString(), null);
+        if (v.getId() == R.id.fab_add_photo) {
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*");
+            startActivityForResult(intent, PICK_AVATAR);
+        } else if (v.getId() == R.id.btn_update_profile) {
+            mListener.onProfileInfoCaptured(mDisplayNameView.getText().toString(), mPhotoUri);
         } else if (v.getId() == R.id.btn_logout) {
             mListener.onLogout();
         } else if (v.getId() == R.id.et_display_name) {
             mDisplayNameView.setCursorVisible(true);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == PICK_AVATAR && resultCode == Activity.RESULT_OK) {
+            mPhotoUri = intent.getData();
+            showAvatarImage(mPhotoUri);
         }
     }
 
@@ -142,5 +164,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private void showProfileUi() {
         mTitleView.setVisibility(View.GONE);
         mLogoutBtn.setVisibility(View.VISIBLE);
+    }
+
+    private void showAvatarImage(Uri photoUri) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
+            mAvatarImageView.setState(AvatarImageView.SHOW_IMAGE);
+            mAvatarImageView.setStrokeWidth(0);
+            mAvatarImageView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Utils.showDefaultError(getActivity());
+        }
+    }
+
+    private void showAvatarInitial(String displayName) {
+        mAvatarImageView.setState(AvatarImageView.SHOW_INITIAL);
+        mAvatarImageView.setStrokeWidth(2);
+        mAvatarImageView.setText(displayName);
     }
 }

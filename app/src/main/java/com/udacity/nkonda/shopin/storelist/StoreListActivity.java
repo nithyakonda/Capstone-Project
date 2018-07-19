@@ -1,8 +1,10 @@
 package com.udacity.nkonda.shopin.storelist;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +22,9 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.login.LoginActivity;
+import com.udacity.nkonda.shopin.util.Utils;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -127,8 +132,12 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     }
 
     @Override
-    public void setupToolbar(String initials, Uri photoUrl) {
-        mAvatarView.setText(initials);
+    public void setupToolbar(String initial, Uri photoUri) {
+        if (photoUri != null) {
+            showAvatarImage(photoUri);
+        } else {
+            showAvatarInitial(initial);
+        }
     }
 
     @Override
@@ -150,5 +159,25 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     private void showOption() {
         MenuItem item = mMenu.findItem(R.id.action_add_store);
         item.setVisible(true);
+    }
+
+
+    private void showAvatarImage(Uri photoUri) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
+            mAvatarView.setState(AvatarImageView.SHOW_IMAGE);
+            mAvatarView.setStrokeWidth(0);
+            mAvatarView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Utils.showDefaultError(this);
+        }
+    }
+
+    private void showAvatarInitial(String displayName) {
+        mAvatarView.setState(AvatarImageView.SHOW_INITIAL);
+        mAvatarView.setStrokeWidth(2);
+        mAvatarView.setText(displayName);
     }
 }

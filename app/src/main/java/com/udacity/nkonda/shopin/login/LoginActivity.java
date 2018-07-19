@@ -78,9 +78,11 @@ public class LoginActivity extends BaseActivity implements
 
         if (savedInstanceState == null) {
             if (getIntent().hasExtra(SHOW_USER_PROFILE) && getIntent().getBooleanExtra(SHOW_USER_PROFILE, false)) {
+                isLoggedIn = true;
                 replaceFormContainerWith(ProfileFragment.newInstance(false,
                         mPresenter.getCurrentUser()),
                         UPDATE_PROFILE_FRAGMENT_TAG);
+                mCancelBtn.setVisibility(View.VISIBLE);
             } else {
                 replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
             }
@@ -156,6 +158,7 @@ public class LoginActivity extends BaseActivity implements
 
     @Override
     public void onRegistrationSuccess() {
+        isLoggedIn = true;
         mCancelBtn.setVisibility(View.VISIBLE);
         showProgress(false);
         replaceFormContainerWith(ProfileFragment.newInstance(true,

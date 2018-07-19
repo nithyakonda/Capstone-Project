@@ -2,4 +2,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="login_fragment_horizontal_padding">40dp</dimen>
     <dimen name="login_fragment_vertical_padding">8dp</dimen>
+    <dimen name="appbar_expanded_height">100dp</dimen>
 </resources>
