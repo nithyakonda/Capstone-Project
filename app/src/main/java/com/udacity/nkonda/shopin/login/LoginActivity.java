@@ -47,6 +47,7 @@ public class LoginActivity extends BaseActivity implements
     private static final String UPDATE_PROFILE_FRAGMENT_TAG = ProfileFragment.class.getSimpleName();
 
     private static final String SAVEKEY_CANCEL_BUTTON_VISIBLE = "SAVEKEY_CANCEL_BUTTON_VISIBLE";
+    private static final String SAVEKEY_IS_LOGGED_IN = "SAVEKEY_IS_LOGGED_IN";
 
     public static final String SHOW_USER_PROFILE = "SHOW_USER_PROFILE";
 
@@ -66,7 +67,7 @@ public class LoginActivity extends BaseActivity implements
     ImageButton mCancelBtn;
 
     private LoginContract.Presenter mPresenter;
-    private boolean isLoggedIn; // TODO: 7/17/18 add to state
+    private boolean isLoggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +89,12 @@ public class LoginActivity extends BaseActivity implements
             }
         } else {
             mCancelBtn.setVisibility(savedInstanceState.getInt(SAVEKEY_CANCEL_BUTTON_VISIBLE));
+            isLoggedIn = savedInstanceState.getBoolean(SAVEKEY_IS_LOGGED_IN);
         }
 
         mCancelBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 7/17/18 consider popping from backstack instead of remembering the login state
                 if (!isLoggedIn) {
                     replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
                 } else {
@@ -111,6 +112,7 @@ public class LoginActivity extends BaseActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVEKEY_CANCEL_BUTTON_VISIBLE, mCancelBtn.getVisibility());
+        outState.putBoolean(SAVEKEY_IS_LOGGED_IN, isLoggedIn);
     }
 
 

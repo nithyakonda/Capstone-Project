@@ -83,6 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/container_form"
         android:layout_marginTop="@dimen/inter_section_vertical_margin"
         android:contentDescription="@string/btn_create_content_desc"
-        android:text="@string/btn_create_text"/>
+        android:text="@string/btn_create_text"
+        android:enabled="false"/>
 
 </android.support.constraint.ConstraintLayout>

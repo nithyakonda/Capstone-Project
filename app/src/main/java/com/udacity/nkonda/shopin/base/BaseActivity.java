@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.udacity.nkonda.shopin.util.Utils;
 
 public class BaseActivity extends AppCompatActivity implements BaseView{
     private static final String TAG = BaseActivity.class.getSimpleName();
@@ -31,5 +32,10 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
             Log.e(TAG, "No network connectivity");
         }
         return online;
+    }
+
+    @Override
+    public void showError() {
+        Utils.showDefaultError(this);
     }
 }

@@ -38,7 +38,6 @@ public class ForgotPasswordFragment extends Fragment {
         mSendPasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 6/20/18 enable button only if text entered is a valid email
                 mListener.onPasswordResetEmailCaptured(mEmailView.getText().toString());
             }
         });

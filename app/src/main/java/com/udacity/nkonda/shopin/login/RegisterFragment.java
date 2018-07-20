@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +54,14 @@ public class RegisterFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mEmailView.requestFocus();
+        mConfirmPasswordView.addTextChangedListener(new EmailTextWatcher());
+        mConfirmPasswordView.setTextColor(getResources().getColor(R.color.colorInvalidText));
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 User.Builder builder = new User.Builder(
                         mEmailView.getText().toString()
                 );
-                // TODO: 6/20/18 enable button only if passwords match
                 mListener.onNewUserInfoCaptured(builder.createUser(), mPasswordView.getText().toString());
             }
         });
@@ -93,5 +96,28 @@ public class RegisterFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onNewUserInfoCaptured(User user, String password);
+    }
+
+    private class EmailTextWatcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (mConfirmPasswordView.getText().toString()
+                    .equals(mPasswordView.getText().toString())) {
+                mCreateBtn.setEnabled(true);
+                mConfirmPasswordView.setTextColor(getResources().getColor(R.color.colorValidText));
+            } else {
+                mCreateBtn.setEnabled(false);
+            }
+        }
     }
 }

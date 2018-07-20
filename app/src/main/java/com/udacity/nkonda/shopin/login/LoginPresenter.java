@@ -85,7 +85,6 @@ public class LoginPresenter implements LoginContract.Presenter {
                         }
                     }
                 });
-        mView.onSendPasswordResetEmailSuccess();
     }
 
     @Override
