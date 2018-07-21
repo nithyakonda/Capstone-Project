@@ -3,13 +3,15 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:background="@color/background"
              tools:context=".login.SplashScreenActivity">
 
     <ImageView
-        android:id="@+id/intro_container"
+        android:id="@+id/iv_logo"
         android:layout_width="@dimen/logo_width_large"
         android:layout_height="@dimen/logo_height_large"
         android:src="@drawable/logo_round"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:transitionName="@string/transition_name_logo"/>
 
 </FrameLayout>

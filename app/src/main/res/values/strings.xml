@@ -55,5 +55,6 @@
     <!-- Common Actions -->
     <string name="action_ok" translatable="true">OK</string>
     <string name="str_title_store_list_activity">Your Stores</string>
+    <string name="transition_name_logo">logo_anim</string>
 
 </resources>

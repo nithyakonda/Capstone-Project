@@ -65,7 +65,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
         app:layout_constraintEnd_toEndOf="@id/guideline_vertical"
         app:layout_constraintTop_toTopOf="@+id/guideline_horizontal"
-        app:srcCompat="@drawable/logo_round"/>
+        app:srcCompat="@drawable/logo_round"
+        android:transitionName="@string/transition_name_logo"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_horizontal"
