@@ -14,7 +14,6 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     private static ShopinDatabase sInstance;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mUsersRef = mDatabase.getReference("users");
-    private DatabaseReference mStoresRef = mDatabase.getReference("users/stores");
 
     private ShopinDatabase(){};
 
@@ -27,7 +26,7 @@ public class ShopinDatabase implements ShopinDatabaseContract {
 
     @Override
     public void addUser(User user, final AddUserCallback callback) {
-        mUsersRef.child(user.getUid()).setValue(user.getEmail())
+        mUsersRef.child(user.getUid()).child("email").setValue(user.getEmail())
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -37,7 +36,14 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     }
 
     @Override
-    public void addStore(Store store, AddStoreCallback callback) {
-
+    public void addStore(String uid, Store store, final AddStoreCallback callback) {
+        DatabaseReference storesRef = mUsersRef.child(uid).child("stores");
+        storesRef.child(store.getId()).setValue(store)
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onResult(task.isSuccessful(), task.getException());
+                }
+            });
     }
 }

@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.storelist.StoreListActivity;
+import com.udacity.nkonda.shopin.util.FirebaseUtil;
 
 
 public class SplashScreenActivity extends BaseActivity {
@@ -44,12 +45,14 @@ public class SplashScreenActivity extends BaseActivity {
             public void run() {
                 Intent intent = new Intent();
                 boolean currentUserLoggedIn = false;
+                FirebaseUser currentUser = null;
                 if (isOnline()) {
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                    currentUser = mAuth.getCurrentUser();
                     currentUserLoggedIn = currentUser != null;
                 }
                 if (currentUserLoggedIn) {
                     intent.setClass(SplashScreenActivity.this, StoreListActivity.class);
+                    intent.putExtra(StoreListActivity.ARG_USER, FirebaseUtil.getUser(currentUser));
                     startActivity(intent);
                 } else {
                     intent.setClass(SplashScreenActivity.this, LoginActivity.class);

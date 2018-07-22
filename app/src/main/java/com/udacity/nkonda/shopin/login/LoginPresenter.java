@@ -14,6 +14,7 @@ import com.udacity.nkonda.shopin.base.BaseState;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.data.database.ShopinDatabase;
 import com.udacity.nkonda.shopin.data.database.ShopinDatabaseContract;
+import com.udacity.nkonda.shopin.util.FirebaseUtil;
 
 public class LoginPresenter implements LoginContract.Presenter {
     private static final String TAG = "Login";
@@ -138,9 +139,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser != null && ( mUser == null ||
                !mUser.getEmail().equals(firebaseUser.getEmail()))) {
-            mUser = new User(firebaseUser.getUid(),
-                    firebaseUser.getDisplayName(),
-                    firebaseUser.getEmail(), firebaseUser.getPhotoUrl());
+            mUser = FirebaseUtil.getUser(firebaseUser);
         }
         return mUser;
     }

@@ -9,9 +9,9 @@ public interface ShopinDatabaseContract {
     }
 
     interface AddStoreCallback {
-        void onResult();
+        void onResult(boolean success, Exception exception);
     }
 
     void addUser(User user, AddUserCallback callback);
-    void addStore(Store store, AddStoreCallback callback);
+    void addStore(String uid, Store store, AddStoreCallback callback);
 }

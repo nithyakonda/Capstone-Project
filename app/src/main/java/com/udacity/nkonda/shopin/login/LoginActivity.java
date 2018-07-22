@@ -97,8 +97,7 @@ public class LoginActivity extends BaseActivity implements
                 if (!isLoggedIn) {
                     replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
                 } else {
-                    Intent intent = new Intent(LoginActivity.this, StoreListActivity.class);
-                    startActivity(intent);
+                    startStoreListActivity();
                 }
                 mCancelBtn.setVisibility(View.INVISIBLE);
             }
@@ -126,8 +125,7 @@ public class LoginActivity extends BaseActivity implements
     public void onLoginSuccess() {
         showProgress(false);
         isLoggedIn = true;
-        Intent intent = new Intent(this, StoreListActivity.class);
-        startActivity(intent);
+        startStoreListActivity();
     }
 
     @Override
@@ -227,8 +225,7 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onUpdateProfileSuccess() {
         showProgress(false);
-        Intent intent = new Intent(this, StoreListActivity.class);
-        startActivity(intent);
+        startStoreListActivity();
     }
 
     @Override
@@ -237,8 +234,7 @@ public class LoginActivity extends BaseActivity implements
         Utils.showDefaultError(this, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(LoginActivity.this, StoreListActivity.class);
-                startActivity(intent);
+                startStoreListActivity();
             }
         });
     }
@@ -302,6 +298,12 @@ public class LoginActivity extends BaseActivity implements
                 tag
         );
         fragmentTransaction.commit();
+    }
+
+    private void startStoreListActivity() {
+        Intent intent = new Intent(this, StoreListActivity.class);
+        intent.putExtra(StoreListActivity.ARG_USER, mPresenter.getCurrentUser());
+        startActivity(intent);
     }
 }
 

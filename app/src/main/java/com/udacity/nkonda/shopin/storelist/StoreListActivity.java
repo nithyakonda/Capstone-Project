@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
+import com.udacity.nkonda.shopin.data.Store;
+import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.login.LoginActivity;
 import com.udacity.nkonda.shopin.util.Utils;
 
@@ -31,9 +34,11 @@ import butterknife.ButterKnife;
 
 public class StoreListActivity extends BaseActivity implements StoreListContract.View{
     private static final String TAG = StoreListActivity.class.getSimpleName();
+    public static final String ARG_USER = "ARG_USER";
     private static final int PLACE_PICKER_REQUEST = 1;
 
     StoreListPresenter mPresenter;
+    StoreListState mState;
 
     @BindView(R.id.appbar)
     AppBarLayout mAppBarLayout;
@@ -60,6 +65,12 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
+        if (savedInstanceState == null) {
+            if (getIntent().hasExtra(ARG_USER))
+                mState = new StoreListState((User) getIntent().getParcelableExtra(ARG_USER));
+        } else {
+            mState = new StoreListState((User) savedInstanceState.getParcelable(ARG_USER));
+        }
         mPresenter = new StoreListPresenter(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -96,7 +107,18 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                 }
             }
         });
-        mPresenter.load();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.start(mState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(ARG_USER, mPresenter.getState().getUser());
     }
 
     @Override
@@ -125,8 +147,16 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+
+                Store newStore = new Store(place.getId(),
+                        place.getName().toString(),
+                        place.getAddress().toString(),
+                        place.getLatLng());
+
+                mPresenter.addNewStoreAndCreateGeofence(newStore);
+            } else {
+                Log.e(TAG, "onActivityResult::error::resultCode" + resultCode);
+                Utils.showDefaultError(this);
             }
         }
     }
@@ -149,6 +179,11 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             mNoStoresView.setVisibility(View.INVISIBLE);
             mStoreListContainer.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void displayNewStore(Store store) {
+        Utils.showToast(this, "Added " + store.getName());
     }
 
     private void hideOption() {
