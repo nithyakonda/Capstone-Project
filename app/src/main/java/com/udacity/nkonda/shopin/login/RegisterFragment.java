@@ -59,10 +59,7 @@ public class RegisterFragment extends Fragment {
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User.Builder builder = new User.Builder(
-                        mEmailView.getText().toString()
-                );
-                mListener.onNewUserInfoCaptured(builder.createUser(), mPasswordView.getText().toString());
+                mListener.onNewUserInfoCaptured(mEmailView.getText().toString(), mPasswordView.getText().toString());
             }
         });
 
@@ -95,7 +92,7 @@ public class RegisterFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onNewUserInfoCaptured(User user, String password);
+        void onNewUserInfoCaptured(String email, String password);
     }
 
     private class EmailTextWatcher implements TextWatcher {

@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
-import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.storelist.StoreListActivity;
 import com.udacity.nkonda.shopin.util.Utils;
 
@@ -153,9 +152,9 @@ public class LoginActivity extends BaseActivity implements
     }
 
     @Override
-    public void onNewUserInfoCaptured(User user, String password) {
+    public void onNewUserInfoCaptured(String email, String password) {
         showProgress(true);
-        mPresenter.register(user, password);
+        mPresenter.register(email, password);
     }
 
     @Override

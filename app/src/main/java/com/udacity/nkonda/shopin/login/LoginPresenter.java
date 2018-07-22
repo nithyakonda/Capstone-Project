@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.udacity.nkonda.shopin.base.BaseState;
 import com.udacity.nkonda.shopin.data.User;
+import com.udacity.nkonda.shopin.data.database.ShopinDatabase;
+import com.udacity.nkonda.shopin.data.database.ShopinDatabaseContract;
 
 public class LoginPresenter implements LoginContract.Presenter {
     private static final String TAG = "Login";
@@ -54,14 +56,29 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void register(User user, String password) {
-        mAuth.createUserWithEmailAndPassword(user.getEmail(), password)
+    public void register(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "Register: Success");
-                            mView.onRegistrationSuccess();
+                            if (getCurrentUser() != null) {
+                                ShopinDatabase.getInstance().addUser(mUser,
+                                        new ShopinDatabaseContract.AddUserCallback() {
+                                    @Override
+                                    public void onResult(boolean success, Exception exception) {
+                                        if (success) {
+                                            mView.onRegistrationSuccess();
+                                        } else {
+                                            Log.e(TAG, "Register: Add user to database: Failed with exception: " + exception);
+                                            mView.onRegistrationFailed(exception);
+                                        }
+                                    }
+                                });
+                            } else {
+                                // TODO: 7/21/18 handle null
+                            }
                         } else {
                             Log.w(TAG, "Register: Failed with exception: " + task.getException());
                             mView.onRegistrationFailed(task.getException());
@@ -121,9 +138,9 @@ public class LoginPresenter implements LoginContract.Presenter {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser != null && ( mUser == null ||
                !mUser.getEmail().equals(firebaseUser.getEmail()))) {
-            mUser = new User(firebaseUser.getDisplayName(),
-                    firebaseUser.getEmail(),
-                    firebaseUser.getPhotoUrl());
+            mUser = new User(firebaseUser.getUid(),
+                    firebaseUser.getDisplayName(),
+                    firebaseUser.getEmail(), firebaseUser.getPhotoUrl());
         }
         return mUser;
     }

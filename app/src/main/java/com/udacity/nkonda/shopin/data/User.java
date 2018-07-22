@@ -5,16 +5,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
+    private String mUid;
     private String mDisplayName;
     private String mEmail;
     private Uri mDisplayPicture;
 
-    private User(){}
+    public User(String uid, String displayName, String email, Uri displayPicture) {
+        mUid = uid;
+        mDisplayName = displayName;
+        mEmail = email;
+        mDisplayPicture = displayPicture;
+    }
 
-    public User(String displayName, String email, Uri displayPicture) {
-        this.mDisplayName = displayName;
-        this.mEmail = email;
-        this.mDisplayPicture = displayPicture;
+    public String getUid() {
+        return mUid;
     }
 
     public String getDisplayName() {
@@ -29,29 +33,6 @@ public class User implements Parcelable {
         return mDisplayPicture;
     }
 
-    public static class Builder {
-        private String mDisplayName;
-        private String mEmail;
-        private Uri mDisplayPicture;
-
-        public Builder(String email) {
-            mEmail = email;
-        }
-
-        public void setDisplayName(String displayName) {
-            mDisplayName = displayName;
-        }
-
-        public Builder setDisplayPicture(Uri displayPicture) {
-            mDisplayPicture = displayPicture;
-            return this;
-        }
-
-        public User createUser() {
-            return new User(mDisplayName, mEmail, mDisplayPicture);
-        }
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -59,12 +40,14 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mUid);
         dest.writeString(this.mDisplayName);
         dest.writeString(this.mEmail);
         dest.writeParcelable(this.mDisplayPicture, flags);
     }
 
     protected User(Parcel in) {
+        this.mUid = in.readString();
         this.mDisplayName = in.readString();
         this.mEmail = in.readString();
         this.mDisplayPicture = in.readParcelable(Uri.class.getClassLoader());
