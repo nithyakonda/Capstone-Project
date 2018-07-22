@@ -9,6 +9,6 @@
         android:id="@+id/imageView"
         android:layout_width="@dimen/logo_width_large"
         android:layout_height="@dimen/logo_height_large"
-        app:srcCompat="@drawable/logo_round"
+        app:srcCompat="@drawable/image_logo"
         android:layout_gravity="center"/>
 </FrameLayout>
