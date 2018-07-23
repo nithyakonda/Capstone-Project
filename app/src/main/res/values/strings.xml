@@ -38,8 +38,6 @@
     <string name="btn_logout_content_desc">Logout</string>
     <string name="btn_logout_text">Logout</string>
 
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
-
     <!-- Error messages -->
     <string name="error_invalid_login_credentials_exception" translatable="true">Email or password is invalid.</string>
     <string name="error_weak_password_exception" translatable="true">Password should be atleast 6 characters.</string>

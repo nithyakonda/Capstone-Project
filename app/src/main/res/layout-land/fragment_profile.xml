@@ -64,7 +64,7 @@
         android:id="@+id/container_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_margin"
         app:layout_constraintStart_toStartOf="@id/container_display_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/iv_avatar">
@@ -85,8 +85,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/inter_view_vertical_margin"
-        android:layout_marginEnd="@dimen/inter_view_vertical_margin"
+        android:layout_marginBottom="@dimen/inter_view_margin"
+        android:layout_marginEnd="@dimen/inter_view_margin"
         android:contentDescription="@string/btn_update_profile_content_desc"
         android:text="@string/btn_update_profile_text"/>
 

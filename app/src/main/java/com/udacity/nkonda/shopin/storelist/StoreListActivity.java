@@ -1,19 +1,27 @@
 package com.udacity.nkonda.shopin.storelist;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.abdularis.civ.AvatarImageView;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -28,6 +36,7 @@ import com.udacity.nkonda.shopin.login.LoginActivity;
 import com.udacity.nkonda.shopin.util.Utils;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +44,10 @@ import butterknife.ButterKnife;
 public class StoreListActivity extends BaseActivity implements StoreListContract.View{
     private static final String TAG = StoreListActivity.class.getSimpleName();
     public static final String ARG_USER = "ARG_USER";
+    private static final String ACCESS_FINE_LOCATION = "android.permission.ACCESS_FINE_LOCATION";
     private static final int PLACE_PICKER_REQUEST = 1;
+    private static final int PERMISSION_REQUEST = 2;
+    String[] mPermissions = {ACCESS_FINE_LOCATION};
 
     StoreListPresenter mPresenter;
     StoreListState mState;
@@ -49,6 +61,9 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     @BindView(R.id.iv_avatar)
     AvatarImageView mAvatarView;
 
+    @BindView(R.id.fab_add_store)
+    FloatingActionButton mAddStoreBtn;
+
     @BindView(R.id.view_no_stores)
     View mNoStoresView;
 
@@ -56,7 +71,12 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     @Nullable
     View mStoreListContainer;
 
-    Menu mMenu;
+    @BindView(R.id.rv_store_list)
+    @Nullable
+    RecyclerView mStoreListView;
+
+    private Menu mMenu;
+    private StoreListAdapter mStoreListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +84,8 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         setContentView(R.layout.activity_store_list);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+
+        requestPermission();
 
         if (savedInstanceState == null) {
             if (getIntent().hasExtra(ARG_USER))
@@ -73,21 +95,24 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         }
         mPresenter = new StoreListPresenter(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(numberOfColumns(),
+                StaggeredGridLayoutManager.VERTICAL);
+        mStoreListAdapter = new StoreListAdapter();
+        mStoreListAdapter.setOnItemSelectedListener(new StoreListAdapter.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            public void onStoreSelected(Store store) {
+                // TODO: 7/22/18 show ItemListActivity
+                Utils.showToast(StoreListActivity.this, "Selected " + store.getName());
+            }
 
-                try {
-                    startActivityForResult(builder.build(StoreListActivity.this), PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
+            @Override
+            public void onItemSelected(String item) {
+                // TODO: 7/22/18 save item selection status
+                Utils.showToast(StoreListActivity.this, "Selected " + item);
             }
         });
+        mStoreListView.setLayoutManager(layoutManager);
+        mStoreListView.setAdapter(mStoreListAdapter);
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -104,6 +129,24 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                 } else if (isShow) {
                     isShow = false;
                     hideOption();
+                }
+            }
+        });
+
+        mAddStoreBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    try {
+                        startActivityForResult(builder.build(StoreListActivity.this), PLACE_PICKER_REQUEST);
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    requestPermission();
                 }
             }
         });
@@ -162,6 +205,39 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST) {
+            if (grantResults.length > 0) {
+                if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                                    .setTitle("Permission Required")
+                                    .setMessage("Shopin needs to access location to add stores and notify when you enter a store")
+                                    .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            requestPermission();
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            builder.create().show();
+
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    @Override
     public void setupToolbar(String initial, Uri photoUri) {
         if (photoUri != null) {
             showAvatarImage(photoUri);
@@ -171,18 +247,24 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     }
 
     @Override
-    public void displayStores(int num) {
-        if (num == 0) {
+    public void displayStores(List<Store> stores) {
+        if (stores.size() == 0) {
             mNoStoresView.setVisibility(View.VISIBLE);
             mStoreListContainer.setVisibility(View.INVISIBLE);
-        } else {
-            mNoStoresView.setVisibility(View.INVISIBLE);
-            mStoreListContainer.setVisibility(View.VISIBLE);
+            return;
         }
+        mNoStoresView.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
+        mStoreListContainer.setVisibility(View.VISIBLE);
+        mStoreListAdapter.setStores(stores);
     }
 
     @Override
     public void displayNewStore(Store store) {
+        if (mNoStoresView.getVisibility() == View.VISIBLE) {
+            mNoStoresView.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
+            mStoreListContainer.setVisibility(View.VISIBLE);
+        }
+        mStoreListAdapter.addStore(store);
         Utils.showToast(this, "Added " + store.getName());
     }
 
@@ -214,5 +296,22 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         mAvatarView.setState(AvatarImageView.SHOW_INITIAL);
         mAvatarView.setStrokeWidth(2);
         mAvatarView.setText(displayName);
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // You can change this divider to adjust the size of the poster
+        int widthDivider = 400;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2;
+        return nColumns;
+    }
+
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(this, mPermissions, PERMISSION_REQUEST);
+        }
     }
 }

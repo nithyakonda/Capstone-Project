@@ -2,14 +2,16 @@ package com.udacity.nkonda.shopin.data;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Store {
     private String mId;
     private String mName;
     private String mAddress;
     private LatLng mCoordinates;
-    private List<String> items;
+    private LinkedHashMap<String, Boolean> items;
 
     public Store(String id, String name, String address, LatLng coordinates) {
         mId = id;
@@ -18,7 +20,7 @@ public class Store {
         mCoordinates = coordinates;
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(LinkedHashMap<String, Boolean> items) {
         this.items = items;
     }
 
@@ -38,7 +40,7 @@ public class Store {
         return mCoordinates;
     }
 
-    public List<String> getItems() {
+    public LinkedHashMap<String, Boolean> getItems() {
         return items;
     }
 }

@@ -52,7 +52,6 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                 }
             }
         });
-        mView.displayStores(1);
     }
 
     @Override
@@ -61,7 +60,8 @@ public class StoreListPresenter implements StoreListContract.Presenter {
             String initial = (sUser.getDisplayName() != null && !sUser.getDisplayName().isEmpty())
                     ? sUser.getDisplayName() : sUser.getEmail();
             mView.setupToolbar(initial.substring(0, 1).toUpperCase(), sUser.getDisplayPicture());
-            mView.displayStores(0);
+            // TODO: 7/22/18 get stores from DB
+//            mView.displayStores(0);
         } else {
             mView.showError();
         }

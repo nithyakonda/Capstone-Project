@@ -21,7 +21,7 @@
         android:id="@+id/container_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_msg">
         <android.support.constraint.ConstraintLayout
@@ -32,7 +32,7 @@
                 android:id="@+id/container_dname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/inter_view_vertical_margin"
+                android:layout_marginEnd="@dimen/inter_view_margin"
                 app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
                 app:layout_constraintStart_toStartOf="parent">
                 <EditText
@@ -47,7 +47,7 @@
                 android:id="@+id/container_lname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/inter_view_vertical_margin"
+                android:layout_marginStart="@dimen/inter_view_margin"
                 android:layout_marginTop="@dimen/inter_section_vertical_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_vertical">

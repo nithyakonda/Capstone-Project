@@ -19,7 +19,7 @@
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/logo_width_large"
         android:layout_height="@dimen/logo_height_large"
-        android:layout_marginBottom="@dimen/inter_view_vertical_margin"
+        android:layout_marginBottom="@dimen/inter_view_margin"
         android:layout_marginTop="@dimen/inter_section_vertical_margin"
         android:paddingBottom="8dp"
         android:paddingEnd="8dp"
@@ -62,7 +62,7 @@
         android:id="@+id/container_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_margin"
         app:layout_constraintStart_toStartOf="@id/et_display_name"
         app:layout_constraintTop_toBottomOf="@+id/container_display_name">
         <EditText
@@ -80,7 +80,7 @@
         style="@style/AppTheme.Button.Primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/inter_view_vertical_margin"
+        android:layout_marginBottom="@dimen/inter_view_margin"
         app:layout_constraintBottom_toTopOf="@id/btn_logout"
         android:contentDescription="@string/btn_update_profile_content_desc"
         android:text="@string/btn_update_profile_text"/>
@@ -90,7 +90,7 @@
         style="@style/AppTheme.Button.Secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/inter_view_vertical_margin"
+        android:layout_marginBottom="@dimen/inter_view_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         android:contentDescription="@string/btn_logout_content_desc"
         android:text="@string/btn_logout_text"/>

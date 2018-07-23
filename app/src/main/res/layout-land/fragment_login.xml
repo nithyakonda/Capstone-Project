@@ -30,7 +30,7 @@
         android:id="@+id/password_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_margin"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="@+id/email_container"
         app:layout_constraintStart_toStartOf="@+id/email_container"

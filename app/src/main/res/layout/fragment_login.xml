@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="@+id/email_container"
         app:layout_constraintStart_toStartOf="@+id/email_container"
         app:layout_constraintTop_toBottomOf="@+id/email_container"
-        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_margin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="@+id/email_container"
         app:layout_constraintStart_toStartOf="@+id/email_container"
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
-        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_margin"
         android:text="@string/btn_register_text"
         style="@style/AppTheme.Button.Secondary"/>
 
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="@+id/email_container"
         app:layout_constraintStart_toStartOf="@+id/email_container"
         app:layout_constraintTop_toBottomOf="@+id/btn_register"
-        android:layout_marginTop="@dimen/inter_view_vertical_margin"
+        android:layout_marginTop="@dimen/inter_view_margin"
         android:text="@string/btn_forgot_password_text"
         style="@style/AppTheme.Button.Transparent"/>
 </android.support.constraint.ConstraintLayout>
