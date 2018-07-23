@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 
-def GOOGLE_PLACES_API_KEY = '"' + GooglePlacesAPIKey + '"'
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -12,7 +10,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "GooglePlacesAPIKey", GOOGLE_PLACES_API_KEY
+        resValue "string", "api_key_google_places", GooglePlacesAPIKey
 
     }
     buildTypes {

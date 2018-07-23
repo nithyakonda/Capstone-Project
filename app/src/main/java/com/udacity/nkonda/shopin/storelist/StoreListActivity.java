@@ -45,9 +45,10 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     private static final String TAG = StoreListActivity.class.getSimpleName();
     public static final String ARG_USER = "ARG_USER";
     private static final String ACCESS_FINE_LOCATION = "android.permission.ACCESS_FINE_LOCATION";
+    private static final String ACCESS_COARSE_LOCATION = "android.permission.ACCESS_COARSE_LOCATION";
     private static final int PLACE_PICKER_REQUEST = 1;
     private static final int PERMISSION_REQUEST = 2;
-    String[] mPermissions = {ACCESS_FINE_LOCATION};
+    String[] mPermissions = {ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION};
 
     StoreListPresenter mPresenter;
     StoreListState mState;
@@ -136,7 +137,8 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         mAddStoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if(checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                        checkSelfPermission(ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                     try {
                         startActivityForResult(builder.build(StoreListActivity.this), PLACE_PICKER_REQUEST);
