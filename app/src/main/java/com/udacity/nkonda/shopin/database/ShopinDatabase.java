@@ -1,4 +1,4 @@
-package com.udacity.nkonda.shopin.data.database;
+package com.udacity.nkonda.shopin.database;
 
 import android.support.annotation.NonNull;
 

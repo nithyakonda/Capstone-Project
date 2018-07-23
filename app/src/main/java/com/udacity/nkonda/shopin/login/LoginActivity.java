@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.storelist.StoreListActivity;
-import com.udacity.nkonda.shopin.util.Utils;
+import com.udacity.nkonda.shopin.util.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -176,7 +176,7 @@ public class LoginActivity extends BaseActivity implements
             fragment.showEmailError(getString(R.string.error_user_collision_exception));
         } catch(Exception e) {
             Log.e(TAG, e.getMessage());
-            Utils.showToast(this, e.getMessage());
+            UiUtils.showToast(this, e.getMessage());
         }
     }
 
@@ -196,7 +196,7 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onSendPasswordResetEmailSuccess() {
         showProgress(false);
-        Utils.showAlert(this,
+        UiUtils.showAlert(this,
                 getString(R.string.dialog_title_done),
                 getString(R.string.dialog_msg_reset_email_sent));
     }
@@ -211,7 +211,7 @@ public class LoginActivity extends BaseActivity implements
             fragment.showError(getString(R.string.error_invalid_email_exception));
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            Utils.showToast(this, e.getMessage());
+            UiUtils.showToast(this, e.getMessage());
         }
     }
 
@@ -231,7 +231,7 @@ public class LoginActivity extends BaseActivity implements
     @Override
     public void onUpdateProfileFailed(Exception exception) {
         showProgress(false);
-        Utils.showDefaultError(this, new DialogInterface.OnClickListener() {
+        UiUtils.showDefaultError(this, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startStoreListActivity();

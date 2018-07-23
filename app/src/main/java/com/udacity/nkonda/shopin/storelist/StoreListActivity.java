@@ -33,7 +33,7 @@ import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.login.LoginActivity;
-import com.udacity.nkonda.shopin.util.Utils;
+import com.udacity.nkonda.shopin.util.UiUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -103,13 +103,13 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             @Override
             public void onStoreSelected(Store store) {
                 // TODO: 7/22/18 show ItemListActivity
-                Utils.showToast(StoreListActivity.this, "Selected " + store.getName());
+                UiUtils.showToast(StoreListActivity.this, "Selected " + store.getName());
             }
 
             @Override
             public void onItemSelected(String item) {
                 // TODO: 7/22/18 save item selection status
-                Utils.showToast(StoreListActivity.this, "Selected " + item);
+                UiUtils.showToast(StoreListActivity.this, "Selected " + item);
             }
         });
         mStoreListView.setLayoutManager(layoutManager);
@@ -201,7 +201,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                 mPresenter.addNewStoreAndCreateGeofence(newStore);
             } else {
                 Log.e(TAG, "onActivityResult::error::resultCode" + resultCode);
-                Utils.showDefaultError(this);
+                UiUtils.showDefaultError(this);
             }
         }
     }
@@ -267,7 +267,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             mStoreListContainer.setVisibility(View.VISIBLE);
         }
         mStoreListAdapter.addStore(store);
-        Utils.showToast(this, "Added " + store.getName());
+        UiUtils.showToast(this, "Added " + store.getName());
     }
 
     private void hideOption() {
@@ -290,7 +290,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             mAvatarView.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
-            Utils.showDefaultError(this);
+            UiUtils.showDefaultError(this);
         }
     }
 

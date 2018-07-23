@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.udacity.nkonda.shopin.R;
 
-public class Utils {
+public class UiUtils {
     public static void showToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }

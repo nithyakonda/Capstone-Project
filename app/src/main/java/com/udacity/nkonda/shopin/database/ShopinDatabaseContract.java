@@ -1,4 +1,4 @@
-package com.udacity.nkonda.shopin.data.database;
+package com.udacity.nkonda.shopin.database;
 
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;

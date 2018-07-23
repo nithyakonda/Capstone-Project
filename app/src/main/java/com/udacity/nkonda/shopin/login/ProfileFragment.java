@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.abdularis.civ.AvatarImageView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.User;
-import com.udacity.nkonda.shopin.util.Utils;
+import com.udacity.nkonda.shopin.util.UiUtils;
 
 import java.io.IOException;
 
@@ -175,7 +173,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             mAvatarImageView.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
-            Utils.showDefaultError(getActivity());
+            UiUtils.showDefaultError(getActivity());
         }
     }
 

@@ -2,13 +2,10 @@ package com.udacity.nkonda.shopin.storelist;
 
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
-import com.udacity.nkonda.shopin.data.database.ShopinDatabase;
-import com.udacity.nkonda.shopin.data.database.ShopinDatabaseContract;
-import com.udacity.nkonda.shopin.util.FirebaseUtil;
+import com.udacity.nkonda.shopin.database.ShopinDatabase;
+import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
 
 public class StoreListPresenter implements StoreListContract.Presenter {
     private static final String TAG = StoreListPresenter.class.getSimpleName();

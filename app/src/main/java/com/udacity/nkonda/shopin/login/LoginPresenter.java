@@ -12,9 +12,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.udacity.nkonda.shopin.base.BaseState;
 import com.udacity.nkonda.shopin.data.User;
-import com.udacity.nkonda.shopin.data.database.ShopinDatabase;
-import com.udacity.nkonda.shopin.data.database.ShopinDatabaseContract;
-import com.udacity.nkonda.shopin.util.FirebaseUtil;
+import com.udacity.nkonda.shopin.database.ShopinDatabase;
+import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
+import com.udacity.nkonda.shopin.util.FirebaseUtils;
 
 public class LoginPresenter implements LoginContract.Presenter {
     private static final String TAG = "Login";
@@ -139,7 +139,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser != null && ( mUser == null ||
                !mUser.getEmail().equals(firebaseUser.getEmail()))) {
-            mUser = FirebaseUtil.getUser(firebaseUser);
+            mUser = FirebaseUtils.getUser(firebaseUser);
         }
         return mUser;
     }
