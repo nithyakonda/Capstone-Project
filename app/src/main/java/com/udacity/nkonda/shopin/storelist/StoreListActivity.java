@@ -107,7 +107,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             }
 
             @Override
-            public void onItemSelected(String item) {
+            public void onItemSelected(String item, boolean status) {
                 // TODO: 7/22/18 save item selection status
                 UiUtils.showToast(StoreListActivity.this, "Selected " + item);
             }

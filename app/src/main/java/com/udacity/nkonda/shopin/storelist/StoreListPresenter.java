@@ -7,6 +7,7 @@ import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
 import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class StoreListPresenter implements StoreListContract.Presenter {
@@ -55,6 +56,11 @@ public class StoreListPresenter implements StoreListContract.Presenter {
 
     @Override
     public void load() {
+        final LinkedHashMap<String, Boolean> dummyItems1 = new LinkedHashMap<>();
+        dummyItems1.put("Eggs", true);
+        dummyItems1.put("Milk", false);
+        dummyItems1.put("Bread", false);
+
         if (sUser != null) {
             String initial = (sUser.getDisplayName() != null && !sUser.getDisplayName().isEmpty())
                     ? sUser.getDisplayName() : sUser.getEmail();
@@ -63,6 +69,10 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                 @Override
                 public void onResult(boolean success, Exception exception, List<Store> stores) {
                     if (success) {
+                        for (Store store: stores
+                        ) {
+                            store.setItems(dummyItems1);
+                        }
                         mView.displayStores(stores);
                     } else {
                         mView.showError();

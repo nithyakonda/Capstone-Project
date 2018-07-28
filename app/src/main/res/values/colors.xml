@@ -13,6 +13,7 @@
     <color name="colorValidText">@android:color/holo_green_dark</color>
 
     <color name="background">@android:color/white</color>
+    <color name="cardBackground">#eeeeee</color>
     <color name="scrimStart">#CC4D343E</color>
     <color name="scrimEnd">#F24D343E</color>
     <color name="scrimPrimaryStart">#CCFC415D</color>

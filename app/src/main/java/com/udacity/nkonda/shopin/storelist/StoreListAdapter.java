@@ -1,15 +1,17 @@
 package com.udacity.nkonda.shopin.storelist;
 
 import android.content.Context;
-import android.graphics.Rect;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
@@ -17,13 +19,14 @@ import com.udacity.nkonda.shopin.data.Store;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.StoreListViewHolder> {
     private Context mContext;
-    private List<Store> mStores; // TODO: 7/22/18 consider making it a Set
+    private List<Store> mStores = new ArrayList<>(); // TODO: 7/22/18 consider making it a Set
     private OnItemSelectedListener mOnItemSelectedListener;
 
     public void setStores(List<Store> stores) {
@@ -45,7 +48,8 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
     public StoreListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.layout_store_list_item, parent, false);
+                .inflate(R.layout.layout_store_list_item, null, false);
+        view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         return new StoreListViewHolder(view);
     }
 
@@ -65,8 +69,8 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
         @BindView(R.id.tv_store_name)
         TextView mStoreNameView;
 
-        @BindView(R.id.lv_item_list)
-        ListView mItemListView;
+        @BindView(R.id.item_list_container)
+        LinearLayout mItemListContainer;
 
         private List<String> mItems = new ArrayList<>();
 
@@ -80,16 +84,20 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
             if (store.getItems() != null) {
                 mItems = new ArrayList<>(store.getItems().keySet());
             }
-            mStoreNameView.setText(store.getName());
-            mItemListView.setAdapter(new ArrayAdapter<String>(context,
-                    R.layout.layout_item_list_item,
-                    mItems));
-            mItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    mOnItemSelectedListener.onItemSelected(mItems.get(position));
-                }
-            });
+            mStoreNameView.setText(store.getName()); // TODO: 7/28/18 if name is null, coordinates are displayed
+            for (Map.Entry<String, Boolean> item : store.getItems().entrySet()) {
+                final CheckBox itemView = new CheckBox(context);
+                itemView.setText(item.getKey());
+                itemView.setChecked(item.getValue());
+
+                itemView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        mOnItemSelectedListener.onItemSelected(itemView.getText().toString(), itemView.isChecked());
+                    }
+                });
+                mItemListContainer.addView(itemView);
+            }
         }
 
         @Override
@@ -101,6 +109,6 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
 
     public interface OnItemSelectedListener {
         public void onStoreSelected(Store store);
-        public void onItemSelected(String item);
+        public void onItemSelected(String item, boolean status);
     }
 }
