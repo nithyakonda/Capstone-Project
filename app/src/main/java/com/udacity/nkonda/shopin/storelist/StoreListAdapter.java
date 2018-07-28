@@ -1,6 +1,7 @@
 package com.udacity.nkonda.shopin.storelist;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,7 +32,6 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
     }
 
     public void addStore(Store store) {
-        mStores = new ArrayList<>(); // TODO: 7/22/18 remove 
         mStores.add(store);
         notifyItemInserted(mStores.size() - 1);
     }

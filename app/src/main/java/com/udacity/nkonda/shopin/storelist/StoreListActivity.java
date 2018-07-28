@@ -114,6 +114,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         });
         mStoreListView.setLayoutManager(layoutManager);
         mStoreListView.setAdapter(mStoreListAdapter);
+        mStoreListView.addItemDecoration(new StoreListItemDecoration(16));
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -196,7 +197,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                 Store newStore = new Store(place.getId(),
                         place.getName().toString(),
                         place.getAddress().toString(),
-                        place.getLatLng());
+                        new Store.Coordinates(place.getLatLng()));
 
                 mPresenter.addNewStoreAndCreateGeofence(newStore);
             } else {

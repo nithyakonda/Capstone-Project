@@ -7,6 +7,8 @@ import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
 import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
 
+import java.util.List;
+
 public class StoreListPresenter implements StoreListContract.Presenter {
     private static final String TAG = StoreListPresenter.class.getSimpleName();
     private static User sUser;
@@ -57,8 +59,16 @@ public class StoreListPresenter implements StoreListContract.Presenter {
             String initial = (sUser.getDisplayName() != null && !sUser.getDisplayName().isEmpty())
                     ? sUser.getDisplayName() : sUser.getEmail();
             mView.setupToolbar(initial.substring(0, 1).toUpperCase(), sUser.getDisplayPicture());
-            // TODO: 7/22/18 get stores from DB
-//            mView.displayStores(0);
+            ShopinDatabase.getInstance().getStores(sUser.getUid(), new ShopinDatabaseContract.GetStoresCallback() {
+                @Override
+                public void onResult(boolean success, Exception exception, List<Store> stores) {
+                    if (success) {
+                        mView.displayStores(stores);
+                    } else {
+                        mView.showError();
+                    }
+                }
+            });
         } else {
             mView.showError();
         }
