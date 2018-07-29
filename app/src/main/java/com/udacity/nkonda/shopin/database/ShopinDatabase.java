@@ -32,7 +32,7 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     }
 
     @Override
-    public void addUser(User user, final AddUserCallback callback) {
+    public void addUser(User user, final OnCompletionCallback callback) {
         mUsersRef.child(user.getUid()).child("email").setValue(user.getEmail())
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -43,7 +43,7 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     }
 
     @Override
-    public void addStore(String uid, Store store, final AddStoreCallback callback) {
+    public void addStore(String uid, Store store, final OnCompletionCallback callback) {
         DatabaseReference storesRef = mUsersRef.child(uid).child("stores");
         storesRef.child(store.getId()).setValue(store)
             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -52,6 +52,20 @@ public class ShopinDatabase implements ShopinDatabaseContract {
                     callback.onResult(task.isSuccessful(), task.getException());
                 }
             });
+    }
+
+    @Override
+    public void deleteStore(String uid, String storeId, final OnCompletionCallback callback) {
+        // TODO: 7/28/18 set uid in constructor instead of passing it
+        DatabaseReference storeRef = mUsersRef.child(uid).child("stores").child(storeId);
+        storeRef.removeValue()
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onResult(task.isSuccessful(), task.getException());
+                }
+            });
+
     }
 
     @Override

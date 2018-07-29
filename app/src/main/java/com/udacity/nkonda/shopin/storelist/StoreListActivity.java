@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -108,7 +109,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(numberOfColumns(),
                 StaggeredGridLayoutManager.VERTICAL);
         mStoreListAdapter = new StoreListAdapter();
-        mStoreListAdapter.setOnItemSelectedListener(new StoreListAdapter.OnItemSelectedListener() {
+        mStoreListAdapter.setOnStoreStatusChangedListener(new StoreListAdapter.OnStoreStatusChangedListener() {
             @Override
             public void onStoreSelected(Store store) {
                 // TODO: 7/22/18 show ItemListActivity
@@ -116,11 +117,21 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             }
 
             @Override
-            public void onItemSelected(String item, boolean status) {
+            public void onStoreDeleted(String storeId) {
+                mPresenter.deleteStore(storeId);
+            }
+
+            @Override
+            public void onItemUpdated(String item, boolean status) {
                 // TODO: 7/22/18 save item selection status
                 UiUtils.showToast(StoreListActivity.this, "Selected " + item);
             }
         });
+        ItemTouchHelper.Callback callback =
+                new StoreListAdapter.StoreListItemTouchHelperCallback(mStoreListAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+
+        touchHelper.attachToRecyclerView(mStoreListView);
         mStoreListView.setLayoutManager(layoutManager);
         mStoreListView.setAdapter(mStoreListAdapter);
         mStoreListView.addItemDecoration(new StoreListItemDecoration(16));

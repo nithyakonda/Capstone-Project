@@ -1,11 +1,10 @@
 package com.udacity.nkonda.shopin.storelist;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ import butterknife.ButterKnife;
 public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.StoreListViewHolder> {
     private Context mContext;
     private List<Store> mStores = new ArrayList<>(); // TODO: 7/22/18 consider making it a Set
-    private OnItemSelectedListener mOnItemSelectedListener;
+    private OnStoreStatusChangedListener mOnStoreStatusChangedListener;
 
     public void setStores(List<Store> stores) {
         mStores = stores;
@@ -39,8 +38,14 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
         notifyItemInserted(mStores.size() - 1);
     }
 
-    public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
-        mOnItemSelectedListener = onItemSelectedListener;
+    public void setOnStoreStatusChangedListener(OnStoreStatusChangedListener onStoreStatusChangedListener) {
+        mOnStoreStatusChangedListener = onStoreStatusChangedListener;
+    }
+
+    void onItemDismiss(int position) {
+        mOnStoreStatusChangedListener.onStoreDeleted(mStores.get(position).getId());
+        mStores.remove(position);
+        notifyItemRemoved(position);
     }
 
     @NonNull
@@ -93,7 +98,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
                 itemView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        mOnItemSelectedListener.onItemSelected(itemView.getText().toString(), itemView.isChecked());
+                        mOnStoreStatusChangedListener.onItemUpdated(itemView.getText().toString(), itemView.isChecked());
                     }
                 });
                 mItemListContainer.addView(itemView);
@@ -103,12 +108,50 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
         @Override
         public void onClick(View v) {
             Store selectedStore = mStores.get(getAdapterPosition());
-            mOnItemSelectedListener.onStoreSelected(selectedStore);
+            mOnStoreStatusChangedListener.onStoreSelected(selectedStore);
         }
     }
 
-    public interface OnItemSelectedListener {
+    public static class StoreListItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        private final StoreListAdapter mAdapter;
+
+        public StoreListItemTouchHelperCallback(StoreListAdapter adapter) {
+            mAdapter = adapter;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, ViewHolder viewHolder) {
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(0, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, ViewHolder viewHolder,
+                ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(ViewHolder viewHolder, int direction) {
+            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        }
+
+    }
+
+    public interface OnStoreStatusChangedListener {
         public void onStoreSelected(Store store);
-        public void onItemSelected(String item, boolean status);
+        public void onStoreDeleted(String storeId);
+        public void onItemUpdated(String item, boolean status);
     }
 }

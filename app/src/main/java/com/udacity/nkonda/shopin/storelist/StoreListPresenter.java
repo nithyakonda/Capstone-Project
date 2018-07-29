@@ -15,9 +15,11 @@ public class StoreListPresenter implements StoreListContract.Presenter {
     private static User sUser;
 
     private StoreListContract.View mView;
+    private ShopinDatabase mDatabase;
 
     public StoreListPresenter(StoreListContract.View view) {
         mView = view;
+        mDatabase = ShopinDatabase.getInstance();
     }
 
     @Override
@@ -40,7 +42,7 @@ public class StoreListPresenter implements StoreListContract.Presenter {
             // TODO: 7/21/18 handle null
             return;
         }
-        ShopinDatabase.getInstance().addStore(sUser.getUid(), store, new ShopinDatabaseContract.AddStoreCallback() {
+        mDatabase.addStore(sUser.getUid(), store, new ShopinDatabaseContract.OnCompletionCallback() {
             @Override
             public void onResult(boolean success, Exception exception) {
                 if (success) {
@@ -50,6 +52,16 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                     Log.e(TAG, "addNewStoreAndCreateGeofence:: add store to database failed:: " + exception);
                     // TODO: 7/21/18 handle error
                 }
+            }
+        });
+    }
+
+    @Override
+    public void deleteStore(final String storeId) {
+        mDatabase.deleteStore(sUser.getUid(), storeId, new ShopinDatabaseContract.OnCompletionCallback() {
+            @Override
+            public void onResult(boolean success, Exception exception) {
+                Log.i(TAG, "deleteStore " + storeId + (success ? " success" : " failed"));
             }
         });
     }
@@ -65,7 +77,7 @@ public class StoreListPresenter implements StoreListContract.Presenter {
             String initial = (sUser.getDisplayName() != null && !sUser.getDisplayName().isEmpty())
                     ? sUser.getDisplayName() : sUser.getEmail();
             mView.setupToolbar(initial.substring(0, 1).toUpperCase(), sUser.getDisplayPicture());
-            ShopinDatabase.getInstance().getStores(sUser.getUid(), new ShopinDatabaseContract.GetStoresCallback() {
+            mDatabase.getStores(sUser.getUid(), new ShopinDatabaseContract.GetStoresCallback() {
                 @Override
                 public void onResult(boolean success, Exception exception, List<Store> stores) {
                     if (success) {

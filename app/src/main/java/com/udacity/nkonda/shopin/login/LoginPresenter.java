@@ -66,7 +66,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                             Log.d(TAG, "Register: Success");
                             if (getCurrentUser() != null) {
                                 ShopinDatabase.getInstance().addUser(mUser,
-                                        new ShopinDatabaseContract.AddUserCallback() {
+                                        new ShopinDatabaseContract.OnCompletionCallback() {
                                     @Override
                                     public void onResult(boolean success, Exception exception) {
                                         if (success) {

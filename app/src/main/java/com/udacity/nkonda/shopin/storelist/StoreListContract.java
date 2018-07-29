@@ -19,6 +19,7 @@ public interface StoreListContract {
     interface Presenter extends BasePresenter<StoreListState> {
         void load();
         void addNewStoreAndCreateGeofence(Store store);
+        void deleteStore(String storeId);
     }
 
     interface State extends BaseState {
