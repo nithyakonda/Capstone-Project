@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.github.abdularis.civ.AvatarImageView;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -65,8 +66,16 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     @BindView(R.id.fab_add_store)
     FloatingActionButton mAddStoreBtn;
 
-    @BindView(R.id.view_no_stores)
-    View mNoStoresView;
+    @BindView(R.id.action_container)
+    View mActionContainer;
+
+    @BindView(R.id.loading_stores_progress)
+    @Nullable
+    ProgressBar mProgress;
+
+    @BindView(R.id.no_stores_view)
+    @Nullable
+    View mNoStoresIcon;
 
     @BindView(R.id.store_list_container)
     @Nullable
@@ -252,19 +261,21 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     @Override
     public void displayStores(List<Store> stores) {
         if (stores.size() == 0) {
-            mNoStoresView.setVisibility(View.VISIBLE);
+            mActionContainer.setVisibility(View.VISIBLE);
+            mProgress.setVisibility(View.INVISIBLE);
+            mNoStoresIcon.setVisibility(View.VISIBLE);
             mStoreListContainer.setVisibility(View.INVISIBLE);
             return;
         }
-        mNoStoresView.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
+        mActionContainer.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
         mStoreListContainer.setVisibility(View.VISIBLE);
         mStoreListAdapter.setStores(stores);
     }
 
     @Override
     public void displayNewStore(Store store) {
-        if (mNoStoresView.getVisibility() == View.VISIBLE) {
-            mNoStoresView.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
+        if (mActionContainer.getVisibility() == View.VISIBLE) {
+            mActionContainer.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
             mStoreListContainer.setVisibility(View.VISIBLE);
         }
         mStoreListAdapter.addStore(store);

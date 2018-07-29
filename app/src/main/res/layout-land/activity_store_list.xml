@@ -42,7 +42,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        android:id="@+id/view_no_stores"
+        android:id="@+id/action_container"
         android:layout_width="@dimen/logo_width_small"
         android:layout_height="@dimen/logo_height_small"
         layout="@layout/view_add_store_icon"
