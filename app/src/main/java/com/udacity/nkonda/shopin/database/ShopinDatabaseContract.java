@@ -14,8 +14,13 @@ public interface ShopinDatabaseContract {
         void onResult(boolean success, Exception exception, List<Store> stores);
     }
 
+    interface GetStoreCallback {
+        void onResult(boolean success, Exception exception, Store store);
+    }
+
     void addUser(User user, OnCompletionCallback callback);
     void addStore(String uid, Store store, OnCompletionCallback callback);
     void deleteStore(String uid, String storeId, OnCompletionCallback callback);
     void getStores(String uid, GetStoresCallback callback);
+    void getStore(String uid, String storeID, GetStoreCallback callback);
 }

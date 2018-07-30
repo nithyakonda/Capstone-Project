@@ -37,6 +37,7 @@
     <string name="btn_update_profile_text">Update</string>
     <string name="btn_logout_content_desc">Logout</string>
     <string name="btn_logout_text">Logout</string>
+    <string name="transition_name_logo">logo_anim</string>
 
     <!-- Error messages -->
     <string name="error_invalid_login_credentials_exception" translatable="true">Email or password is invalid.</string>
@@ -49,10 +50,13 @@
     <string name="dialog_msg_reset_email_sent" translatable="true">We sent you an email with instructions on how to reset your password.</string>
     <string name="dialog_title_default_error" translatable="true">Oops</string>
     <string name="dialog_msg_default_error" translatable="true">Something went wrong. Please try again later!</string>
+    <string name="str_title_store_list_activity" translatable="true">Your Stores</string>
+    <string name="dialog_message_add_store_failed" translatable="true">Unable to add store. Please ensure you have internet access and location services enabled</string>
 
     <!-- Common Actions -->
     <string name="action_ok" translatable="true">OK</string>
-    <string name="str_title_store_list_activity">Your Stores</string>
-    <string name="transition_name_logo">logo_anim</string>
+
+    <!-- Notification -->
+    <string name="message_notification">You have some items to buy from %1$s</string>
 
 </resources>

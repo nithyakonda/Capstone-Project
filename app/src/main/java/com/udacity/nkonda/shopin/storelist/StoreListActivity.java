@@ -104,7 +104,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         } else {
             mState = new StoreListState((User) savedInstanceState.getParcelable(ARG_USER));
         }
-        mPresenter = new StoreListPresenter(this);
+        mPresenter = new StoreListPresenter(this, this);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(numberOfColumns(),
                 StaggeredGridLayoutManager.VERTICAL);
@@ -219,7 +219,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                         place.getAddress().toString(),
                         new Store.Coordinates(place.getLatLng()));
 
-                mPresenter.addNewStoreAndCreateGeofence(newStore);
+                mPresenter.addNewStoreAndCreateGeofence(mGeofencingClient, newStore);
             } else {
                 Log.e(TAG, "onActivityResult::error::resultCode" + resultCode);
                 UiUtils.showDefaultError(this);

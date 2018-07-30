@@ -90,4 +90,21 @@ public class ShopinDatabase implements ShopinDatabaseContract {
             }
         });
     }
+
+    @Override
+    public void getStore(String uid, String storeID, final GetStoreCallback callback) {
+        final DatabaseReference storeRef = mUsersRef.child(uid).child("stores").child(storeID);
+        storeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Store store = dataSnapshot.getValue(Store.class);
+                callback.onResult(true, null, store);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onResult(false, databaseError.toException(), null);
+            }
+        });
+    }
 }

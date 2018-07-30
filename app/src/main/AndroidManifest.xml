@@ -36,6 +36,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key_google_places"/>
 
+        <service
+            android:name=".geofence.GeofenceTransitionsIntentService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

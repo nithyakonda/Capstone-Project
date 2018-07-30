@@ -2,6 +2,7 @@ package com.udacity.nkonda.shopin.storelist;
 
 import android.net.Uri;
 
+import com.google.android.gms.location.GeofencingClient;
 import com.udacity.nkonda.shopin.base.BasePresenter;
 import com.udacity.nkonda.shopin.base.BaseState;
 import com.udacity.nkonda.shopin.base.BaseView;
@@ -18,7 +19,7 @@ public interface StoreListContract {
 
     interface Presenter extends BasePresenter<StoreListState> {
         void load();
-        void addNewStoreAndCreateGeofence(Store store);
+        void addNewStoreAndCreateGeofence(GeofencingClient geofencingClient, Store store);
         void deleteStore(String storeId);
     }
 
