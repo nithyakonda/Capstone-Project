@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        layout="@layout/view_toolbar_background"/>
+
+    <TextView
+        android:id="@+id/tv_store_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead.Inverse"
+        android:textColor="@color/colorSecondaryTextInverse"
+        android:maxLines="1"
+        android:autoSizeTextType="uniform"
+        tools:text="101 Orange St, Boston MA"/>
+</android.support.constraint.ConstraintLayout>

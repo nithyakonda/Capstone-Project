@@ -13,6 +13,7 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.udacity.nkonda.shopin.R;
+import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
@@ -102,10 +103,10 @@ public class StoreListPresenter implements StoreListContract.Presenter {
 
     @Override
     public void load() {
-        final LinkedHashMap<String, Boolean> dummyItems1 = new LinkedHashMap<>();
-        dummyItems1.put("Eggs", true);
-        dummyItems1.put("Milk", false);
-        dummyItems1.put("Bread", false);
+        final ArrayList<Item> dummyItems1 = new ArrayList<>();
+        dummyItems1.add(new Item("Eggs", true));
+        dummyItems1.add(new Item("Milk", false));
+        dummyItems1.add(new Item("Bread", false));
 
         if (sUser != null) {
             String initial = (sUser.getDisplayName() != null && !sUser.getDisplayName().isEmpty())

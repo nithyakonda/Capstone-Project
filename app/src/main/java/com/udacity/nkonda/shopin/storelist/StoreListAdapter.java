@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
+import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
         @BindView(R.id.item_list_container)
         LinearLayout mItemListContainer;
 
-        private List<String> mItems = new ArrayList<>();
+        private List<Item> mItems = new ArrayList<>();
 
         public StoreListViewHolder(View itemView) {
             super(itemView);
@@ -87,13 +88,13 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
 
         void bind(Context context, final Store store) {
             if (store.getItems() != null) {
-                mItems = new ArrayList<>(store.getItems().keySet());
+                mItems = store.getItems();
             }
             mStoreNameView.setText(store.getName()); // TODO: 7/28/18 if name is null, coordinates are displayed
-            for (Map.Entry<String, Boolean> item : store.getItems().entrySet()) {
+            for (Item item : mItems) {
                 final CheckBox itemView = new CheckBox(context);
-                itemView.setText(item.getKey());
-                itemView.setChecked(item.getValue());
+                itemView.setText(item.getName());
+                itemView.setChecked(item.getStatus());
 
                 itemView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override

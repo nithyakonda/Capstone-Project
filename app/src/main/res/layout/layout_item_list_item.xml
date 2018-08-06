@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:minHeight="?android:listPreferredItemHeight"
+             android:layout_height="wrap_content">
+    <include
+        android:id="@+id/add_item_container"
+        layout="@layout/layout_item_list_add_item"
+        android:visibility="invisible"/>
+    <include
+        android:id="@+id/edit_item_container"
+        layout="@layout/layout_item_list_edit_item"/>
+</FrameLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:minHeight="?android:listPreferredItemHeight">
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" />
+    <CheckBox
+        android:id="@+id/cb_item_status"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingEnd="16dp"/>
+
+    <EditText
+        android:id="@+id/et_edit_item"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:maxLines="1"
+        tools:text="Eggs"/>
+
+    <ImageButton
+        android:id="@+id/btn_delete_item"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/ic_delete"
+        android:visibility="gone"/>
+</LinearLayout>

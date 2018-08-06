@@ -40,6 +40,12 @@
             android:name=".geofence.GeofenceTransitionsIntentService"
             android:exported="false">
         </service>
+
+        <activity android:name=".itemlist.ItemListActivity"
+            android:parentActivityName=".storelist.StoreListActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".storelist.StoreListActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.udacity.nkonda.shopin.data;
 
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Store {
@@ -8,7 +9,7 @@ public class Store {
     private String mName;
     private String mAddress;
     private Coordinates mCoordinates;
-    private LinkedHashMap<String, Boolean> items;
+    private ArrayList<Item> mItems;
 
     public Store() {
     }
@@ -36,8 +37,8 @@ public class Store {
         mCoordinates = coordinates;
     }
 
-    public void setItems(LinkedHashMap<String, Boolean> items) {
-        this.items = items;
+    public void setItems(ArrayList<Item> items) {
+        this.mItems = items;
     }
 
     public String getId() {
@@ -56,8 +57,8 @@ public class Store {
         return mCoordinates;
     }
 
-    public LinkedHashMap<String, Boolean> getItems() {
-        return items;
+    public ArrayList<Item> getItems() {
+        return mItems;
     }
 
     public static class Coordinates {
