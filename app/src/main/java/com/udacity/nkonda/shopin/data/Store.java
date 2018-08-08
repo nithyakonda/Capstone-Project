@@ -2,14 +2,17 @@ package com.udacity.nkonda.shopin.data;
 
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Store {
     private String mId;
     private String mName;
     private String mAddress;
     private Coordinates mCoordinates;
-    private ArrayList<Item> mItems;
+//    private List<Item> mItems;
+    private Map<String,Item> mItems;
 
     public Store() {
     }
@@ -19,6 +22,15 @@ public class Store {
         mName = name;
         mAddress = address;
         mCoordinates = coordinates;
+        mItems = new HashMap<>();
+    }
+
+    public Store(String id, String name, String address, Coordinates coordinates, Map<String, Item> items) {
+        mId = id;
+        mName = name;
+        mAddress = address;
+        mCoordinates = coordinates;
+        mItems = items;
     }
 
     public void setId(String id) {
@@ -37,8 +49,15 @@ public class Store {
         mCoordinates = coordinates;
     }
 
-    public void setItems(ArrayList<Item> items) {
-        this.mItems = items;
+    public void setItems(Map<String, Item> items) {
+        mItems = items;
+    }
+
+    public void setItems(List<Item> items) {
+        mItems.clear();
+        for (Item item : items) {
+            mItems.put(item.getId(), item);
+        }
     }
 
     public String getId() {
@@ -57,8 +76,12 @@ public class Store {
         return mCoordinates;
     }
 
-    public ArrayList<Item> getItems() {
-        return mItems;
+    public List<Item> getItems() {
+        ArrayList<Item> items = new ArrayList<>();
+        if (mItems != null) {
+            items =  new ArrayList<Item>(mItems.values());
+        }
+        return items;
     }
 
     public static class Coordinates {

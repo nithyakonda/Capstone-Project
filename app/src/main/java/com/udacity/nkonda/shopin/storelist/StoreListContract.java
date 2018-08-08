@@ -14,7 +14,7 @@ public interface StoreListContract {
     interface View extends BaseView {
         void setupToolbar(String initials, Uri photoUrl);
         void displayStores(List<Store> stores);
-        void displayNewStore(Store store);
+        void addItems(Store store);
     }
 
     interface Presenter extends BasePresenter<StoreListState> {

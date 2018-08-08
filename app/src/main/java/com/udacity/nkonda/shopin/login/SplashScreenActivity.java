@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.google.firebase.auth.FirebaseUser;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
+import com.udacity.nkonda.shopin.database.ShopinDatabase;
 import com.udacity.nkonda.shopin.itemlist.ItemListActivity;
 import com.udacity.nkonda.shopin.storelist.StoreListActivity;
 import com.udacity.nkonda.shopin.util.FirebaseUtils;
@@ -52,8 +53,9 @@ public class SplashScreenActivity extends BaseActivity {
                     currentUserLoggedIn = currentUser != null;
                 }
                 if (currentUserLoggedIn) {
-                    intent.setClass(SplashScreenActivity.this, ItemListActivity.class);
-//                    intent.putExtra(StoreListActivity.ARG_USER, FirebaseUtils.getUser(currentUser));
+                    ShopinDatabase.getInstance().initialize(currentUser.getUid());
+                    intent.setClass(SplashScreenActivity.this, StoreListActivity.class);
+                    intent.putExtra(StoreListActivity.ARG_USER, FirebaseUtils.getUser(currentUser));
                     startActivity(intent);
                 } else {
                     intent.setClass(SplashScreenActivity.this, LoginActivity.class);

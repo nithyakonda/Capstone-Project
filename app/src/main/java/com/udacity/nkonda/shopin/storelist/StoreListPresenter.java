@@ -13,7 +13,6 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.udacity.nkonda.shopin.R;
-import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
@@ -21,7 +20,6 @@ import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
 import com.udacity.nkonda.shopin.geofence.GeofenceTransitionsIntentService;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class StoreListPresenter implements StoreListContract.Presenter {
@@ -71,7 +69,7 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.i(TAG, "addNewStoreAndCreateGeofence:: add geofence success, for store id " + store.getId());
-                                    mView.displayNewStore(store); // TODO: 7/29/18 navigate to itemslist activity
+                                    mView.addItems(store); // TODO: 7/29/18 navigate to itemslist activity
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -103,11 +101,6 @@ public class StoreListPresenter implements StoreListContract.Presenter {
 
     @Override
     public void load() {
-        final ArrayList<Item> dummyItems1 = new ArrayList<>();
-        dummyItems1.add(new Item("Eggs", true));
-        dummyItems1.add(new Item("Milk", false));
-        dummyItems1.add(new Item("Bread", false));
-
         if (sUser != null) {
             String initial = (sUser.getDisplayName() != null && !sUser.getDisplayName().isEmpty())
                     ? sUser.getDisplayName() : sUser.getEmail();
@@ -116,10 +109,6 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                 @Override
                 public void onResult(boolean success, Exception exception, List<Store> stores) {
                     if (success) {
-                        for (Store store: stores
-                        ) {
-                            store.setItems(dummyItems1);
-                        }
                         mView.displayStores(stores);
                     } else {
                         mView.showError();

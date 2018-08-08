@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,20 +19,38 @@ import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.Item;
+import com.udacity.nkonda.shopin.data.Store;
+import com.udacity.nkonda.shopin.database.ShopinDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemListViewHolder>{
     private static final String PLACEHOLDER_ITEM_NAME = "PLACEHOLDER_ITEM_NAME";
-    private ArrayList<Item> mItems;
     private Context mContext;
 
-    public void setItems(ArrayList<Item> items) {
+    private List<Item> mItems;
+    private String mStoreId;
+    private OnItemUpdateListener mOnItemUpdateListener;
+
+    public ItemListAdapter(String storeId, OnItemUpdateListener onItemUpdateListener) {
+        mStoreId = storeId;
+        mOnItemUpdateListener = onItemUpdateListener;
+    }
+
+    public void setItems(List<Item> items) {
         mItems = items;
         mItems.add(new Item(PLACEHOLDER_ITEM_NAME, false));
+        notifyDataSetChanged();
+    }
+
+    public interface OnItemUpdateListener {
+        void onItemAdded(Item item);
+        void onItemEdited(Item item);
+        void onItemDeleted(Item item);
     }
 
     @NonNull
@@ -123,7 +140,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (v.getId() == R.id.et_add_item) {
                     int insertPos = mItems.size() - 1; // because last one is a placeholder
-                    addNewItem(insertPos);
+                    addItem(insertPos);
                 } else if (v.getId() == R.id.et_edit_item) {
                     mDeleteItemBtn.setVisibility(View.VISIBLE);
                 }
@@ -135,8 +152,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         public void onClick(View v) {
             int pos = getAdapterPosition();
             if (v.getId() == R.id.btn_delete_item) {
+                Item item = mItems.get(pos);
                 mItems.remove(pos);
                 notifyItemRemoved(pos);
+                mOnItemUpdateListener.onItemDeleted(item);
             }
         }
 
@@ -166,8 +185,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
                             event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 if (event == null || !event.isShiftPressed()) {
                     int pos = getAdapterPosition();
-                    editItem((EditText) v);
-                    addNewItem(pos + 1);
+                    editItem((EditText) v); // TODO: 8/6/18 can remove this? because this is called again on focus change
+                    addItem(pos + 1);
                     return true;
                 }
             }
@@ -184,16 +203,20 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
             mAddItemContainer.setVisibility(View.INVISIBLE);
         }
 
-        private void addNewItem(int pos) {
-            mItems.add(pos, new Item("", false));
+        private void addItem(int pos) {
+            String itemId = ShopinDatabase.getInstance().getNewItemId(mStoreId);
+            Item item = new Item(itemId);
+            mItems.add(pos, item);
             // itemCount = from changed pos until end of list
             notifyItemRangeChanged(pos, mItems.size() - pos);
+//            mOnItemUpdateListener.onItemAdded(item);
         }
 
         private void editItem(EditText v) {
             int pos = getAdapterPosition();
             if (pos >= 0 && mItems.get(pos).getName() != PLACEHOLDER_ITEM_NAME) {
                 mItems.get(pos).setName(v.getText().toString());
+                mOnItemUpdateListener.onItemEdited(mItems.get(pos));
             }
         }
     }

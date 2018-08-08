@@ -34,6 +34,7 @@ import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
+import com.udacity.nkonda.shopin.itemlist.ItemListActivity;
 import com.udacity.nkonda.shopin.login.LoginActivity;
 import com.udacity.nkonda.shopin.util.UiUtils;
 
@@ -114,6 +115,9 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             public void onStoreSelected(Store store) {
                 // TODO: 7/22/18 show ItemListActivity
                 UiUtils.showToast(StoreListActivity.this, "Selected " + store.getName());
+                Intent intent = new Intent(StoreListActivity.this, ItemListActivity.class);
+                intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
+                startActivity(intent);
             }
 
             @Override
@@ -284,12 +288,15 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     }
 
     @Override
-    public void displayNewStore(Store store) {
-        if (mActionContainer.getVisibility() == View.VISIBLE) {
-            mActionContainer.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
-            mStoreListContainer.setVisibility(View.VISIBLE);
-        }
-        mStoreListAdapter.addStore(store);
+    public void addItems(Store store) {
+        Intent intent = new Intent(this, ItemListActivity.class);
+        intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
+        startActivity(intent);
+//        if (mActionContainer.getVisibility() == View.VISIBLE) {
+//            mActionContainer.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
+//            mStoreListContainer.setVisibility(View.VISIBLE);
+//        }
+//        mStoreListAdapter.addStore(store);
         UiUtils.showToast(this, "Added " + store.getName());
     }
 
@@ -314,6 +321,9 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         } catch (IOException e) {
             e.printStackTrace();
             UiUtils.showDefaultError(this);
+        } catch (SecurityException e) {
+            // TODO: 8/6/18 handle this, avatar image will not be displayed
+            e.printStackTrace();
         }
     }
 

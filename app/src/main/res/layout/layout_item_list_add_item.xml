@@ -4,6 +4,11 @@
               android:layout_height="wrap_content"
               android:minHeight="?android:listPreferredItemHeight"
               android:orientation="horizontal">
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

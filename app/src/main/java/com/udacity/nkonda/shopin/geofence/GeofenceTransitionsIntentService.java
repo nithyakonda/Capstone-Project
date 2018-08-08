@@ -2,7 +2,6 @@ package com.udacity.nkonda.shopin.geofence;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
@@ -62,7 +61,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
     private void sendNotification(List<Geofence> triggeringGeofences) {
         if (triggeringGeofences.size() == 1) {
-            ShopinDatabase.getInstance().getStore(mUid, triggeringGeofences.get(0).getRequestId(), new ShopinDatabaseContract.GetStoreCallback() {
+            ShopinDatabase.getInstance().getStore(triggeringGeofences.get(0).getRequestId(), new ShopinDatabaseContract.GetStoreCallback() {
                 @Override
                 public void onResult(boolean success, Exception exception, Store store) {
                     if(success) {

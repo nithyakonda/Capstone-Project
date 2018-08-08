@@ -10,17 +10,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ShopinDatabase implements ShopinDatabaseContract {
     private static final String TAG = ShopinDatabase.class.getSimpleName();
     private static ShopinDatabase sInstance;
+    private String mUid;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mUsersRef = mDatabase.getReference("users");
+    private DatabaseReference mStoresRef;
 
     private ShopinDatabase(){};
 
@@ -29,6 +34,16 @@ public class ShopinDatabase implements ShopinDatabaseContract {
             sInstance = new ShopinDatabase();
         }
         return sInstance;
+    }
+
+    public String getNewItemId(String storeId) {
+        final DatabaseReference itemsRef = mStoresRef.child(storeId).child("items");
+        return itemsRef.push().getKey();
+    }
+
+    public void initialize(String uid) {
+        mUid = uid;
+        mStoresRef = mUsersRef.child(uid).child("stores");
     }
 
     @Override
@@ -84,7 +99,7 @@ public class ShopinDatabase implements ShopinDatabaseContract {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                Log.w(TAG, "getStores:onCancelled", databaseError.toException());
                 callback.onResult(false, databaseError.toException(), null);
                 storesRef.removeEventListener(this);
             }
@@ -92,8 +107,8 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     }
 
     @Override
-    public void getStore(String uid, String storeID, final GetStoreCallback callback) {
-        final DatabaseReference storeRef = mUsersRef.child(uid).child("stores").child(storeID);
+    public void getStore(String storeID, final GetStoreCallback callback) {
+        final DatabaseReference storeRef = mUsersRef.child(mUid).child("stores").child(storeID);
         storeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,5 +121,52 @@ public class ShopinDatabase implements ShopinDatabaseContract {
                 callback.onResult(false, databaseError.toException(), null);
             }
         });
+    }
+
+    @Override
+    public void getItems(String storeId, final GetItemsCallback callback) {
+        final List<Item> items = new ArrayList<>();
+        final DatabaseReference itemsRef = mStoresRef.child(storeId).child("items");
+        itemsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot itemShapShot : dataSnapshot.getChildren()) {
+                    items.add(itemShapShot.getValue(Item.class));
+                }
+                callback.onResult(true, null, items);
+                itemsRef.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "getItems:onCancelled", databaseError.toException());
+                callback.onResult(false, databaseError.toException(), null);
+                itemsRef.removeEventListener(this);
+            }
+        });
+    }
+
+    @Override
+    public void deleteItem(String storeId, String itemId, final OnCompletionCallback callback) {
+        final DatabaseReference itemsRef = mStoresRef.child(storeId).child("items").child(itemId);
+        itemsRef.removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        callback.onResult(task.isSuccessful(), task.getException());
+                    }
+                });
+    }
+
+    @Override
+    public void editItem(String storeId, Item item, final OnCompletionCallback callback) {
+        final DatabaseReference itemsRef = mStoresRef.child(storeId).child("items").child(item.getId());
+        itemsRef.setValue(item)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        callback.onResult(task.isSuccessful(), task.getException());
+                    }
+                });
     }
 }
