@@ -43,7 +43,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
     public void setItems(List<Item> items) {
         mItems = items;
-        mItems.add(new Item(PLACEHOLDER_ITEM_NAME, false));
+        mItems.add(new Item("", PLACEHOLDER_ITEM_NAME, false));
         notifyDataSetChanged();
     }
 
@@ -174,6 +174,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int pos = getAdapterPosition();
             mItems.get(pos).setStatus(isChecked);
+            mOnItemUpdateListener.onItemEdited(mItems.get(pos));
         }
 
         @Override

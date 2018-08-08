@@ -53,13 +53,6 @@ public class Store {
         mItems = items;
     }
 
-    public void setItems(List<Item> items) {
-        mItems.clear();
-        for (Item item : items) {
-            mItems.put(item.getId(), item);
-        }
-    }
-
     public String getId() {
         return mId;
     }

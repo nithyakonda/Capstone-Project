@@ -8,7 +8,8 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, boolean status) {
+    public Item(String id, String name, boolean status) {
+        mId = id;
         mName = name;
         mStatus = status;
     }

@@ -6,6 +6,7 @@ import com.google.android.gms.location.GeofencingClient;
 import com.udacity.nkonda.shopin.base.BasePresenter;
 import com.udacity.nkonda.shopin.base.BaseState;
 import com.udacity.nkonda.shopin.base.BaseView;
+import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public interface StoreListContract {
         void load();
         void addNewStoreAndCreateGeofence(GeofencingClient geofencingClient, Store store);
         void deleteStore(String storeId);
+        void editItem(String storeId, Item item);
     }
 
     interface State extends BaseState {

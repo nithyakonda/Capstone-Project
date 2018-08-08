@@ -32,6 +32,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
+import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.itemlist.ItemListActivity;
@@ -126,9 +127,8 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             }
 
             @Override
-            public void onItemUpdated(String item, boolean status) {
-                // TODO: 7/22/18 save item selection status
-                UiUtils.showToast(StoreListActivity.this, "Selected " + item);
+            public void onItemEdited(String storeId, Item item) {
+                mPresenter.editItem(storeId, item);
             }
         });
         ItemTouchHelper.Callback callback =

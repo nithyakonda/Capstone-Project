@@ -19,7 +19,6 @@ import com.udacity.nkonda.shopin.data.Store;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,15 +90,20 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
                 mItems = store.getItems();
             }
             mStoreNameView.setText(store.getName()); // TODO: 7/28/18 if name is null, coordinates are displayed
+            mItemListContainer.removeAllViews();
             for (Item item : mItems) {
                 final CheckBox itemView = new CheckBox(context);
                 itemView.setText(item.getName());
                 itemView.setChecked(item.getStatus());
+                itemView.setTag(item.getId());
 
                 itemView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        mOnStoreStatusChangedListener.onItemUpdated(itemView.getText().toString(), itemView.isChecked());
+                        String storeId = mStores.get(getAdapterPosition()).getId();
+                        mOnStoreStatusChangedListener.onItemEdited(storeId, new Item((String) itemView.getTag(),
+                                itemView.getText().toString(),
+                                itemView.isChecked()));
                     }
                 });
                 mItemListContainer.addView(itemView);
@@ -153,6 +157,6 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
     public interface OnStoreStatusChangedListener {
         public void onStoreSelected(Store store);
         public void onStoreDeleted(String storeId);
-        public void onItemUpdated(String item, boolean status);
+        public void onItemEdited(String storeId, Item item);
     }
 }

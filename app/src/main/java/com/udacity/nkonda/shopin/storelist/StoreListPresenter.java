@@ -13,6 +13,7 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.udacity.nkonda.shopin.R;
+import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
@@ -118,6 +119,21 @@ public class StoreListPresenter implements StoreListContract.Presenter {
         } else {
             mView.showError();
         }
+    }
+
+    @Override
+    public void editItem(String storeId, final Item item) {
+        mDatabase.editItem(storeId, item, new ShopinDatabaseContract.OnCompletionCallback() {
+            @Override
+            public void onResult(boolean success, Exception exception) {
+                if (success) {
+
+                } else {
+                    Log.w(TAG, "editItem:: failed " + exception.getMessage());
+                    exception.printStackTrace();
+                }
+            }
+        });
     }
 
     private GeofencingRequest getGeofencingRequest(Store store) {
