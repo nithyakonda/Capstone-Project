@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +28,10 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     private DatabaseReference mUsersRef = mDatabase.getReference("users");
     private DatabaseReference mStoresRef;
 
-    private ShopinDatabase(){};
+    private ShopinDatabase(){
+        mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mStoresRef = mUsersRef.child(mUid).child("stores");
+    };
 
     public static ShopinDatabase getInstance() {
         if (sInstance == null) {
@@ -39,11 +43,6 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     public String getNewItemId(String storeId) {
         final DatabaseReference itemsRef = mStoresRef.child(storeId).child("items");
         return itemsRef.push().getKey();
-    }
-
-    public void initialize(String uid) {
-        mUid = uid;
-        mStoresRef = mUsersRef.child(uid).child("stores");
     }
 
     @Override

@@ -66,7 +66,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 public void onResult(boolean success, Exception exception, Store store) {
                     if(success) {
                         Log.i(TAG, "sendNotification::sending notification for store " + store.getId());
-                        String message = String.format(getString(R.string.message_notification), store.getName());
                         // TODO: 7/29/18 send notification
                     } else {
                         Log.e(TAG, "sendNotification::GetStoreCallback::onResult" + exception.getMessage());

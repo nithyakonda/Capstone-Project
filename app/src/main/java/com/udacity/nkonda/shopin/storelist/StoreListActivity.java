@@ -114,6 +114,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         mStoreListAdapter.setOnStoreStatusChangedListener(new StoreListAdapter.OnStoreStatusChangedListener() {
             @Override
             public void onStoreSelected(Store store) {
+                mNotificationManager.notify(store);
                 Intent intent = new Intent(StoreListActivity.this, ItemListActivity.class);
                 intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
                 startActivity(intent);

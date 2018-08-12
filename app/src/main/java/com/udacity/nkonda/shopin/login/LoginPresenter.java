@@ -46,7 +46,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            ShopinDatabase.getInstance().initialize(getCurrentUser().getUid());
+                            ShopinDatabase.getInstance();
                             Log.d(TAG, "Login: Success");
                             mView.onLoginSuccess();
                         } else {

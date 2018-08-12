@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.udacity.nkonda.shopin.geofence.ShopinNotificationManager;
 import com.udacity.nkonda.shopin.util.UiUtils;
 
 public class BaseActivity extends AppCompatActivity implements BaseView{
@@ -17,6 +18,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
 
     protected FirebaseAuth mAuth;
     protected GeofencingClient mGeofencingClient;
+    protected ShopinNotificationManager mNotificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
 
         mAuth = FirebaseAuth.getInstance();
         mGeofencingClient = LocationServices.getGeofencingClient(this);
+        mNotificationManager = ShopinNotificationManager.getInstance(this);
     }
 
     @Override

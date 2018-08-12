@@ -57,6 +57,9 @@
     <string name="action_ok" translatable="true">OK</string>
 
     <!-- Notification -->
+    <string name="title_notification">Don\'t Forget!</string>
     <string name="message_notification">You have some items to buy from %1$s</string>
+    <string name="channel_name">Shopin Notification Channel</string>
+    <string name="channel_description">Channel to alert user to buy items whenever they enter that store</string>
 
 </resources>
