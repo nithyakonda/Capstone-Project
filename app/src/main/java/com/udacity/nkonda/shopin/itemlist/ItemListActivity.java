@@ -6,13 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.data.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,7 +53,7 @@ public class ItemListActivity extends BaseActivity
         }
         mPresenter = new ItemListPresenter(this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         mAdapter = new ItemListAdapter(mState.getStoreId(), new ItemListAdapter.OnItemUpdateListener() {
             @Override
@@ -69,6 +70,22 @@ public class ItemListActivity extends BaseActivity
             public void onItemDeleted(Item item) {
                 mPresenter.deleteItem(item);
             }
+
+            @Override
+            public void focusNext(int pos) {
+                View v = layoutManager.findViewByPosition(pos + 1);
+                if (v != null) {
+                    v.requestFocus();
+                }
+            }
+
+            @Override
+            public void focusPrevious(int pos) {
+                View v = layoutManager.findViewByPosition(pos > 0 ? pos - 1 : 0);
+                if (v != null) {
+                    v.requestFocus();
+                }
+            }
         });
 
 
@@ -79,6 +96,7 @@ public class ItemListActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            hideKeyboard();
             onBackPressed();
             return true;
         }
@@ -106,5 +124,12 @@ public class ItemListActivity extends BaseActivity
     @Override
     public void displayItems(List<Item> items) {
         mAdapter.setItems(items);
+    }
+
+    private void hideKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

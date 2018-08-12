@@ -114,8 +114,6 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         mStoreListAdapter.setOnStoreStatusChangedListener(new StoreListAdapter.OnStoreStatusChangedListener() {
             @Override
             public void onStoreSelected(Store store) {
-                // TODO: 7/22/18 show ItemListActivity
-                UiUtils.showToast(StoreListActivity.this, "Selected " + store.getName());
                 Intent intent = new Intent(StoreListActivity.this, ItemListActivity.class);
                 intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
                 startActivity(intent);

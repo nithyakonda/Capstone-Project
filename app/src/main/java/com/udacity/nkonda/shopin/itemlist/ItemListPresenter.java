@@ -73,7 +73,7 @@ public class ItemListPresenter implements ItemListContract.Presenter {
 
     @Override
     public void deleteItem(final Item item) {
-        if (!item.getName().isEmpty()) {
+//        if (!item.getName().isEmpty()) { commenting this out because if a saved item name was edited to be empty, it can't be deleted
             mDatabase.deleteItem(sStoreId, item.getId(), new ShopinDatabaseContract.OnCompletionCallback() {
                 @Override
                 public void onResult(boolean success, Exception exception) {
@@ -85,9 +85,9 @@ public class ItemListPresenter implements ItemListContract.Presenter {
                     }
                 }
             });
-        } else {
-            sItems.remove(item);
-        }
+//        } else {
+//            sItems.remove(item);
+//        }
     }
 
     @Override

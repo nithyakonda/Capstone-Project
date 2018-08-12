@@ -19,10 +19,8 @@ import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.Item;
-import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,10 +45,16 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         notifyDataSetChanged();
     }
 
+    public void saveChanges() {
+
+    }
+
     public interface OnItemUpdateListener {
         void onItemAdded(Item item);
         void onItemEdited(Item item);
         void onItemDeleted(Item item);
+        void focusNext(int pos);
+        void focusPrevious(int pos);
     }
 
     @NonNull
@@ -115,6 +119,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
             mKeyboardMgr = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
             itemView.setOnClickListener(this);
             mAddItemView.setOnTouchListener(this);
+            mAddItemView.requestFocus();
+            mAddItemView.setCursorVisible(false);
             mEditItemView.setOnEditorActionListener(this);
             mEditItemView.setOnTouchListener(this);
             mEditItemView.setOnFocusChangeListener(this);
@@ -139,8 +145,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (v.getId() == R.id.et_add_item) {
-                    int insertPos = mItems.size() - 1; // because last one is a placeholder
-                    addItem(insertPos);
+                    addItem();
                 } else if (v.getId() == R.id.et_edit_item) {
                     mDeleteItemBtn.setVisibility(View.VISIBLE);
                 }
@@ -150,48 +155,77 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
         @Override
         public void onClick(View v) {
-            int pos = getAdapterPosition();
             if (v.getId() == R.id.btn_delete_item) {
-                Item item = mItems.get(pos);
-                mItems.remove(pos);
-                notifyItemRemoved(pos);
-                mOnItemUpdateListener.onItemDeleted(item);
+                deleteItem();
             }
         }
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
+            EditText view = ((EditText) v);
             if (v.getId() == R.id.et_edit_item && hasFocus) {
+                view.setSelection(view.getText().length());
                 mDeleteItemBtn.setVisibility(View.VISIBLE);
-                mKeyboardMgr.toggleSoftInput(0, 0);
             } else {
-                editItem((EditText) v);
+                editItemName(view.getText().toString());
                 mDeleteItemBtn.setVisibility(View.INVISIBLE);
             }
         }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            int pos = getAdapterPosition();
-            mItems.get(pos).setStatus(isChecked);
-            mOnItemUpdateListener.onItemEdited(mItems.get(pos));
+            editItemStatus(isChecked);
         }
 
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            int pos = getAdapterPosition();
             // TODO: 7/29/18 handle backpress
-            if (actionId == EditorInfo.IME_ACTION_NEXT ||
-                    event != null &&
-                            event.getAction() == KeyEvent.ACTION_DOWN &&
-                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            if (actionId == EditorInfo.IME_ACTION_NEXT
+                    || event != null
+                    && event.getAction() == KeyEvent.ACTION_DOWN
+                    && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 if (event == null || !event.isShiftPressed()) {
-                    int pos = getAdapterPosition();
-                    editItem((EditText) v); // TODO: 8/6/18 can remove this? because this is called again on focus change
-                    addItem(pos + 1);
+                    if (pos == mItems.size() - 2) { // TODO: 8/8/18 refactor when removing placeholder item
+                        addItem();
+                    } else {
+                        mOnItemUpdateListener.focusNext(pos);
+                    }
                     return true;
                 }
             }
             return false;
+        }
+
+        private void addItem() {
+            String itemId = ShopinDatabase.getInstance().getNewItemId(mStoreId);
+            Item item = new Item(itemId);
+            int insertPos = mItems.size() - 1; // because last one is a placeholder
+            mItems.add(insertPos, item);
+            notifyItemInserted(mItems.size() - 2);
+        }
+
+        private void editItemName(String itemName) {
+            int pos = getAdapterPosition();
+            if (pos >= 0 && mItems.get(pos).getName() != PLACEHOLDER_ITEM_NAME) {
+                mItems.get(pos).setName(itemName);
+                mOnItemUpdateListener.onItemEdited(mItems.get(pos));
+            }
+        }
+
+        private void editItemStatus(boolean status) {
+            int pos = getAdapterPosition();
+            mItems.get(pos).setStatus(status);
+            mOnItemUpdateListener.onItemEdited(mItems.get(pos));
+        }
+
+        private void deleteItem() {
+            int pos = getAdapterPosition();
+            Item item = mItems.get(pos);
+            mItems.remove(pos);
+            notifyItemRemoved(pos);
+            mOnItemUpdateListener.onItemDeleted(item);
+            mOnItemUpdateListener.focusPrevious(pos);
         }
 
         private void showAddItemLayout() {
@@ -202,23 +236,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         private void showEditItemLayout() {
             mEditItemContainer.setVisibility(View.VISIBLE);
             mAddItemContainer.setVisibility(View.INVISIBLE);
-        }
-
-        private void addItem(int pos) {
-            String itemId = ShopinDatabase.getInstance().getNewItemId(mStoreId);
-            Item item = new Item(itemId);
-            mItems.add(pos, item);
-            // itemCount = from changed pos until end of list
-            notifyItemRangeChanged(pos, mItems.size() - pos);
-//            mOnItemUpdateListener.onItemAdded(item);
-        }
-
-        private void editItem(EditText v) {
-            int pos = getAdapterPosition();
-            if (pos >= 0 && mItems.get(pos).getName() != PLACEHOLDER_ITEM_NAME) {
-                mItems.get(pos).setName(v.getText().toString());
-                mOnItemUpdateListener.onItemEdited(mItems.get(pos));
-            }
         }
     }
 }

@@ -106,7 +106,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
                                 itemView.isChecked()));
                     }
                 });
-                mItemListContainer.addView(itemView);
+                mItemListContainer.addView(itemView, mItems.indexOf(item));
             }
         }
 
