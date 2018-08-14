@@ -54,7 +54,8 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
         mContext = parent.getContext();
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.layout_store_list_item, null, false);
-        view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
         return new StoreListViewHolder(view);
     }
 
@@ -74,6 +75,9 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
         @BindView(R.id.tv_store_name)
         TextView mStoreNameView;
 
+        @BindView(R.id.tv_store_address)
+        TextView mStoreAddress;
+
         @BindView(R.id.item_list_container)
         LinearLayout mItemListContainer;
 
@@ -90,6 +94,9 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
                 mItems = store.getItems();
             }
             mStoreNameView.setText(store.getName()); // TODO: 7/28/18 if name is null, coordinates are displayed
+            String[] address = store.getAddress().split(",");
+            String addressFirstLine = address[0] + "\n" + address[1].trim();
+            mStoreAddress.setText(addressFirstLine);
             mItemListContainer.removeAllViews();
             for (Item item : mItems) {
                 final CheckBox itemView = new CheckBox(context);

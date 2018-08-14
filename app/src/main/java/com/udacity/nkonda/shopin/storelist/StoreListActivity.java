@@ -64,6 +64,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     Toolbar mToolbar;
 
     @BindView(R.id.iv_avatar)
+    @Nullable
     AvatarImageView mAvatarView;
 
     @BindView(R.id.fab_add_store)
@@ -114,7 +115,6 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         mStoreListAdapter.setOnStoreStatusChangedListener(new StoreListAdapter.OnStoreStatusChangedListener() {
             @Override
             public void onStoreSelected(Store store) {
-                mNotificationManager.notify(store);
                 Intent intent = new Intent(StoreListActivity.this, ItemListActivity.class);
                 intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
                 startActivity(intent);
