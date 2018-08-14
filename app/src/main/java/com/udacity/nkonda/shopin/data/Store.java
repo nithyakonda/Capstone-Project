@@ -89,10 +89,6 @@ public class Store {
             this.longitude = longitude;
         }
 
-        public Coordinates(com.google.android.gms.maps.model.LatLng coordinates) {
-            new Coordinates(coordinates.latitude, coordinates.longitude);
-        }
-
         public double getLatitude() {
             return latitude;
         }

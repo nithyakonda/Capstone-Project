@@ -1,41 +1,32 @@
 package com.udacity.nkonda.shopin.geofence;
 
-import android.app.IntentService;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
-import com.google.firebase.auth.FirebaseAuth;
-import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
 import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
 
 import java.util.List;
 
+public class ShopinGeofenceReceiver extends BroadcastReceiver {
+    private static final String TAG = ShopinGeofenceReceiver.class.getSimpleName();
 
-public class GeofenceTransitionsIntentService extends IntentService {
-    private static final String TAG = GeofenceTransitionsIntentService.class.getSimpleName();
-
-    private String mUid;
-
-    public GeofenceTransitionsIntentService() {
-        super("GeofenceTransitionsIntentService");
-    }
+    private ShopinNotificationManager mNotificationManager;
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onReceive(Context context, Intent intent) {
+        Log.i(TAG, "onReceive");
+        mNotificationManager = ShopinNotificationManager.getInstance(context);
         if (intent != null) {
             GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
             if (geofencingEvent.hasError()) {
-                Log.e(TAG, "onHandleIntent::error::" + geofencingEvent.getErrorCode());
+                Log.e(TAG, "onReceive::error::" + GeofenceStatusCodes.getStatusCodeString(geofencingEvent.getErrorCode()));
                 return;
             }
 
@@ -43,7 +34,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
             // Test that the reported transition was of interest.
-            if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
+            if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
 
                 // Get the geofences that were triggered. A single event can trigger
                 // multiple geofences.
@@ -54,7 +45,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 sendNotification(triggeringGeofences);
             } else {
                 // Log the error.
-                Log.e(TAG, "onHandleIntent::invalid transition type " + geofenceTransition);
+                Log.e(TAG, "onReceive::invalid transition type " + geofenceTransition);
             }
         }
     }
@@ -66,7 +57,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 public void onResult(boolean success, Exception exception, Store store) {
                     if(success) {
                         Log.i(TAG, "sendNotification::sending notification for store " + store.getId());
-                        // TODO: 7/29/18 send notification
+                        mNotificationManager.notify(store);
                     } else {
                         Log.e(TAG, "sendNotification::GetStoreCallback::onResult" + exception.getMessage());
                     }

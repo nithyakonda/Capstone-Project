@@ -220,7 +220,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                 Store newStore = new Store(place.getId(),
                         place.getName().toString(),
                         place.getAddress().toString(),
-                        new Store.Coordinates(place.getLatLng()));
+                        new Store.Coordinates(place.getLatLng().latitude, place.getLatLng().longitude));
 
                 mPresenter.addNewStoreAndCreateGeofence(mGeofencingClient, newStore);
             } else {

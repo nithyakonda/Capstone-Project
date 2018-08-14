@@ -9,14 +9,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:label="@string/app_name">
-
+        android:theme="@style/AppTheme">
         <activity android:name=".base.BaseActivity">
         </activity>
-
         <activity
             android:name=".login.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -28,29 +26,29 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".login.LoginActivity">
         </activity>
-
         <activity
             android:name=".storelist.StoreListActivity"
             android:theme="@style/AppTheme">
         </activity>
-
-        <activity android:name=".itemlist.ItemListActivity"
-                  android:parentActivityName=".storelist.StoreListActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".storelist.StoreListActivity"/>
+        <activity
+            android:name=".itemlist.ItemListActivity"
+            android:parentActivityName=".storelist.StoreListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".storelist.StoreListActivity"/>
         </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key_google_places"/>
 
-        <service
-            android:name=".geofence.GeofenceTransitionsIntentService"
-            android:exported="false">
-        </service>
+        <receiver
+            android:name=".geofence.ShopinGeofenceReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
     </application>
 
 </manifest>

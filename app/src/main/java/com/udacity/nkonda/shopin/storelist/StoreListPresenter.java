@@ -18,7 +18,7 @@ import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
 import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
-import com.udacity.nkonda.shopin.geofence.GeofenceTransitionsIntentService;
+import com.udacity.nkonda.shopin.geofence.ShopinGeofenceReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 public class StoreListPresenter implements StoreListContract.Presenter {
     private static final String TAG = StoreListPresenter.class.getSimpleName();
     private static final int GEOFENCE_RADIUS_IN_METERS = 100;
-    private static final int LOITERING_DELAY_IN_MS = 300000;
+    private static final int LOITERING_DELAY_IN_MS = 60000;
     private static User sUser;
 
     private Context mContext;
@@ -160,8 +160,8 @@ public class StoreListPresenter implements StoreListContract.Presenter {
 
     private PendingIntent getGeofencePendingIntent() {
         if (mGeofencePendingIntent == null) {
-            Intent intent = new Intent(mContext, GeofenceTransitionsIntentService.class);
-            mGeofencePendingIntent = PendingIntent.getService(mContext, 0, intent, PendingIntent.
+            Intent intent = new Intent(mContext, ShopinGeofenceReceiver.class);
+            mGeofencePendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.
                     FLAG_UPDATE_CURRENT);
         }
         return mGeofencePendingIntent;
