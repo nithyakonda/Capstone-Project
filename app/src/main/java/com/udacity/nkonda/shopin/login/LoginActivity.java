@@ -51,9 +51,6 @@ public class LoginActivity extends BaseActivity implements
     public static final String SHOW_USER_PROFILE = "SHOW_USER_PROFILE";
 
     // UI references.
-    @BindView(R.id.login_progress)
-    @Nullable
-    View mProgressView;
 
     @BindView(R.id.intro_container)
     View mIntroContainer;
@@ -117,20 +114,20 @@ public class LoginActivity extends BaseActivity implements
     // Login
     @Override
     public void onUserCredentialsCaptured(String email, String password) {
-        showProgress(true);
+        showProgress();
         mPresenter.login(email, password);
     }
 
     @Override
     public void onLoginSuccess() {
-        showProgress(false);
+        hideProgress();
         isLoggedIn = true;
         startStoreListActivity();
     }
 
     @Override
     public void onLoginFailed(Exception exception) {
-        showProgress(false);
+        hideProgress();
         LoginFragment fragment = (LoginFragment) getSupportFragmentManager().findFragmentByTag(LOGIN_FRAGMENT_TAG);
         try {
             throw exception;
@@ -151,7 +148,7 @@ public class LoginActivity extends BaseActivity implements
 
     @Override
     public void onNewUserInfoCaptured(String email, String password) {
-        showProgress(true);
+        showProgress();
         mPresenter.register(email, password);
     }
 
@@ -159,14 +156,14 @@ public class LoginActivity extends BaseActivity implements
     public void onRegistrationSuccess() {
         isLoggedIn = true;
         mCancelBtn.setVisibility(View.VISIBLE);
-        showProgress(false);
+        hideProgress();
         replaceFormContainerWith(ProfileFragment.newInstance(true,
                 mPresenter.getCurrentUser()), UPDATE_PROFILE_FRAGMENT_TAG);
     }
 
     @Override
     public void onRegistrationFailed(Exception exception) {
-        showProgress(false);
+        hideProgress();
         RegisterFragment fragment = (RegisterFragment) getSupportFragmentManager().findFragmentByTag(REGISTER_FRAGMENT_TAG);
         try {
             throw exception;
@@ -189,13 +186,13 @@ public class LoginActivity extends BaseActivity implements
 
     @Override
     public void onPasswordResetEmailCaptured(String email) {
-        showProgress(true);
+        showProgress();
         mPresenter.forgotPassword(email);
     }
 
     @Override
     public void onSendPasswordResetEmailSuccess() {
-        showProgress(false);
+        hideProgress();
         UiUtils.showAlert(this,
                 getString(R.string.dialog_title_done),
                 getString(R.string.dialog_msg_reset_email_sent));
@@ -203,7 +200,7 @@ public class LoginActivity extends BaseActivity implements
 
     @Override
     public void onSendPasswordResetEmailFailed(Exception exception) {
-        showProgress(false);
+        hideProgress();
         ForgotPasswordFragment fragment = (ForgotPasswordFragment) getSupportFragmentManager().findFragmentByTag(FORGOT_PASSWORD_FRAGMENT_TAG);
         try {
             throw exception;
@@ -218,19 +215,19 @@ public class LoginActivity extends BaseActivity implements
     // Update Profile
     @Override
     public void onProfileInfoCaptured(String displayName, Uri photoUrl) {
-        showProgress(true);
+        showProgress();
         mPresenter.updateProfile(displayName, photoUrl);
     }
 
     @Override
     public void onUpdateProfileSuccess() {
-        showProgress(false);
+        hideProgress();
         startStoreListActivity();
     }
 
     @Override
     public void onUpdateProfileFailed(Exception exception) {
-        showProgress(false);
+        hideProgress();
         UiUtils.showDefaultError(this, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -242,51 +239,15 @@ public class LoginActivity extends BaseActivity implements
     // Logout
     @Override
     public void onLogout() {
-        showProgress(true);
+        showProgress();
         mPresenter.logout();
     }
 
     @Override
     public void onLogoutComplete() {
-        showProgress(false);
+        hideProgress();
         isLoggedIn = false;
         replaceFormContainerWith(new LoginFragment(), LOGIN_FRAGMENT_TAG);
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mFormContainerView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mFormContainerView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mFormContainerView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mFormContainerView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 
     private void replaceFormContainerWith(Fragment fragment, String tag) {

@@ -107,6 +107,7 @@ public class ItemListActivity extends BaseActivity
     protected void onStart() {
         super.onStart();
         mPresenter.start(mState);
+        showProgress();
     }
 
     @Override
@@ -124,6 +125,7 @@ public class ItemListActivity extends BaseActivity
     @Override
     public void displayItems(List<Item> items) {
         mAdapter.setItems(items);
+        hideProgress();
     }
 
     private void hideKeyboard() {

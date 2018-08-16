@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.github.abdularis.civ.AvatarImageView;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -72,10 +71,6 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
 
     @BindView(R.id.action_container)
     View mActionContainer;
-
-    @BindView(R.id.loading_stores_progress)
-    @Nullable
-    ProgressBar mProgress;
 
     @BindView(R.id.no_stores_view)
     @Nullable
@@ -182,6 +177,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     protected void onStart() {
         super.onStart();
         mPresenter.start(mState);
+        showProgress();
     }
 
     @Override
@@ -274,9 +270,9 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
 
     @Override
     public void displayStores(List<Store> stores) {
+        hideProgress();
         if (stores.size() == 0) {
             mActionContainer.setVisibility(View.VISIBLE);
-            mProgress.setVisibility(View.INVISIBLE);
             mNoStoresIcon.setVisibility(View.VISIBLE);
             mStoreListContainer.setVisibility(View.INVISIBLE);
             return;
@@ -291,11 +287,6 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         Intent intent = new Intent(this, ItemListActivity.class);
         intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
         startActivity(intent);
-//        if (mActionContainer.getVisibility() == View.VISIBLE) {
-//            mActionContainer.setVisibility(View.INVISIBLE); // TODO: 7/22/18 can remove?
-//            mStoreListContainer.setVisibility(View.VISIBLE);
-//        }
-//        mStoreListAdapter.addStore(store);
         UiUtils.showToast(this, "Added " + store.getName());
     }
 
