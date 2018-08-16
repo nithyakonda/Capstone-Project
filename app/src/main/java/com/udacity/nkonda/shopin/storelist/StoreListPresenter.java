@@ -10,8 +10,10 @@ import android.util.Log;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
@@ -32,11 +34,15 @@ public class StoreListPresenter implements StoreListContract.Presenter {
     private Context mContext;
     private StoreListContract.View mView;
     private ShopinDatabase mDatabase;
+    private GeofencingClient mGeofencingClient;
     private PendingIntent mGeofencePendingIntent;
 
-    public StoreListPresenter(Context context, StoreListContract.View view) {
+    public StoreListPresenter(Context context,
+            StoreListContract.View view,
+            GeofencingClient geofencingClient) {
         mContext = context;
         mView = view;
+        mGeofencingClient = geofencingClient;
         mDatabase = ShopinDatabase.getInstance();
     }
 
@@ -54,9 +60,9 @@ public class StoreListPresenter implements StoreListContract.Presenter {
     }
 
     @Override
-    public void addNewStoreAndCreateGeofence(final GeofencingClient geofencingClient, final Store store) {
+    public void addStore(final Store store) {
         if (sUser == null) {
-            Log.e(TAG, "addNewStoreAndCreateGeofence:: user is null");
+            Log.e(TAG, "addStore:: user is null");
             // TODO: 7/21/18 handle null
             return;
         }
@@ -65,25 +71,9 @@ public class StoreListPresenter implements StoreListContract.Presenter {
             @Override
             public void onResult(boolean success, Exception exception) {
                 if (success) {
-                    geofencingClient.addGeofences(getGeofencingRequest(store), getGeofencePendingIntent())
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.i(TAG, "addNewStoreAndCreateGeofence:: add geofence success, for store id " + store.getId());
-                                    mView.addItems(store); // TODO: 7/29/18 navigate to itemslist activity
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e(TAG, "addNewStoreAndCreateGeofence:: add geofence failed, for store id " + store.getId());
-                                    deleteStore(store.getId());
-                                    mView.showError(mContext.getString(R.string.dialog_message_add_store_failed));
-                                    e.printStackTrace();
-                                }
-                            });
+                    addGeofence(store);
                 } else {
-                    Log.e(TAG, "addNewStoreAndCreateGeofence:: add store to database failed:: " + exception);
+                    Log.e(TAG, "addStore:: add store to database failed:: " + exception);
                     mView.showError(mContext.getString(R.string.dialog_message_add_store_failed));
                 }
             }
@@ -95,6 +85,9 @@ public class StoreListPresenter implements StoreListContract.Presenter {
         mDatabase.deleteStore(sUser.getUid(), storeId, new ShopinDatabaseContract.OnCompletionCallback() {
             @Override
             public void onResult(boolean success, Exception exception) {
+                if (success) {
+                    deleteGeofence(storeId);
+                }
                 Log.i(TAG, "deleteStore " + storeId + (success ? " success" : " failed"));
             }
         });
@@ -134,6 +127,46 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                 }
             }
         });
+    }
+
+    private void addGeofence(final Store store) {
+        try {
+            mGeofencingClient.addGeofences(getGeofencingRequest(store), getGeofencePendingIntent())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.i(TAG, "addGeofence:: add geofence success, for store id " + store.getId());
+                            mView.addItems(store); // TODO: 7/29/18 navigate to itemslist activity
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "addGeofence:: add geofence failed, for store id " + store.getId());
+                            deleteStore(store.getId());
+                            mView.showError(mContext.getString(R.string.dialog_message_add_store_failed));
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteGeofence(final String storeId) {
+        List<String> requestId = new ArrayList<>();
+        requestId.add(storeId);
+        mGeofencingClient.removeGeofences(requestId)
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i(TAG, "deleteGeofence:: delete geofence success, for store id " + storeId);
+                    } else {
+                        Log.e(TAG, "deleteGeofence:: delete geofence failed, for store id " + storeId);
+                    }
+                }
+            });
     }
 
     private GeofencingRequest getGeofencingRequest(Store store) {

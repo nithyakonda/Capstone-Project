@@ -56,8 +56,10 @@ public class ShopinGeofenceReceiver extends BroadcastReceiver {
                 @Override
                 public void onResult(boolean success, Exception exception, Store store) {
                     if(success) {
-                        Log.i(TAG, "sendNotification::sending notification for store " + store.getId());
-                        mNotificationManager.notify(store);
+                        if (store.getItems().size() > 0) {
+                            Log.i(TAG, "sendNotification::sending notification for store " + store.getId());
+                            mNotificationManager.notify(store);
+                        }
                     } else {
                         Log.e(TAG, "sendNotification::GetStoreCallback::onResult" + exception.getMessage());
                     }
