@@ -55,6 +55,7 @@
             android:contentDescription="@string/et_display_name_content_desc"
             android:hint="@string/et_display_name_hint"
             android:imeActionLabel="@string/ime_action_label_next"
+            android:inputType="textCapWords"
             style="@style/AppTheme.EditText"/>
     </android.support.design.widget.TextInputLayout>
 

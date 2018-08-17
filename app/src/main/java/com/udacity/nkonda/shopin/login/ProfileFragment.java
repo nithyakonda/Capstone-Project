@@ -1,10 +1,12 @@
 package com.udacity.nkonda.shopin.login;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -112,7 +114,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab_add_photo) {
-            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Intent intent;
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+            }else{
+                intent = new Intent(Intent.ACTION_GET_CONTENT);
+            }
+            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setType("image/*");
             startActivityForResult(intent, PICK_AVATAR);
         } else if (v.getId() == R.id.btn_update_profile) {
@@ -128,6 +139,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == PICK_AVATAR && resultCode == Activity.RESULT_OK) {
             mPhotoUri = intent.getData();
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                ContentResolver resolver = getActivity().getContentResolver();
+                resolver.takePersistableUriPermission(mPhotoUri, takeFlags);
+            }
             showAvatarImage(mPhotoUri);
         }
     }
