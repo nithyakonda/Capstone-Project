@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
@@ -21,6 +22,7 @@ import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
 import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
 import com.udacity.nkonda.shopin.geofence.ShopinGeofenceReceiver;
+import com.udacity.nkonda.shopin.util.FirebaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,29 +36,31 @@ public class StoreListPresenter implements StoreListContract.Presenter {
     private Context mContext;
     private StoreListContract.View mView;
     private ShopinDatabase mDatabase;
+    private FirebaseAuth mAuth;
     private GeofencingClient mGeofencingClient;
     private PendingIntent mGeofencePendingIntent;
 
     public StoreListPresenter(Context context,
             StoreListContract.View view,
-            GeofencingClient geofencingClient) {
+            FirebaseAuth auth, GeofencingClient geofencingClient) {
         mContext = context;
         mView = view;
+        mAuth = auth;
         mGeofencingClient = geofencingClient;
         mDatabase = ShopinDatabase.getInstance();
+
+        sUser = FirebaseUtils.getUser(mAuth.getCurrentUser());
     }
 
     @Override
     public void start(StoreListState state) {
-        if (state != null) {
-            sUser = state.getUser();
-        }
         load();
     }
 
     @Override
     public StoreListState getState() {
-        return new StoreListState(sUser);
+        // no op
+        return null;
     }
 
     @Override

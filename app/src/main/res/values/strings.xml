@@ -50,7 +50,7 @@
     <string name="dialog_msg_reset_email_sent" translatable="true">We sent you an email with instructions on how to reset your password.</string>
     <string name="dialog_title_default_error" translatable="true">Oops</string>
     <string name="dialog_msg_default_error" translatable="true">Something went wrong. Please try again later!</string>
-    <string name="str_title_store_list_activity" translatable="true">Your Stores</string>
+    <string name="str_title_store_list_activity" translatable="true">Your Places</string>
     <string name="dialog_message_add_store_failed" translatable="true">Unable to add store. Please ensure you have internet access and location services enabled</string>
 
     <!-- Common Actions -->

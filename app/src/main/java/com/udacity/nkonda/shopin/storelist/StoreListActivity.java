@@ -33,7 +33,6 @@ import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
-import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.itemlist.ItemListActivity;
 import com.udacity.nkonda.shopin.login.LoginActivity;
 import com.udacity.nkonda.shopin.util.UiUtils;
@@ -46,7 +45,6 @@ import butterknife.ButterKnife;
 
 public class StoreListActivity extends BaseActivity implements StoreListContract.View{
     private static final String TAG = StoreListActivity.class.getSimpleName();
-    public static final String ARG_USER = "ARG_USER";
     private static final String ACCESS_FINE_LOCATION = "android.permission.ACCESS_FINE_LOCATION";
     private static final String ACCESS_COARSE_LOCATION = "android.permission.ACCESS_COARSE_LOCATION";
     private static final int PLACE_PICKER_REQUEST = 1;
@@ -54,7 +52,6 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     String[] mPermissions = {ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION};
 
     StoreListPresenter mPresenter;
-    StoreListState mState;
 
     @BindView(R.id.appbar)
     AppBarLayout mAppBarLayout;
@@ -96,13 +93,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
 
         requestPermission();
 
-        if (savedInstanceState == null) {
-            if (getIntent().hasExtra(ARG_USER))
-                mState = new StoreListState((User) getIntent().getParcelableExtra(ARG_USER));
-        } else {
-            mState = new StoreListState((User) savedInstanceState.getParcelable(ARG_USER));
-        }
-        mPresenter = new StoreListPresenter(this, this, mGeofencingClient);
+        mPresenter = new StoreListPresenter(this, this, mAuth, mGeofencingClient);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(numberOfColumns(),
                 StaggeredGridLayoutManager.VERTICAL);
@@ -176,14 +167,13 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     @Override
     protected void onStart() {
         super.onStart();
-        mPresenter.start(mState);
+        mPresenter.load();
         showProgress();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(ARG_USER, mPresenter.getState().getUser());
     }
 
     @Override

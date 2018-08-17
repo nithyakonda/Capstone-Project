@@ -55,7 +55,6 @@ public class SplashScreenActivity extends BaseActivity {
                 if (currentUserLoggedIn) {
                     ShopinDatabase.getInstance();
                     intent.setClass(SplashScreenActivity.this, StoreListActivity.class);
-                    intent.putExtra(StoreListActivity.ARG_USER, FirebaseUtils.getUser(currentUser));
                     startActivity(intent);
                 } else {
                     intent.setClass(SplashScreenActivity.this, LoginActivity.class);

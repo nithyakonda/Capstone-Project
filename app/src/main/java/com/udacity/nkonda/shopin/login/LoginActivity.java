@@ -263,7 +263,6 @@ public class LoginActivity extends BaseActivity implements
 
     private void startStoreListActivity() {
         Intent intent = new Intent(this, StoreListActivity.class);
-        intent.putExtra(StoreListActivity.ARG_USER, mPresenter.getCurrentUser());
         startActivity(intent);
     }
 }

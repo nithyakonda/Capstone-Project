@@ -107,7 +107,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mDisplayNameView.setCursorVisible(false);
 
         mEmailView.setText(mUser.getEmail());
-        showAvatarInitial(mDisplayNameView.getText().toString().toUpperCase());
+        if (mUser.getDisplayPicture() != null) {
+            showAvatarImage(mUser.getDisplayPicture());
+        } else {
+            showAvatarInitial(mDisplayNameView.getText().toString().toUpperCase());
+        }
         return view;
     }
 

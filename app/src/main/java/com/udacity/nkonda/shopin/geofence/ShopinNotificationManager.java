@@ -69,12 +69,7 @@ public class ShopinNotificationManager {
         Intent itemListIntent = new Intent(mContext, ItemListActivity.class);
         itemListIntent.putExtra(ItemListActivity.ARG_STORE_ID, storeId);
 
-        User user = FirebaseUtils.getUser(FirebaseAuth.getInstance().getCurrentUser());
-        Intent storeListIntent = new Intent(mContext, StoreListActivity.class);
-        storeListIntent.putExtra(StoreListActivity.ARG_USER, user);
-
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
-        stackBuilder.addNextIntent(storeListIntent);
         stackBuilder.addNextIntent(itemListIntent);
 
         PendingIntent resultPendingIntent =
