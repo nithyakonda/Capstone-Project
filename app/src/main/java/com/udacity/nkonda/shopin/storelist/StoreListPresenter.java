@@ -32,6 +32,7 @@ public class StoreListPresenter implements StoreListContract.Presenter {
     private static final int GEOFENCE_RADIUS_IN_METERS = 100;
     private static final int LOITERING_DELAY_IN_MS = 60000;
     private static User sUser;
+    private static List<Store> sStores;
 
     private Context mContext;
     private StoreListContract.View mView;
@@ -65,9 +66,8 @@ public class StoreListPresenter implements StoreListContract.Presenter {
 
     @Override
     public void addStore(final Store store) {
-        if (sUser == null) {
-            Log.e(TAG, "addStore:: user is null");
-            // TODO: 7/21/18 handle null
+        if (isStoreAlreadyAdded(store)) {
+            mView.addItems(store);
             return;
         }
         mDatabase.addStore(sUser.getUid(), store, new ShopinDatabaseContract.OnCompletionCallback() {
@@ -107,6 +107,7 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                 @Override
                 public void onResult(boolean success, Exception exception, List<Store> stores) {
                     if (success) {
+                        sStores = stores;
                         mView.displayStores(stores);
                     } else {
                         mView.showError();
@@ -133,6 +134,18 @@ public class StoreListPresenter implements StoreListContract.Presenter {
         });
     }
 
+    private boolean isStoreAlreadyAdded(Store store) {
+        if (sStores != null) {
+            for (Store store1 : sStores) {
+                if (store1.getId().equals(store.getId())) {
+                    Log.i(TAG, "addStore:: store already exists");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void addGeofence(final Store store) {
         try {
             mGeofencingClient.addGeofences(getGeofencingRequest(store), getGeofencePendingIntent())
@@ -140,7 +153,7 @@ public class StoreListPresenter implements StoreListContract.Presenter {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.i(TAG, "addGeofence:: add geofence success, for store id " + store.getId());
-                            mView.addItems(store); // TODO: 7/29/18 navigate to itemslist activity
+                            mView.addItems(store);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

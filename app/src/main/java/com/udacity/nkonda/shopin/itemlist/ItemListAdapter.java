@@ -121,7 +121,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
             itemView.setOnClickListener(this);
             mAddItemView.setOnTouchListener(this);
             mAddItemView.requestFocus();
-            mAddItemView.setCursorVisible(false);
             mEditItemView.setOnEditorActionListener(this);
             mEditItemView.setOnTouchListener(this);
             mEditItemView.setOnFocusChangeListener(this);
@@ -164,14 +163,22 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            EditText view = ((EditText) v);
-            if (v.getId() == R.id.et_edit_item && hasFocus) {
-                mCurrentPos = getAdapterPosition();
-                view.setSelection(view.getText().length());
-                mDeleteItemBtn.setVisibility(View.VISIBLE);
-            } else {
-                editItemName(view.getText().toString());
-                mDeleteItemBtn.setVisibility(View.INVISIBLE);
+            final EditText view = ((EditText) v);
+            if (v.getId() == R.id.et_edit_item) {
+               if (hasFocus) {
+                    mCurrentPos = getAdapterPosition();
+                    view.setSelection(view.getText().length());
+                    mDeleteItemBtn.setVisibility(View.VISIBLE);
+                    view.post(new Runnable() {
+                       @Override
+                       public void run() {
+                           mKeyboardMgr.showSoftInput(view, 0);
+                       }
+                    });
+                } else {
+                    editItemName(view.getText().toString());
+                    mDeleteItemBtn.setVisibility(View.INVISIBLE);
+                }
             }
         }
 
@@ -201,7 +208,12 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         }
 
         public void saveState() {
-            editItemName(mEditItemView.getText().toString());
+            String itemName = mEditItemView.getText().toString();
+            if (itemName.isEmpty()) {
+                deleteItem();
+            } else {
+                editItemName(itemName);
+            }
         }
 
         private void addItem() {

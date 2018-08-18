@@ -147,19 +147,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         mAddStoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                        checkSelfPermission(ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                    try {
-                        startActivityForResult(builder.build(StoreListActivity.this), PLACE_PICKER_REQUEST);
-                    } catch (GooglePlayServicesRepairableException e) {
-                        e.printStackTrace();
-                    } catch (GooglePlayServicesNotAvailableException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    requestPermission();
-                }
+                showPlacePicker();
             }
         });
     }
@@ -192,6 +180,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.action_add_store) {
+            showPlacePicker();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -209,7 +198,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                         new Store.Coordinates(place.getLatLng().latitude, place.getLatLng().longitude));
 
                 mPresenter.addStore(newStore);
-            } else {
+            } else if (resultCode != RESULT_CANCELED){
                 Log.e(TAG, "onActivityResult::error::resultCode" + resultCode);
                 UiUtils.showDefaultError(this);
             }
@@ -278,6 +267,22 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
         startActivity(intent);
         UiUtils.showToast(this, "Added " + store.getName());
+    }
+
+    private void showPlacePicker() {
+        if(checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            try {
+                startActivityForResult(builder.build(StoreListActivity.this), PLACE_PICKER_REQUEST);
+            } catch (GooglePlayServicesRepairableException e) {
+                e.printStackTrace();
+            } catch (GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
+        } else {
+            requestPermission();
+        }
     }
 
     private void hideOption() {
