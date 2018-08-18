@@ -39,6 +39,10 @@
     <string name="btn_logout_text">Logout</string>
     <string name="transition_name_logo">logo_anim</string>
 
+    <!-- Strings in StoreList and ItemListActivities -->
+    <string name="tv_add_item_text">Add Item</string>
+    <string name="str_title_store_list_activity" translatable="true">Your Places</string>
+
     <!-- Error messages -->
     <string name="error_invalid_login_credentials_exception" translatable="true">Email or password is invalid.</string>
     <string name="error_weak_password_exception" translatable="true">Password should be atleast 6 characters.</string>
@@ -50,7 +54,6 @@
     <string name="dialog_msg_reset_email_sent" translatable="true">We sent you an email with instructions on how to reset your password.</string>
     <string name="dialog_title_default_error" translatable="true">Oops</string>
     <string name="dialog_msg_default_error" translatable="true">Something went wrong. Please try again later!</string>
-    <string name="str_title_store_list_activity" translatable="true">Your Places</string>
     <string name="dialog_message_add_store_failed" translatable="true">Unable to add store. Please ensure you have internet access and location services enabled</string>
 
     <!-- Common Actions -->

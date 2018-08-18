@@ -32,6 +32,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
     private List<Item> mItems;
     private String mStoreId;
+    private int mCurrentPos;
     private OnItemUpdateListener mOnItemUpdateListener;
 
     public ItemListAdapter(String storeId, OnItemUpdateListener onItemUpdateListener) {
@@ -45,8 +46,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         notifyDataSetChanged();
     }
 
-    public void saveChanges() {
-
+    public int getCurrentPos() {
+        return mCurrentPos;
     }
 
     public interface OnItemUpdateListener {
@@ -86,9 +87,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
             View.OnTouchListener,
             CompoundButton.OnCheckedChangeListener,
             View.OnFocusChangeListener{
-        @BindView(R.id.et_add_item)
+        @BindView(R.id.tv_add_item)
         @Nullable
-        EditText mAddItemView;
+        TextView mAddItemView;
 
         @BindView(R.id.cb_item_status)
         @Nullable
@@ -143,8 +144,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (v.getId() == R.id.et_add_item) {
+            if (event.getAction() == MotionEvent.ACTION_UP ||
+                    event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (v.getId() == R.id.tv_add_item) {
                     addItem();
                 } else if (v.getId() == R.id.et_edit_item) {
                     mDeleteItemBtn.setVisibility(View.VISIBLE);
@@ -164,6 +166,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         public void onFocusChange(View v, boolean hasFocus) {
             EditText view = ((EditText) v);
             if (v.getId() == R.id.et_edit_item && hasFocus) {
+                mCurrentPos = getAdapterPosition();
                 view.setSelection(view.getText().length());
                 mDeleteItemBtn.setVisibility(View.VISIBLE);
             } else {
@@ -195,6 +198,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
                 }
             }
             return false;
+        }
+
+        public void saveState() {
+            editItemName(mEditItemView.getText().toString());
         }
 
         private void addItem() {

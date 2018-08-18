@@ -9,15 +9,15 @@
         android:layout_height="match_parent"
         android:paddingEnd="16dp"
         android:src="@drawable/ic_add"
-        android:tint="?android:textColorHintInverse"/>
+        android:tint="@color/colorSecondaryText"/>
 
-    <EditText
-        android:id="@+id/et_add_item"
+    <TextView
+        android:id="@+id/tv_add_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:maxLines="1"
-        android:hint="Add Item"/>
+        android:gravity="center_vertical"
+        android:text="@string/tv_add_item_text"
+        android:textColor="@color/colorSecondaryText"
+        android:textStyle="italic"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 </LinearLayout>

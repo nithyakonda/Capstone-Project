@@ -35,7 +35,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                tools:title="Walmart"/>
+                android:layout_marginEnd="8dp"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

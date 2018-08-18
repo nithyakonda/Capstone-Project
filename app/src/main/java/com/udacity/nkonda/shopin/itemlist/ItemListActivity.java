@@ -36,6 +36,7 @@ public class ItemListActivity extends BaseActivity
     private ItemListAdapter mAdapter;
     private ItemListState mState;
     private ItemListPresenter mPresenter;
+    private LinearLayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class ItemListActivity extends BaseActivity
         }
         mPresenter = new ItemListPresenter(this);
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this,
+        mLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         mAdapter = new ItemListAdapter(mState.getStoreId(), new ItemListAdapter.OnItemUpdateListener() {
             @Override
@@ -73,29 +74,24 @@ public class ItemListActivity extends BaseActivity
 
             @Override
             public void focusNext(int pos) {
-                View v = layoutManager.findViewByPosition(pos + 1);
-                if (v != null) {
-                    v.requestFocus();
-                }
+                requestFocusAt(pos + 1);
             }
 
             @Override
             public void focusPrevious(int pos) {
-                View v = layoutManager.findViewByPosition(pos > 0 ? pos - 1 : 0);
-                if (v != null) {
-                    v.requestFocus();
-                }
+                requestFocusAt(pos > 0 ? pos - 1 : 0);
             }
         });
 
 
-        mItemListView.setLayoutManager(layoutManager);
+        mItemListView.setLayoutManager(mLayoutManager);
         mItemListView.setAdapter(mAdapter);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            saveCurrentItemState();
             hideKeyboard();
             onBackPressed();
             return true;
@@ -113,6 +109,7 @@ public class ItemListActivity extends BaseActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        saveCurrentItemState();
         outState.putString(ARG_STORE_ID, mPresenter.getState().getStoreId());
     }
 
@@ -126,6 +123,21 @@ public class ItemListActivity extends BaseActivity
     public void displayItems(List<Item> items) {
         mAdapter.setItems(items);
         hideProgress();
+    }
+
+    private void requestFocusAt(int pos) {
+        View v = mLayoutManager.findViewByPosition(pos);
+        if (v != null) {
+            v.requestFocus();
+        }
+    }
+
+    private void saveCurrentItemState() {
+        ItemListAdapter.ItemListViewHolder vh = (ItemListAdapter.ItemListViewHolder) mItemListView.
+                findViewHolderForAdapterPosition(mAdapter.getCurrentPos());
+        if (vh != null) {
+            vh.saveState();
+        }
     }
 
     private void hideKeyboard() {

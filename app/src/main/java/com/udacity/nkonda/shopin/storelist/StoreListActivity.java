@@ -302,7 +302,6 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
             e.printStackTrace();
             UiUtils.showDefaultError(this);
         } catch (SecurityException e) {
-            // TODO: 8/6/18 handle this, avatar image will not be displayed
             e.printStackTrace();
         }
     }
