@@ -8,8 +8,8 @@
 
     <dimen name="button_radius">25dp</dimen>
 
-    <dimen name="logo_width_large">100dp</dimen>
-    <dimen name="logo_height_large">100dp</dimen>
+    <dimen name="logo_width_large">150dp</dimen>
+    <dimen name="logo_height_large">150dp</dimen>
     <dimen name="logo_width_small">76dp</dimen>
     <dimen name="logo_height_small">76dp</dimen>
     <dimen name="avatar_width">100dp</dimen>

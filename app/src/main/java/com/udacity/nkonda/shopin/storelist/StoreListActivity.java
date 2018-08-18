@@ -292,24 +292,20 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
 
 
     private void showAvatarImage(Uri photoUri) {
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
+        Bitmap bitmap = UiUtils.getAvatarBitmap(this, photoUri);
+        if (mAvatarView != null) {
             mAvatarView.setState(AvatarImageView.SHOW_IMAGE);
             mAvatarView.setStrokeWidth(0);
             mAvatarView.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-            UiUtils.showDefaultError(this);
-        } catch (SecurityException e) {
-            e.printStackTrace();
         }
     }
 
     private void showAvatarInitial(String displayName) {
-        mAvatarView.setState(AvatarImageView.SHOW_INITIAL);
-        mAvatarView.setStrokeWidth(2);
-        mAvatarView.setText(displayName);
+        if (mAvatarView != null) {
+            mAvatarView.setState(AvatarImageView.SHOW_INITIAL);
+            mAvatarView.setStrokeWidth(2);
+            mAvatarView.setText(displayName);
+        }
     }
 
     private int numberOfColumns() {

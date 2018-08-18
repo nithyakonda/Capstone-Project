@@ -6,21 +6,11 @@
                                              android:layout_height="match_parent"
                                              android:padding="@dimen/activity_horizontal_margin">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/AppTheme.TextView.Secondary"
-        android:text="@string/tv_profile_welcome_msg_text"/>
-
     <com.github.abdularis.civ.AvatarImageView
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/logo_width_large"
         android:layout_height="@dimen/logo_height_large"
         android:layout_marginBottom="@dimen/inter_view_margin"
-        android:layout_marginTop="@dimen/inter_section_vertical_margin"
         android:paddingBottom="8dp"
         android:paddingEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,6 +31,8 @@
         android:src="@drawable/ic_add_a_photo"
         app:layout_constraintEnd_toEndOf="@id/iv_avatar"
         app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         />
 
     <android.support.design.widget.TextInputLayout

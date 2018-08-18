@@ -39,9 +39,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
     private OnFragmentInteractionListener mListener;
 
-    @BindView(R.id.tv_title)
-    TextView mTitleView;
-
     @BindView(R.id.iv_avatar)
     AvatarImageView mAvatarImageView;
 
@@ -180,21 +177,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     }
 
     private void showProfileUi() {
-        mTitleView.setVisibility(View.GONE);
         mLogoutBtn.setVisibility(View.VISIBLE);
     }
 
     private void showAvatarImage(Uri photoUri) {
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-            mAvatarImageView.setState(AvatarImageView.SHOW_IMAGE);
-            mAvatarImageView.setStrokeWidth(0);
-            mAvatarImageView.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-            UiUtils.showDefaultError(getActivity());
-        }
+        Bitmap bitmap = UiUtils.getAvatarBitmap(getActivity(), photoUri);
+
+        mAvatarImageView.setState(AvatarImageView.SHOW_IMAGE);
+        mAvatarImageView.setStrokeWidth(0);
+        mAvatarImageView.setImageBitmap(bitmap);
     }
 
     private void showAvatarInitial(String displayName) {
