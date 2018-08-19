@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
+import com.udacity.nkonda.shopin.util.SharedPrefUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +43,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         ButterKnife.bind(this, view);
 
         mEmailView.requestFocus();
+        if (SharedPrefUtils.contains(getActivity(), SharedPrefUtils.PREF_LOGIN_EMAIL)) {
+            mEmailView.setText(SharedPrefUtils.get(getActivity(), SharedPrefUtils.PREF_LOGIN_EMAIL, ""));
+            mEmailView.setSelection(mEmailView.getText().length());
+        }
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -63,6 +68,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
+                SharedPrefUtils.set(getActivity(), SharedPrefUtils.PREF_LOGIN_EMAIL, mEmailView.getText().toString());
                 mListener.onUserCredentialsCaptured(
                         mEmailView.getText().toString(),
                         mPasswordView.getText().toString()
