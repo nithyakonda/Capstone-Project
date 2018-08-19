@@ -30,7 +30,7 @@ import java.util.List;
 public class StoreListPresenter implements StoreListContract.Presenter {
     private static final String TAG = StoreListPresenter.class.getSimpleName();
     private static final int GEOFENCE_RADIUS_IN_METERS = 100;
-    private static final int LOITERING_DELAY_IN_MS = 60000;
+    private static final int LOITERING_DELAY_IN_MS = 1000;
     private static User sUser;
     private static List<Store> sStores;
 
