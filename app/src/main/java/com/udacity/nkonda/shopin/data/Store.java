@@ -77,6 +77,17 @@ public class Store {
         return items;
     }
 
+    public boolean hasItemsToBuy() {
+        if (mItems != null && mItems.size() > 0) {
+            for (Item item : getItems()) {
+                if (item.getStatus() == false) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static class Coordinates {
         public double latitude;
         public double longitude;

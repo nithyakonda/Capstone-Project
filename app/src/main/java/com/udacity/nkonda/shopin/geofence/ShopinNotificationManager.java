@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.udacity.nkonda.shopin.R;
+import com.udacity.nkonda.shopin.data.Item;
 import com.udacity.nkonda.shopin.data.Store;
 import com.udacity.nkonda.shopin.data.User;
 import com.udacity.nkonda.shopin.itemlist.ItemListActivity;
@@ -55,14 +56,16 @@ public class ShopinNotificationManager {
     }
 
     public void notify(Store store) {
-        int notificationId = (int)System.currentTimeMillis();
-        Log.i(TAG, "notify::sending notification for store " + store.getId());
-        String message = String.format(mContext.getString(R.string.message_notification), store.getName());
-        mBuilder.setContentText(message)
-                .setContentIntent(getPendingIntent(store.getId()));
+        if (store.hasItemsToBuy()) {
+            int notificationId = (int) System.currentTimeMillis();
+            Log.i(TAG, "notify::sending notification for store " + store.getId());
+            String message = String.format(mContext.getString(R.string.message_notification), store.getName());
+            mBuilder.setContentText(message)
+                    .setContentIntent(getPendingIntent(store.getId()));
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
-        notificationManager.notify(notificationId, mBuilder.build());
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+            notificationManager.notify(notificationId, mBuilder.build());
+        }
     }
 
     private PendingIntent getPendingIntent(String storeId) {

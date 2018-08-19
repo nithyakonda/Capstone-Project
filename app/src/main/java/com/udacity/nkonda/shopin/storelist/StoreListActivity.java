@@ -101,9 +101,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
         mStoreListAdapter.setOnStoreStatusChangedListener(new StoreListAdapter.OnStoreStatusChangedListener() {
             @Override
             public void onStoreSelected(Store store) {
-                Intent intent = new Intent(StoreListActivity.this, ItemListActivity.class);
-                intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
-                startActivity(intent);
+                startItemListActivity(store);
             }
 
             @Override
@@ -263,10 +261,14 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
 
     @Override
     public void addItems(Store store) {
+        startItemListActivity(store);
+        UiUtils.showToast(this, "Added " + store.getName());
+    }
+
+    private void startItemListActivity(Store store) {
         Intent intent = new Intent(this, ItemListActivity.class);
         intent.putExtra(ItemListActivity.ARG_STORE_ID, store.getId());
         startActivity(intent);
-        UiUtils.showToast(this, "Added " + store.getName());
     }
 
     private void showPlacePicker() {
