@@ -30,18 +30,6 @@ public class SplashScreenActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent intent = new Intent();
-//                intent.setClass(SplashScreenActivity.this, LoginActivity.class);
-//                ActivityOptionsCompat options = ActivityOptionsCompat.
-//                        makeSceneTransitionAnimation(SplashScreenActivity.this,
-//                                ivLogo,
-//                                ivLogo.getTransitionName());
-//                startActivity(intent, options.toBundle());
-//            }
-//        }, 2000);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -65,7 +53,7 @@ public class SplashScreenActivity extends BaseActivity {
                     startActivity(intent, options.toBundle());
                 }
             }
-        }, 500);
+        }, 100);
 
 
     }

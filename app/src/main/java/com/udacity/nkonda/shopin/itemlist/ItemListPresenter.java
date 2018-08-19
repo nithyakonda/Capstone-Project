@@ -73,21 +73,17 @@ public class ItemListPresenter implements ItemListContract.Presenter {
 
     @Override
     public void deleteItem(final Item item) {
-//        if (!item.getName().isEmpty()) { commenting this out because if a saved item name was edited to be empty, it can't be deleted
-            mDatabase.deleteItem(sStoreId, item.getId(), new ShopinDatabaseContract.OnCompletionCallback() {
-                @Override
-                public void onResult(boolean success, Exception exception) {
-                    if (success) {
-                        sItems.remove(item);
-                    } else {
-                        Log.w(TAG, "deleteItem:: failed " + exception.getMessage());
-                        exception.printStackTrace();
-                    }
+        mDatabase.deleteItem(sStoreId, item.getId(), new ShopinDatabaseContract.OnCompletionCallback() {
+            @Override
+            public void onResult(boolean success, Exception exception) {
+                if (success) {
+                    sItems.remove(item);
+                } else {
+                    Log.w(TAG, "deleteItem:: failed " + exception.getMessage());
+                    exception.printStackTrace();
                 }
-            });
-//        } else {
-//            sItems.remove(item);
-//        }
+            }
+        });
     }
 
     @Override
