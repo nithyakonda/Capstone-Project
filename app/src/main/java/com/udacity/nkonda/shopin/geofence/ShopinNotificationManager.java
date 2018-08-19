@@ -31,7 +31,7 @@ public class ShopinNotificationManager {
     public ShopinNotificationManager(Context context) {
         mContext = context;
         mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(R.drawable.ic_stat_pin)
                 .setColor(mContext.getColor(R.color.colorPrimary))
                 .setContentTitle(context.getString(R.string.title_notification))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
