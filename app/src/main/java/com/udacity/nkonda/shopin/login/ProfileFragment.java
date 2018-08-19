@@ -104,11 +104,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mDisplayNameView.setCursorVisible(false);
 
         mEmailView.setText(mUser.getEmail());
-        if (mUser.getDisplayPicture() != null) {
-            showAvatarImage(mUser.getDisplayPicture());
-        } else {
-            showAvatarInitial(mDisplayNameView.getText().toString().toUpperCase());
-        }
+        initAvatar();
         return view;
     }
 
@@ -145,7 +141,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 ContentResolver resolver = getActivity().getContentResolver();
                 resolver.takePersistableUriPermission(mPhotoUri, takeFlags);
             }
-            showAvatarImage(mPhotoUri);
+            showAvatarImage(UiUtils.getAvatarBitmap(getActivity(), mPhotoUri));
         }
     }
 
@@ -180,9 +176,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mLogoutBtn.setVisibility(View.VISIBLE);
     }
 
-    private void showAvatarImage(Uri photoUri) {
-        Bitmap bitmap = UiUtils.getAvatarBitmap(getActivity(), photoUri);
-
+    private void showAvatarImage(Bitmap bitmap) {
         mAvatarImageView.setState(AvatarImageView.SHOW_IMAGE);
         mAvatarImageView.setStrokeWidth(0);
         mAvatarImageView.setImageBitmap(bitmap);
@@ -192,5 +186,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         mAvatarImageView.setState(AvatarImageView.SHOW_INITIAL);
         mAvatarImageView.setStrokeWidth(2);
         mAvatarImageView.setText(displayName);
+    }
+
+    private void initAvatar() {
+        if (mUser.getDisplayPicture() != null) {
+            Bitmap bitmap = UiUtils.getAvatarBitmap(getActivity(), mUser.getDisplayPicture());
+            if (bitmap != null) {
+                showAvatarImage(bitmap);
+                return;
+            }
+        }
+        showAvatarInitial(mDisplayNameView.getText().toString().toUpperCase());
     }
 }

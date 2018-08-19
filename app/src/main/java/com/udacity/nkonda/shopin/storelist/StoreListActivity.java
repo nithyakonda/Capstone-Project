@@ -239,10 +239,13 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     @Override
     public void setupToolbar(String initial, Uri photoUri) {
         if (photoUri != null) {
-            showAvatarImage(photoUri);
-        } else {
-            showAvatarInitial(initial);
+            Bitmap bitmap = UiUtils.getAvatarBitmap(this, photoUri);
+            if (bitmap != null) {
+                showAvatarImage(bitmap);
+                return;
+            }
         }
+        showAvatarInitial(initial);
     }
 
     @Override
@@ -298,8 +301,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     }
 
 
-    private void showAvatarImage(Uri photoUri) {
-        Bitmap bitmap = UiUtils.getAvatarBitmap(this, photoUri);
+    private void showAvatarImage(Bitmap bitmap) {
         if (mAvatarView != null) {
             mAvatarView.setState(AvatarImageView.SHOW_IMAGE);
             mAvatarView.setStrokeWidth(0);
