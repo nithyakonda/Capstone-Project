@@ -24,12 +24,15 @@ public class ShopinDatabase implements ShopinDatabaseContract {
     private static final String TAG = ShopinDatabase.class.getSimpleName();
     private static ShopinDatabase sInstance;
     private String mUid;
-    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mUsersRef = mDatabase.getReference("users");
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mUsersRef;
     private DatabaseReference mStoresRef;
 
     private ShopinDatabase(){
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabase.setPersistenceEnabled(true);
+        mUsersRef = mDatabase.getReference("users");
         mStoresRef = mUsersRef.child(mUid).child("stores");
     };
 
