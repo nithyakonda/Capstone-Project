@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@drawable/scrim_primary"
+
+              android:padding="8dp"
+>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher_foreground"
+        android:scaleType="centerCrop"/>
+
+
+    <ListView android:id="@+id/lv_widget_store_list"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              tools:listitem="@layout/layout_widget_list_item"/>
+
+</LinearLayout>

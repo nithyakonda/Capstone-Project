@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:minHeight="?android:listPreferredItemHeight"
+              android:orientation="horizontal"
+              android:id="@+id/widget_item_container"
+>
+    <TextView
+        android:id="@+id/tv_store_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorPrimaryTextInverse"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="Walmart"
+    />
+
+    <TextView
+        android:id="@+id/tv_item_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryTextInverse"
+        android:background="@drawable/drawable_widget_item_count_background"
+        tools:text="2"
+    />
+</LinearLayout>

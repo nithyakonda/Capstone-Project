@@ -1,5 +1,9 @@
 package com.udacity.nkonda.shopin.itemlist;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.data.Item;
+import com.udacity.nkonda.shopin.widget.ShopinWidget;
 
 import java.util.List;
 
@@ -60,16 +65,19 @@ public class ItemListActivity extends BaseActivity
         mAdapter = new ItemListAdapter(mState.getStoreId(), new ItemListAdapter.OnItemUpdateListener() {
             @Override
             public void onItemAdded(Item item) {
+                updateWidget();
                 mPresenter.addItem(item);
             }
 
             @Override
             public void onItemEdited(Item item) {
+                updateWidget();
                 mPresenter.editItem(item);
             }
 
             @Override
             public void onItemDeleted(Item item) {
+                updateWidget();
                 mPresenter.deleteItem(item);
             }
 
@@ -92,7 +100,6 @@ public class ItemListActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            saveCurrentItemState();
             hideKeyboard();
             onBackPressed();
             return true;
@@ -112,6 +119,13 @@ public class ItemListActivity extends BaseActivity
         super.onSaveInstanceState(outState);
         saveCurrentItemState();
         outState.putString(ARG_STORE_ID, mPresenter.getState().getStoreId());
+    }
+
+    @Override
+    public void onBackPressed() {
+        saveCurrentItemState();
+        updateWidget();
+        super.onBackPressed();
     }
 
     @Override
@@ -152,5 +166,14 @@ public class ItemListActivity extends BaseActivity
                 }
             });
         }
+    }
+
+    private void updateWidget() {
+        Intent widgetIntent = new Intent(this, ShopinWidget.class);
+        widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, ShopinWidget.class));
+        widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+        sendBroadcast(widgetIntent);
     }
 }

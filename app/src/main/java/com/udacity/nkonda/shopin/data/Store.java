@@ -88,6 +88,16 @@ public class Store {
         return false;
     }
 
+    public int getItemsToBuyCount() {
+        int count = 0;
+        for (Item item : getItems()) {
+            if (item.getStatus() == false) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public static class Coordinates {
         public double latitude;
         public double longitude;
