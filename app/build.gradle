@@ -14,9 +14,9 @@ android {
     }
     signingConfigs {
         shopin_release_signing_config {
-            keyAlias 'shopin_release_key'
+            keyAlias 'shopin_release_signing_key'
             keyPassword KeystorePassword
-            storeFile file('/Users/nkonda/Documents/Personal/Udacity/Workspace/Capstone-Project/keystore')
+            storeFile file('../keystore.jks')
             storePassword KeystorePassword
         }
     }
