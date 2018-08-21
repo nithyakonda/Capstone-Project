@@ -3,6 +3,7 @@ package com.udacity.nkonda.shopin.login;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.LogPrinter;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,7 +18,7 @@ import com.udacity.nkonda.shopin.database.ShopinDatabaseContract;
 import com.udacity.nkonda.shopin.util.FirebaseUtils;
 
 public class LoginPresenter implements LoginContract.Presenter {
-    private static final String TAG = "Login";
+    private static final String TAG = LoginPresenter.class.getSimpleName();
 
     private LoginContract.View mView;
     private FirebaseAuth mAuth;

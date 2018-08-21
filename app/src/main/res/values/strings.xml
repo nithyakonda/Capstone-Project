@@ -12,6 +12,7 @@
     <string name="btn_register_content_description" translatable="true">Register</string>
     <string name="btn_forgot_password_text" translatable="true">Forgot Password?</string>
     <string name="btn_forgot_password_content_desc" translatable="true">Forgot Password</string>
+    <string name="btn_cancel_content_desc" translatable="true">Cancel</string>
 
     <string name="tv_register_msg_text" translatable="true">Create an account for the household</string>
     <string name="et_display_name_content_desc" translatable="true">Enter Display Name</string>
@@ -38,16 +39,20 @@
     <string name="btn_logout_content_desc">Logout</string>
     <string name="btn_logout_text">Logout</string>
     <string name="transition_name_logo">logo_anim</string>
+    <string name="fab_add_photo_content_desc" translatable="true">Set display picture</string>
 
     <!-- Strings in StoreList and ItemListActivities -->
     <string name="tv_add_item_text">Add Item</string>
     <string name="str_title_store_list_activity" translatable="true">Your Places</string>
+    <string name="toast_added_new_store_text" translatable="true">Added</string>
+    <string name="fab_add_store_content_desc" translatable="true">Add new store</string>
 
     <!-- Error messages -->
     <string name="error_invalid_login_credentials_exception" translatable="true">Email or password is invalid.</string>
     <string name="error_weak_password_exception" translatable="true">Password should be atleast 6 characters.</string>
     <string name="error_user_collision_exception" translatable="true">This email is already in use.</string>
     <string name="error_invalid_email_exception" translatable="true">Email is invalid.</string>
+    <string name="error_invalid_credentials" translatable="true">Invalid user email or password</string>
 
     <!-- Dialog titles -->
     <string name="dialog_title_done" translatable="true">Done</string>
@@ -55,13 +60,18 @@
     <string name="dialog_title_default_error" translatable="true">Oops</string>
     <string name="dialog_msg_default_error" translatable="true">Something went wrong. Please try again later!</string>
     <string name="dialog_message_add_store_failed" translatable="true">Unable to add store. Please ensure you have internet access and location services enabled</string>
+    <string name="dialog_permission_required_title" translatable="true">Permission Required</string>
+    <string name="dialog_permission_required_msg" translatable="true">Shopin needs to access location to add stores and notify when you enter a store</string>
+    <string name="dialog_permission_required_allow_btn_label" translatable="true">Allow</string>
+    <string name="dialog_permission_required_deny_btn_label" translatable="true">Deny</string>
+    <string name="dialog_default_error_title" translatable="true">Error</string>
 
     <!-- Common Actions -->
     <string name="action_ok" translatable="true">OK</string>
 
     <!-- Notification -->
-    <string name="title_notification">Don\'t Forget!</string>
-    <string name="message_notification">You have some items to buy from %1$s</string>
+    <string name="title_notification" translatable="true">Don\'t Forget!</string>
+    <string name="message_notification" translatable="true">You have some items to buy from %1$s</string>
     <string name="channel_name">Shopin Notification Channel</string>
     <string name="channel_description">Channel to alert user to buy items whenever they enter that store</string>
 

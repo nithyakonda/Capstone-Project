@@ -211,16 +211,16 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                                    .setTitle("Permission Required")
-                                    .setMessage("Shopin needs to access location to add stores and notify when you enter a store")
-                                    .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                                    .setTitle(R.string.dialog_permission_required_title)
+                                    .setMessage(R.string.dialog_permission_required_msg)
+                                    .setPositiveButton(R.string.dialog_permission_required_allow_btn_label, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             requestPermission();
                                             dialog.dismiss();
                                         }
                                     })
-                                    .setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+                                    .setNegativeButton(R.string.dialog_permission_required_deny_btn_label, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
@@ -265,7 +265,7 @@ public class StoreListActivity extends BaseActivity implements StoreListContract
     @Override
     public void addItems(Store store) {
         startItemListActivity(store);
-        UiUtils.showToast(this, "Added " + store.getName());
+        UiUtils.showToast(this, getString(R.string.toast_added_new_store_text) + store.getName());
     }
 
     private void startItemListActivity(Store store) {

@@ -54,7 +54,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
 
     @Override
     public void showError(String message) {
-        UiUtils.showAlert(this, "Error", message);
+        UiUtils.showAlert(this, getString(R.string.dialog_default_error_title), message);
     }
 
     protected void showProgress() {
