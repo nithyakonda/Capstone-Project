@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.util.SharedPrefUtils;
+import com.udacity.nkonda.shopin.util.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,11 +69,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                SharedPrefUtils.set(getActivity(), SharedPrefUtils.PREF_LOGIN_EMAIL, mEmailView.getText().toString());
-                mListener.onUserCredentialsCaptured(
-                        mEmailView.getText().toString(),
-                        mPasswordView.getText().toString()
-                );
+                String useremail = mEmailView.getText().toString();
+                String password = mPasswordView.getText().toString();
+                if (!useremail.isEmpty() && !password.isEmpty()) {
+                    SharedPrefUtils.set(getActivity(), SharedPrefUtils.PREF_LOGIN_EMAIL, useremail);
+                    mListener.onUserCredentialsCaptured(useremail, password);
+                } else {
+                    showLoginError(getString(R.string.error_invalid_credentials));
+                }
                 break;
             case R.id.btn_register:
                 mListener.onNewRegistration();
