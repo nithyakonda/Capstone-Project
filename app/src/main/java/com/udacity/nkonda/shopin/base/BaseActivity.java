@@ -14,6 +14,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.geofence.ShopinNotificationManager;
+import com.udacity.nkonda.shopin.login.CheckConnectivityCallback;
+import com.udacity.nkonda.shopin.login.CheckConnectivityTask;
 import com.udacity.nkonda.shopin.util.UiUtils;
 
 public class BaseActivity extends AppCompatActivity implements BaseView{
@@ -36,15 +38,17 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
     }
 
     @Override
-    public boolean isOnline() {
+    public void isOnline(CheckConnectivityCallback connectivityCallback) {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         boolean online = netInfo != null && netInfo.isConnectedOrConnecting();
         if (!online) {
             Log.e(TAG, "No network connectivity");
+            return;
+        } else {
+            new CheckConnectivityTask(connectivityCallback).execute();
         }
-        return online;
     }
 
     @Override

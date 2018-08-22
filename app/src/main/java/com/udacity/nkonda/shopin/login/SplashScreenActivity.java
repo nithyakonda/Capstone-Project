@@ -10,9 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.udacity.nkonda.shopin.R;
 import com.udacity.nkonda.shopin.base.BaseActivity;
 import com.udacity.nkonda.shopin.database.ShopinDatabase;
-import com.udacity.nkonda.shopin.itemlist.ItemListActivity;
 import com.udacity.nkonda.shopin.storelist.StoreListActivity;
-import com.udacity.nkonda.shopin.util.FirebaseUtils;
 
 
 public class SplashScreenActivity extends BaseActivity {
@@ -30,17 +28,17 @@ public class SplashScreenActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        new Handler().postDelayed(new Runnable() {
+        final Intent intent = new Intent();
+        final boolean[] currentUserLoggedIn = {false};
+        final FirebaseUser[] currentUser = {null};
+        isOnline(new CheckConnectivityCallback() {
             @Override
-            public void run() {
-                Intent intent = new Intent();
-                boolean currentUserLoggedIn = false;
-                FirebaseUser currentUser = null;
-                if (isOnline()) {
-                    currentUser = mAuth.getCurrentUser();
-                    currentUserLoggedIn = currentUser != null;
+            public void done(boolean isOnline) {
+                if (isOnline) {
+                    currentUser[0] = mAuth.getCurrentUser();
+                    currentUserLoggedIn[0] = currentUser[0] != null;
                 }
-                if (currentUserLoggedIn) {
+                if (currentUserLoggedIn[0]) {
                     ShopinDatabase.getInstance();
                     intent.setClass(SplashScreenActivity.this, StoreListActivity.class);
                     startActivity(intent);
@@ -53,8 +51,6 @@ public class SplashScreenActivity extends BaseActivity {
                     startActivity(intent, options.toBundle());
                 }
             }
-        }, 100);
-
-
+        });
     }
 }
