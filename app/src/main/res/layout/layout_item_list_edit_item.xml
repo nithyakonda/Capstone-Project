@@ -15,6 +15,7 @@
         android:id="@+id/et_edit_item"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:hint="@string/et_edit_item_hint"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:imeOptions="actionNext"

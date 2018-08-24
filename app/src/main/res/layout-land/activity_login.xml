@@ -43,6 +43,7 @@
         android:id="@+id/iv_logo"
         android:layout_width="@dimen/logo_width_small"
         android:layout_height="@dimen/logo_height_small"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_vertical"
         app:layout_constraintStart_toEndOf="@+id/intro_container"

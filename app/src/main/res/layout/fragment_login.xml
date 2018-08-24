@@ -16,7 +16,6 @@
 
         <EditText
             android:id="@+id/et_email"
-            android:contentDescription="@string/et_email_content_desc"
             android:hint="@string/et_email_hint"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
@@ -37,7 +36,6 @@
 
         <EditText
             android:id="@+id/et_password"
-            android:contentDescription="@string/et_password_content_desc"
             android:hint="@string/et_password_hint"
             android:imeActionLabel="@string/ime_action_label_login"
             android:inputType="textPassword"

@@ -47,7 +47,6 @@
         android:layout_marginTop="@dimen/inter_section_vertical_margin">
         <EditText
             android:id="@+id/et_display_name"
-            android:contentDescription="@string/et_display_name_content_desc"
             android:hint="@string/et_display_name_hint"
             android:imeActionLabel="@string/ime_action_label_next"
             style="@style/AppTheme.EditText"/>
@@ -63,7 +62,6 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_avatar">
         <EditText
             android:id="@+id/et_email"
-            android:contentDescription="@string/et_display_name_content_desc"
             android:hint="@string/et_email_hint"
             android:imeActionLabel="@string/ime_action_label_next"
             style="@style/AppTheme.EditText"

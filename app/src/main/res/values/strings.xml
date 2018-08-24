@@ -3,9 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="et_email_hint" translatable="true">Email</string>
-    <string name="et_email_content_desc" translatable="true">Enter email</string>
     <string name="et_password_hint" translatable="true">Password</string>
-    <string name="et_password_content_desc" translatable="true">Enter password</string>
     <string name="btn_login_text" translatable="true">Login</string>
     <string name="btn_login_content_desc" translatable="true">Login</string>
     <string name="btn_register_text" translatable="true">Register</string>
@@ -15,11 +13,8 @@
     <string name="btn_cancel_content_desc" translatable="true">Cancel</string>
 
     <string name="tv_register_msg_text" translatable="true">Create an account for the household</string>
-    <string name="et_display_name_content_desc" translatable="true">Enter Display Name</string>
     <string name="et_display_name_hint" translatable="true">Display Name</string>
-    <string name="et_lastname_content_desc" translatable="true">Enter Last Name</string>
     <string name="et_lastname_hint" translatable="true">Last Name</string>
-    <string name="et_confirm_password_content_desc" translatable="true">Confirm Password</string>
     <string name="et_confirm_password_hint" translatable="true">Confirm Password</string>
     <string name="btn_create_content_desc" translatable="true">Create new account</string>
     <string name="btn_create_text" translatable="true">Create</string>
@@ -76,5 +71,6 @@
     <string name="message_notification" translatable="true">You have some items to buy from %1$s</string>
     <string name="channel_name">Shopin Notification Channel</string>
     <string name="channel_description">Channel to alert user to buy items whenever they enter that store</string>
+    <string name="et_edit_item_hint">Enter item</string>
 
 </resources>

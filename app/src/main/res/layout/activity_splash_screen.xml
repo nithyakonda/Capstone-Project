@@ -10,6 +10,7 @@
         android:id="@+id/iv_logo"
         android:layout_width="@dimen/logo_width_large"
         android:layout_height="@dimen/logo_height_large"
+        android:importantForAccessibility="no"
         android:src="@drawable/image_logo"
         android:layout_gravity="center"
         android:transitionName="@string/transition_name_logo"/>

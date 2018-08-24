@@ -12,6 +12,7 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:importantForAccessibility="no"
         android:src="@drawable/image_toolbar_background"
         android:scaleType="centerCrop"
     />
@@ -19,6 +20,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:importantForAccessibility="no"
         android:background="@drawable/scrim_accent"/>
 
 </FrameLayout>

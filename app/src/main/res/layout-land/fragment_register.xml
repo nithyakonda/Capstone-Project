@@ -37,7 +37,6 @@
                 app:layout_constraintStart_toStartOf="parent">
                 <EditText
                     android:id="@+id/et_firstname"
-                    android:contentDescription="@string/et_display_name_content_desc"
                     android:hint="@string/et_display_name_hint"
                     android:imeActionLabel="@string/ime_action_label_next"
                     style="@style/AppTheme.EditText"/>
@@ -53,7 +52,6 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_vertical">
                 <EditText
                     android:id="@+id/et_lastname"
-                    android:contentDescription="@string/et_lastname_content_desc"
                     android:hint="@string/et_lastname_hint"
                     android:imeActionLabel="@string/ime_action_label_next"
                     style="@style/AppTheme.EditText"/>
@@ -70,7 +68,6 @@
                 app:errorEnabled="true">
                 <EditText
                     android:id="@+id/et_email"
-                    android:contentDescription="@string/et_email_content_desc"
                     android:hint="@string/et_email_hint"
                     android:imeActionLabel="@string/ime_action_label_next"
                     style="@style/AppTheme.EditText"/>
@@ -87,7 +84,6 @@
                 app:errorEnabled="true">
                 <EditText
                     android:id="@+id/et_password"
-                    android:contentDescription="@string/et_password_content_desc"
                     android:hint="@string/et_password_hint"
                     android:imeActionLabel="@string/ime_action_label_next"
                     android:inputType="textPassword"
@@ -105,7 +101,6 @@
                 app:errorEnabled="true">
                 <EditText
                     android:id="@+id/et_confirm_password"
-                    android:contentDescription="@string/et_confirm_password_content_desc"
                     android:hint="@string/et_confirm_password_hint"
                     android:imeActionLabel="@string/ime_action_label_create"
                     android:inputType="textPassword"
