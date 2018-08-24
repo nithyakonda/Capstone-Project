@@ -46,6 +46,8 @@
     <string name="str_title_store_list_activity" translatable="true">Your Places</string>
     <string name="toast_added_new_store_text" translatable="true">Added</string>
     <string name="fab_add_store_content_desc" translatable="true">Add new store</string>
+    <string name="btn_delete_item_content_desc">Delete item</string>
+    <string name="add_item_content_desc">Add new item</string>
 
     <!-- Error messages -->
     <string name="error_invalid_login_credentials_exception" translatable="true">Email or password is invalid.</string>

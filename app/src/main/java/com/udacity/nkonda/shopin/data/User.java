@@ -33,6 +33,10 @@ public class User implements Parcelable {
         return mDisplayPicture;
     }
 
+    public void setDisplayPicture(Uri displayPicture) {
+        mDisplayPicture = displayPicture;
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -73,9 +74,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mFirstTimeLogin = getArguments().getBoolean(ARG_IS_FIRST_TIME_LOGIN);
-            mUser = getArguments().getParcelable(ARG_USER);
+        if (savedInstanceState == null) {
+            if (getArguments() != null) {
+                mFirstTimeLogin = getArguments().getBoolean(ARG_IS_FIRST_TIME_LOGIN);
+                mUser = getArguments().getParcelable(ARG_USER);
+            }
+        } else {
+            mFirstTimeLogin = savedInstanceState.getBoolean(ARG_IS_FIRST_TIME_LOGIN);
+            mUser = savedInstanceState.getParcelable(ARG_USER);
         }
     }
 
@@ -109,6 +115,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(ARG_IS_FIRST_TIME_LOGIN, mFirstTimeLogin);
+        outState.putParcelable(ARG_USER, mUser);
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab_add_photo) {
             Intent intent;
@@ -124,7 +137,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             intent.setType("image/*");
             startActivityForResult(intent, PICK_AVATAR);
         } else if (v.getId() == R.id.btn_update_profile) {
-            mListener.onProfileInfoCaptured(mDisplayNameView.getText().toString(), mPhotoUri);
+            mListener.onProfileInfoCaptured(mDisplayNameView.getText().toString(), mUser.getDisplayPicture());
         } else if (v.getId() == R.id.btn_logout) {
             mListener.onLogout();
         } else if (v.getId() == R.id.et_display_name) {
@@ -140,6 +153,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
                 ContentResolver resolver = getActivity().getContentResolver();
                 resolver.takePersistableUriPermission(mPhotoUri, takeFlags);
+                mUser.setDisplayPicture(mPhotoUri);
             }
             showAvatarImage(UiUtils.getAvatarBitmap(getActivity(), mPhotoUri));
         }

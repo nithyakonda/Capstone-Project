@@ -24,6 +24,7 @@
 
     <ImageButton
         android:id="@+id/btn_delete_item"
+        android:contentDescription="@string/btn_delete_item_content_desc"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingStart="16dp"
